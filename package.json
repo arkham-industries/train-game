@@ -1,0 +1,26 @@
+{
+  "name": "train-game",
+  "version": "1.0.0",
+  "description": "Domino game application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arkham-industries/train-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arkham-industries/train-game/issues"
+  },
+  "homepage": "https://github.com/arkham-industries/train-game#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "express": "^4.17.1",
+    "uuid": "^7.0.2"
+  }
+}
