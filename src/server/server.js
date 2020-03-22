@@ -4,7 +4,7 @@ const cookieSession = require('cookie-session')
 var bodyParser = require('body-parser')
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // a in-memory cache of all games
 const games = {};
@@ -112,4 +112,4 @@ app.post('/game/:gameId/join', (req, res) => {
   res.send();
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
