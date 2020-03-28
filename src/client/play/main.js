@@ -26,6 +26,25 @@ function getGame() {
   });
 }
 
+function startGame() {
+
+  fetch(`/my/game/start`, { 
+    method: 'POST'
+  })
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((err) => {
+        throw new Error(err.message)
+      });
+    }
+  })
+  .catch((err) => {
+    console.log('start failed', err);
+  });
+}
+
 window.addEventListener('load', (event) => {
-  getGame();
+  setInterval(() => {
+    getGame();
+  }, 2000);
 });
