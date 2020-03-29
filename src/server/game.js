@@ -12,6 +12,7 @@ const createDominoes = (centerDominoValue) => {
   for(let i=0; i<13; i++) {
     for(let j=i; j<13; j++) {
       if (i === centerDominoValue && j === centerDominoValue) {
+        // skip the center domino value in the set
         continue;
       }
       dominoes.push([i,j]);
@@ -217,4 +218,4 @@ class Game {
 
 }
 
-module.exports = Game;
+module.exports = { Game, createDominoes, isSameDomino };

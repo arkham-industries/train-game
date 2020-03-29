@@ -2,7 +2,7 @@ const express = require('express');
 const uuid = require('uuid').v4;
 const cookieSession = require('cookie-session')
 var bodyParser = require('body-parser')
-const Game = require('./game');
+const Game = require('./game').Game;
 
 const app = express();
 const PORT = process.env.PORT || 3000;

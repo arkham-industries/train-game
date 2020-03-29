@@ -1,4 +1,5 @@
-const Game = require('./game');
+const gameExports = require('./game');
+const Game = gameExports.Game;
 
 const mockPlayers = [
   {

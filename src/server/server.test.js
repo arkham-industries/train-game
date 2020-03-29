@@ -11,7 +11,6 @@ describe('GET /games', () => {
   });
 });
 
-
 describe('POST /game', () => {
   it('should create a game', (done) => {
     return request(server.app)
