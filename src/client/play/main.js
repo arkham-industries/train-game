@@ -2,33 +2,41 @@
 Vue.component('domino', {
   props:['domino'],
   template: `
-    <div>{{domino}}</div>
-  `,
-  created: function() { console.log('domino created', this) },
-  watch: {
-    dominoes: function () { console.log('domino!', this.dominoes) }
-  }
+    <div
+      class="domino"
+      v-bind:class="{ empty: !domino }">
+      <div class="domino-top-half">{{domino ? domino[0] : '?'}}</div>
+      <div class="domino-bottom-half">{{domino ? domino[1] : '?'}}</div>
+    </div>
+  `
 });
 
 Vue.component('domino-list', {
   props:['dominoes'],
   template: `
-    <ul>
+    <ul class="domino-list">
       <li v-for="domino in dominoes">
         <domino v-bind:domino="domino"></domino>
       </li>
+      <li><domino></domino></li>
     </ul>
-  `,
-  created: function() { console.log('domino-list created', this) },
-  watch: {
-    dominoes: function () { console.log('dominoes!', this.dominoes) }
-  }
+  `
+});
+
+Vue.component('train', {
+  props:['train'],
+  template: `
+    <domino-list v-bind:dominoes="train.dominoes"></domino-list>
+  `
 });
 
 var app = new Vue({
   el: '#app',
   data: {
     game: {}
+  },
+  created: function () {
+    console.log('vue is created')
   },
   watch: {
     game: function() {

@@ -1,0 +1,37 @@
+.domino {
+  border: 1px solid;
+  width: 20px;
+  text-align: center;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+.domino.empty {
+  border: 1px dashed;
+}
+
+.domino-top-half {
+  border-bottom: 1px solid;
+}
+
+.player-hand-region {
+  position: fixed;
+  bottom: 0;
+  background-color: #0f0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.player-hand-region .domino-list li{
+  display: inline-block;
+}
+
+.player-hand-region .domino {
+  padding: 0px 3px;
+  margin: 0 3px;
+}
+
+.train-region .domino-list {
+  color:#0f0;
+}
