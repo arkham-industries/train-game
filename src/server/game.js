@@ -86,8 +86,7 @@ class Game {
     players.forEach((player) => {
       this.hands[player.id] = {
         owner: player,
-        dominoes: shuffledDominoes.splice(0, numberOfDominoes),
-        public: false
+        dominoes: shuffledDominoes.splice(0, numberOfDominoes)
       };
     });
 
@@ -216,6 +215,18 @@ class Game {
     this.currentTurn.placedDomino = false;
   }
 
+  getPlayerView(playerID) {
+    return {
+      id: this.id,
+      started: this.started,
+      playerOrder: this.playerOrder,
+      boneyard: this.boneyard,
+      trains: this.trains,
+      hand: this.hands[playerID] && this.hands[playerID].dominoes,
+      centerDominoValue: this.centerDominoValue,
+      currentTurn: this.currentTurn
+    };
+  }
 }
 
 module.exports = { Game, createDominoes, isSameDomino };

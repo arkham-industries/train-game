@@ -12,7 +12,7 @@ const games = {};
 const sendGameState = ({game, player}, res) => {
   // update player's activity
   player.last_active = new Date();
-  res.send(game);
+  res.send(game.getPlayerView(player.id));
 }
 
 const validateSession = (session) => {
