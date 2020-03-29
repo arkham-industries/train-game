@@ -111,7 +111,7 @@ app.get('/my/game', (req, res) => {
 app.post('/my/game/start', (req, res) => { 
   try {
     const {game, player} = validateSession(req.session);
-    game.start();
+    game.start({ centerDominoValue: 12 });
     console.log(`>>> started game ${game.id}`);
     sendGameState({game, player}, res);
   } catch (error) {
