@@ -152,7 +152,7 @@ app.post('my/game/take-domino', (req, res) => {
 app.post('my/game/end-turn', (req, res) => {
   try {
     const {game, player} = validateSession(req.session);
-    game.endTurn();
+    game.endTurn(player.id);
     console.log(`>>> ended turn ${game.id}`);
     sendGameState({game, player}, res);
   } catch (err) {
