@@ -164,4 +164,4 @@ app.post('my/game/end-turn', (req, res) => {
 app.get('/games', (req, res) => res.send(games));
 app.get('/game/:gameId', (req, res) => res.send(games[req.params.gameId]));
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+module.exports = {app, games};
