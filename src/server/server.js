@@ -5,7 +5,6 @@ var bodyParser = require('body-parser')
 const Game = require('./game').Game;
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // a in-memory cache of all games
 const games = {};
@@ -18,7 +17,7 @@ const sendGameState = ({game, player}, res) => {
 
 const validateSession = (session) => {
   const game = games[session.gameId];
-  const player = games[session.playerId];
+  const player = game.players[session.playerId];
   if (!game) {
     throw new Error('bad session: game does not exist');
   } else if (!player) {
