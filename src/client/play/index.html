@@ -9,14 +9,17 @@
     <button onclick="startGame()">Start!</button>
     <div id="app">
       <div class="player-hand-region">
-        <domino-list v-bind:dominoes="game.hand"></domino-list>
+        <domino-list
+          v-bind:dominoes="game.hand"
+          v-on:domino-selected="onDominoSelectedFromHand($event)"></domino-list>
       </div>
       <div class="train-region">
-        <domino-list
+        <train
           v-for="train in game.trains"
-          v-bind:dominoes="train.dominoes"
-          v-bind:key="train.id">
-        </domino-list>
+          v-bind:train="train"
+          v-bind:key="train.id"
+          v-on:domino-selected="onTrainSelected(train.id)">
+        </train>
       </div>
     </div>
     <script type="text/javascript" src="main.js"></script>
