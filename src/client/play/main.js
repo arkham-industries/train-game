@@ -1,10 +1,10 @@
 
 Vue.component('domino', {
-  props:['domino'],
+  props:['domino', 'selected'],
   template: `
     <div
       class="domino"
-      v-bind:class="{ empty: !domino }"
+      v-bind:class="{ empty: !domino, selected: selected }"
       v-on:click="$emit('domino-selected', domino)">
       <div class="domino-top-half">{{domino ? domino[0] : '?'}}</div>
       <div class="domino-bottom-half">{{domino ? domino[1] : '?'}}</div>
@@ -14,17 +14,37 @@ Vue.component('domino', {
 
 Vue.component('domino-list', {
   props:['dominoes'],
+  data: function () {
+    return {
+      selectedDominoes: [],
+      blankSelected: false
+    }
+  },
   template: `
     <ul class="domino-list">
-      <li v-for="domino in dominoes">
+      <li v-for="(domino, index) in dominoes">
         <domino
         v-bind:domino="domino"
-        v-on:domino-selected="$emit('domino-selected', domino)">
+        v-bind:selected="selectedDominoes[index]"
+        v-on:domino-selected="onDominoSelected(domino, index)">
         </domino>
       </li>
-      <li><domino v-on:domino-selected="$emit('domino-selected')" ></domino></li>
+      <li>
+        <domino
+          v-bind:selected="blankSelected"
+          v-on:domino-selected="onDominoSelected(null)">
+        </domino>
+      </li>
     </ul>
-  `
+  `,
+  methods: {
+    onDominoSelected: function(domino, index) {
+      this.blankSelected = domino === null;
+      this.selectedDominoes = this.dominoes.map((_, i) => i === index);
+      console.log('selectedDominoes', this.selectedDominoes);
+      this.$emit('domino-selected', domino);
+    }
+  }
 });
 
 Vue.component('train', {

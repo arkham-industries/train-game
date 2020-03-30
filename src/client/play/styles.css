@@ -4,10 +4,15 @@
   text-align: center;
   border-radius: 3px;
   background-color: #fff;
+  cursor: pointer;
 }
 
 .domino.empty {
   border: 1px dashed;
+}
+
+.domino.selected {
+  border: 1px solid #f00;
 }
 
 .domino-top-half {
