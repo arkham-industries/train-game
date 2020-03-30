@@ -13,46 +13,33 @@ Vue.component('domino', {
 });
 
 Vue.component('domino-list', {
-  props:['dominoes'],
-  data: function () {
-    return {
-      selectedDominoes: [],
-      blankSelected: false
-    }
-  },
+  props:['dominoes', 'selectedDominoIndex'],
   template: `
     <ul class="domino-list">
       <li v-for="(domino, index) in dominoes">
         <domino
         v-bind:domino="domino"
-        v-bind:selected="selectedDominoes[index]"
-        v-on:domino-selected="onDominoSelected(domino, index)">
+        v-bind:selected="selectedDominoIndex === index"
+        v-on:domino-selected="$emit('domino-selected', {domino, index})">
         </domino>
       </li>
       <li>
         <domino
-          v-bind:selected="blankSelected"
-          v-on:domino-selected="onDominoSelected(null)">
+          v-bind:selected="selectedDominoIndex === null"
+          v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">
         </domino>
       </li>
     </ul>
   `,
-  methods: {
-    onDominoSelected: function(domino, index) {
-      this.blankSelected = domino === null;
-      this.selectedDominoes = this.dominoes.map((_, i) => i === index);
-      console.log('selectedDominoes', this.selectedDominoes);
-      this.$emit('domino-selected', domino);
-    }
-  }
 });
 
 Vue.component('train', {
-  props:['train'],
+  props:['train', 'selectedTrain'],
   template: `
     <div class="train">
       <domino-list
         v-bind:dominoes="train.dominoes"
+        v-bind:selected-domino-index="selectedTrain ? null : undefined"
         v-on:domino-selected="$emit('domino-selected', $event)">
       </domino-list>
     </div>
@@ -62,7 +49,12 @@ Vue.component('train', {
 var app = new Vue({
   el: '#app',
   data: {
-    game: {}
+    game: {},
+    selected: {
+      dominoIndex: undefined,
+      trainId: undefined,
+    },
+    selectedTrains: []
   },
   created: function () {
     console.log('vue is created')
@@ -73,10 +65,13 @@ var app = new Vue({
     }
   },
   methods: {
-    onDominoSelectedFromHand: function (domino) {
-      console.log('this domino was selected!', domino);
+    onDominoSelectedFromHand: function ({domino, index}) {
+      this.selected.dominoIndex = index;
+      console.log('this domino was selected!', domino, index);
     },
     onTrainSelected: function (trainId) {
+      this.selected.train = trainId;
+      this.selectedTrains = this.game.trains.map((train) => train.id === trainId);
       console.log('this train was selected!', trainId);
     }
   }

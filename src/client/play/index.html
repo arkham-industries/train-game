@@ -11,12 +11,14 @@
       <div class="player-hand-region">
         <domino-list
           v-bind:dominoes="game.hand"
+          v-bind:selected-domino-index="selected.dominoIndex"
           v-on:domino-selected="onDominoSelectedFromHand($event)"></domino-list>
       </div>
       <div class="train-region">
         <train
-          v-for="train in game.trains"
+          v-for="(train, index) in game.trains"
           v-bind:train="train"
+          v-bind:selected-train="selectedTrains[index]"
           v-bind:key="train.id"
           v-on:domino-selected="onTrainSelected(train.id)">
         </train>
