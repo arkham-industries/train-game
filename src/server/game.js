@@ -128,7 +128,7 @@ class Game {
 
     // take a random domino from the boneyard
     const randomIndex = Math.round(Math.random() * (this.boneyard.length -1))
-    const domino = this.boneyard.splice(randomIndex, 1);
+    const domino = this.boneyard.splice(randomIndex, 1)[0];
     
     // put this domino in the player's hand
     hand.dominoes.push(domino);
