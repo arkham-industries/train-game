@@ -120,7 +120,7 @@ app.post('/my/game/start', (req, res) => {
 });
 
 // player turn action
-app.post('my/game/extend-train', (req, res) => {
+app.post('/my/game/extend-train', (req, res) => {
   try {
     const {game, player} = validateSession(req.session);
     game.extendTrain({
@@ -136,10 +136,10 @@ app.post('my/game/extend-train', (req, res) => {
 });
 
 // player turn action
-app.post('my/game/take-domino', (req, res) => {
+app.post('/my/game/take-domino', (req, res) => {
   try {
     const {game, player} = validateSession(req.session);
-    game.takeDominoFromBoneYard(player);
+    game.takeDominoFromBoneYard(player.id);
     console.log(`>>> took from boneyeard ${game.id}`);
     sendGameState({game, player}, res);
   } catch (error) {
@@ -148,7 +148,7 @@ app.post('my/game/take-domino', (req, res) => {
 });
 
 // player turn action
-app.post('my/game/end-turn', (req, res) => {
+app.post('/my/game/end-turn', (req, res) => {
   try {
     const {game, player} = validateSession(req.session);
     game.endTurn(player.id);

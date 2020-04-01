@@ -64,7 +64,7 @@ class Game {
   }
 
   isCurrentPlayer(playerId) {
-    return this.playerOrder[this.currentTurn.index].id === playerId;
+    return this.playerOrder.length ? this.playerOrder[this.currentTurn.index].id === playerId : false;
   }
 
   start({ centerDominoValue }) {
@@ -206,7 +206,7 @@ class Game {
     }
 
     if (this.currentTurn.index === this.playerOrder.length - 1) {
-      return this.currentTurn.index = 0;
+      this.currentTurn.index = 0;
     } else {
       this.currentTurn.index += 1;
     }
@@ -215,16 +215,17 @@ class Game {
     this.currentTurn.placedDomino = false;
   }
 
-  getPlayerView(playerID) {
+  getPlayerView(playerId) {
     return {
       id: this.id,
       started: this.started,
       playerOrder: this.playerOrder,
       boneyard: this.boneyard,
       trains: this.trains,
-      hand: this.hands[playerID] && this.hands[playerID].dominoes,
+      hand: this.hands[playerId] && this.hands[playerId].dominoes,
       centerDominoValue: this.centerDominoValue,
-      currentTurn: this.currentTurn
+      currentTurn: this.currentTurn,
+      myTurn: this.isCurrentPlayer(playerId)
     };
   }
 }
