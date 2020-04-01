@@ -108,7 +108,7 @@ var app = new Vue({
             throw new Error(err.message)
           });
         }
-        response.json();
+        return response.json();
       })
       .then((game) => this.game = game)
       .catch((err) => {
@@ -125,7 +125,7 @@ var app = new Vue({
             throw new Error(err.message)
           });
         }
-        response.json();
+        return response.json();
       })
       .then((game) => this.game = game)
       .catch((err) => {
@@ -142,7 +142,7 @@ var app = new Vue({
             throw new Error(err.message)
           });
         }
-        response.json();
+        return response.json();
       })
       .then((game) => this.game = game)
       .catch((err) => {

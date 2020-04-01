@@ -105,6 +105,7 @@ class Game {
 
     // one shared public train
     this.trains.push({
+      id: uuid(),
       owner: null,
       dominoes: [],
       public: true
