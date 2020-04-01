@@ -62,6 +62,23 @@ var app = new Vue({
   watch: {
     game: function() {
       console.log('vue heard game update', this.game);
+    },
+    selected: {
+      deep: true,
+      handler: function() {
+        console.log('selected', this.selected);
+        if (this.selected.dominoIndex === null) {
+          this.requestToTakeDomino()
+          .then(() => this.selected.dominoIndex = undefined)
+        } else if (this.selected.dominoIndex && this.selected.trainId) {
+          const domino = this.game.hand[this.selected.dominoIndex];
+          this.requestToConnectTrain(domino, this.selected.trainId)
+          .then(() => {
+            this.onDominoSelectedFromHand({domino: undefined, index: undefined});
+            this.onTrainSelected(undefined);
+          });
+        }
+      }
     }
   },
   methods: {
@@ -70,9 +87,67 @@ var app = new Vue({
       console.log('this domino was selected!', domino, index);
     },
     onTrainSelected: function (trainId) {
-      this.selected.train = trainId;
+      this.selected.trainId = trainId;
       this.selectedTrains = this.game.trains.map((train) => train.id === trainId);
       console.log('this train was selected!', trainId);
+    },
+    onEndTurn: function() {
+      this.requestToEndTurn();
+    },
+    requestToConnectTrain: function(domino, trainId) {
+      return fetch(`/my/game/extend-train`, { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ dominoes: [domino], trainId })
+      })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((err) => {
+            throw new Error(err.message)
+          });
+        }
+        response.json();
+      })
+      .then((game) => this.game = game)
+      .catch((err) => {
+        console.log('game fetch failed', err);
+      });
+    },
+    requestToEndTurn: function() {
+      return fetch(`/my/game/end-turn`, { 
+        method: 'POST'
+      })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((err) => {
+            throw new Error(err.message)
+          });
+        }
+        response.json();
+      })
+      .then((game) => this.game = game)
+      .catch((err) => {
+        console.log('game fetch failed', err);
+      });
+    },
+    requestToTakeDomino: function() {
+      return fetch(`/my/game/take-domino`, { 
+        method: 'POST'
+      })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((err) => {
+            throw new Error(err.message)
+          });
+        }
+        response.json();
+      })
+      .then((game) => this.game = game)
+      .catch((err) => {
+        console.log('game fetch failed', err);
+      });
     }
   }
 })

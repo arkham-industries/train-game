@@ -9,11 +9,19 @@
     <button onclick="startGame()">Start!</button>
     <div id="app">
       <div class="player-hand-region">
+        <div v-if="game.myTurn">It's your turn!</div>
         <domino-list
           v-bind:dominoes="game.hand"
           v-bind:selected-domino-index="selected.dominoIndex"
-          v-on:domino-selected="onDominoSelectedFromHand($event)"></domino-list>
+          v-on:domino-selected="onDominoSelectedFromHand($event)">
+        </domino-list>
+        <button
+          v-on:click="onEndTurn()"
+          class="end-turn-button">
+          End Turn
+        </button>
       </div>
+      <domino v-bind:domino="[game.centerDominoValue, game.centerDominoValue]"></domino>
       <div class="train-region">
         <train
           v-for="(train, index) in game.trains"
