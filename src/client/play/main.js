@@ -69,19 +69,20 @@ var app = new Vue({
         console.log('selected', this.selected);
         if (this.selected.dominoIndex === null) {
           this.requestToTakeDomino()
-          .then(() => this.selected.dominoIndex = undefined)
-        } else if (this.selected.dominoIndex && this.selected.trainId) {
+          .then(() => this.resetSelection());
+        } else if (this.selected.dominoIndex && this.selected.trainId !== undefined) {
           const domino = this.game.hand[this.selected.dominoIndex];
           this.requestToConnectTrain(domino, this.selected.trainId)
-          .then(() => {
-            this.onDominoSelectedFromHand({domino: undefined, index: undefined});
-            this.onTrainSelected(undefined);
-          });
+          .then(() => this.resetSelection());
         }
       }
     }
   },
   methods: {
+    resetSelection: function() {
+      this.onDominoSelectedFromHand({domino: undefined, index: undefined});
+      this.onTrainSelected(undefined);
+    },
     onDominoSelectedFromHand: function ({domino, index}) {
       this.selected.dominoIndex = index;
       console.log('this domino was selected!', domino, index);
@@ -112,7 +113,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        console.log('game fetch failed', err);
+        console.error('game fetch failed', err);
       });
     },
     requestToEndTurn: function() {
@@ -129,7 +130,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        console.log('game fetch failed', err);
+        console.error('game fetch failed', err);
       });
     },
     requestToTakeDomino: function() {
@@ -146,7 +147,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        console.log('game fetch failed', err);
+        console.error('game fetch failed', err);
       });
     }
   }
@@ -167,7 +168,7 @@ function getGame() {
     });
   })
   .catch((err) => {
-    console.log('game fetch failed', err);
+    console.error('game fetch failed', err);
   });
 }
 
