@@ -70,7 +70,7 @@ var app = new Vue({
         if (this.selected.dominoIndex === null) {
           this.requestToTakeDomino()
           .then(() => this.resetSelection());
-        } else if (this.selected.dominoIndex && this.selected.trainId !== undefined) {
+        } else if (this.selected.dominoIndex !== undefined && this.selected.trainId !== undefined) {
           const domino = this.game.hand[this.selected.dominoIndex];
           this.requestToConnectTrain(domino, this.selected.trainId)
           .then(() => this.resetSelection());
