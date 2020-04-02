@@ -152,6 +152,10 @@ class Game {
       throw new Error('you can only take one domino from the bone yard each turn');
     }
 
+    if (this.currentTurn.placedDomino) {
+      throw new Error('you cannot take from the boneyard once a domino was placed');
+    }
+
     const hand = this.hands[playerId];
 
     // take a random domino from the boneyard
