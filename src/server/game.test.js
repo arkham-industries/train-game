@@ -214,6 +214,46 @@ describe('Game', () => {
       game.extendTrain({playerId, domino: dominoes[0], toTrainId});
       expect(() => game.extendTrain({playerId, domino: dominoes[1], toTrainId})).toThrow();
     });
+
+    it('should allow a player to place a dominoes after a double after the first turn',  () => {
+      setupGame(game);
+      const dominoes = [[12,12],[12,1]];
+      const playerId = mockPlayers[0].id;
+      game.hands[playerId].dominoes.push(dominoes[0]);
+      game.hands[playerId].dominoes.push(dominoes[1]);
+      game.turnCount = 1;
+      const toTrainId = game.trains[0].id;
+      game.extendTrain({playerId, domino: dominoes[0], toTrainId});
+      game.extendTrain({playerId, domino: dominoes[1], toTrainId});
+      expect(game.trains[0].dominoes.length).toBe(3);
+    });
+
+    it('should not allow a player to place two dominoes after a double after the first turn',  () => {
+      setupGame(game);
+      const dominoes = [[12,12],[12,1],[1,2]];
+      const playerId = mockPlayers[0].id;
+      game.hands[playerId].dominoes.push(dominoes[0]);
+      game.hands[playerId].dominoes.push(dominoes[1]);
+      game.hands[playerId].dominoes.push(dominoes[2]);
+      game.turnCount = 1;
+      const toTrainId = game.trains[0].id;
+      game.extendTrain({playerId, domino: dominoes[0], toTrainId});
+      game.extendTrain({playerId, domino: dominoes[1], toTrainId});
+      expect(() => game.extendTrain({playerId, domino: dominoes[2], toTrainId})).toThrow();
+    });
+
+    it('should not allow a player to place a domino on a different train after the first turn',  () => {
+      setupGame(game);
+      const dominoes = [[12,12],[12,1]];
+      const playerId = mockPlayers[0].id;
+      game.hands[playerId].dominoes.push(dominoes[0]);
+      game.hands[playerId].dominoes.push(dominoes[1]);
+      game.turnCount = 1;
+      const toTrainId1 = game.trains[0].id;
+      const toTrainId2 = game.trains[1].id;
+      game.extendTrain({playerId, domino: dominoes[0], toTrainId: toTrainId1});
+      expect(() => game.extendTrain({playerId, domino: dominoes[1], toTrainId: toTrainId2})).toThrow();
+    });
   });
 
   describe('endTurn', () => {

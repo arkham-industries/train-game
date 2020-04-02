@@ -71,7 +71,8 @@ class Game {
     index: 0,
     extendedTrainId: null,
     takenFromBoneYard: false,
-    playedDouble: false
+    playedDouble: false,
+    dominoesPlayed: 0
   };
   centerDominoValue = null;
   playerOrder = [];
@@ -179,14 +180,25 @@ class Game {
 
     const fromHand = this.hands[playerId];
     const toTrain = this.trains.find((train) => train.id === toTrainId);
+    const extendingSameTrain = this.currentTurn.extendedTrainId === toTrainId;
 
     if (this.currentTurn.extendedTrainId) {
       // the player is attemping to place a second domino
       if (this.turnCount > 0) {
-        throw new Error('you can only place muliple dominoes on the first turn');
+        if (this.currentTurn.playedDouble) {
+          // a player can play only one more domino on the same train
+          if (!extendingSameTrain) {
+            throw new Error('you can only extend the same train after playing a double');
+          }
+          if (this.currentTurn.dominoesPlayed > 1) {
+            throw new Error('you can only play one domino after playing a double');
+          }
+        } else {  
+          throw new Error('you can only place muliple dominoes on the first turn, unless you play a double');
+        }
       } else {
         // it is their first turn
-        if (this.currentTurn.extendedTrainId !== toTrainId) {
+        if (!extendingSameTrain) {
           throw new Error('you can only extend the same train on the first turn');
         }
       }
@@ -226,8 +238,14 @@ class Game {
     if (toTrain.owner === fromHand.owner) {
       toTrain.public = false;
     }
+
+    if (domino[0] === domino[1]) {
+      this.currentTurn.playedDouble = true;  
+    }
+
     // indicate the player placed a domino
     this.currentTurn.extendedTrainId = toTrainId;
+    this.currentTurn.dominoesPlayed += 1;
   }
 
   endTurn(playerId) {
@@ -258,7 +276,8 @@ class Game {
 
     this.currentTurn.takenFromBoneYard = false;
     this.currentTurn.extendedTrainId = null;
-    this.currentTurn.playedDouble = false
+    this.currentTurn.playedDouble = false;
+    this.currentTurn.dominoesPlayed = 0;
   }
 
   getPlayerView(playerId) {
