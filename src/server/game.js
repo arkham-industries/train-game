@@ -134,7 +134,7 @@ class Game {
     this.trains.push({
       id: uuid(),
       owner: null,
-      dominoes: [],
+      dominoes: [[centerDominoValue, centerDominoValue]],
       public: true
     });
 
