@@ -38,5 +38,9 @@
 }
 
 .train-region .domino-list {
-  color:#0f0;
+  list-style: none;
+}
+
+.train-region .domino-list li {
+  display: inline-block;
 }
