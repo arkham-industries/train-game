@@ -54,7 +54,8 @@ var app = new Vue({
       dominoIndex: undefined,
       trainId: undefined,
     },
-    selectedTrains: []
+    selectedTrains: [],
+    message: undefined
   },
   created: function () {
     console.log('vue is created')
@@ -76,6 +77,9 @@ var app = new Vue({
           .then(() => this.resetSelection());
         }
       }
+    },
+    message: function() {
+      setTimeout(() => this.message = undefined, 4000);
     }
   },
   methods: {
@@ -113,7 +117,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        console.error('game fetch failed', err);
+        this.message = err.message;
       });
     },
     requestToEndTurn: function() {
@@ -130,7 +134,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        console.error('game fetch failed', err);
+        this.message = err.message;
       });
     },
     requestToTakeDomino: function() {
@@ -147,7 +151,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        console.error('game fetch failed', err);
+        this.message = err.message;
       });
     }
   }
@@ -184,7 +188,7 @@ function startGame() {
     }
   })
   .catch((err) => {
-    console.log('start failed', err);
+    app.message = err.message;
   });
 }
 

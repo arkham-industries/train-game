@@ -44,3 +44,15 @@
 .train-region .domino-list li {
   display: inline-block;
 }
+
+.message-region {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #007bff;
+  padding: 15px;
+  border-radius: 3px;
+  color: white;
+  text-align: center;
+}

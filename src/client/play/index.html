@@ -30,6 +30,11 @@
           v-on:domino-selected="onTrainSelected(train.id)">
         </train>
       </div>
+      <div
+        v-if="message"
+        class="message-region">
+        {{message}}
+      </div>
     </div>
     <script type="text/javascript" src="main.js"></script>
   </body>
