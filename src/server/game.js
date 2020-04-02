@@ -70,7 +70,8 @@ class Game {
   currentTurn = {
     index: 0,
     extendedTrainId: null,
-    takenFromBoneYard: false
+    takenFromBoneYard: false,
+    playedDouble: false
   };
   centerDominoValue = null;
   playerOrder = [];
@@ -169,7 +170,7 @@ class Game {
     this.currentTurn.takenFromBoneYard = true;
   }
 
-  extendTrain({playerId, dominoes, toTrainId}) {
+  extendTrain({playerId, domino, toTrainId}) {
 
     // make sure it is the player's turn
     if (!this.isCurrentPlayer(playerId)) {
@@ -197,13 +198,10 @@ class Game {
       }
     }
 
-    const dominoIndices = dominoes.map((domino) => {
-      return fromHand.dominoes.findIndex((handDomino) => isSameDomino(handDomino,domino));
-    });
+    const dominoIndex = fromHand.dominoes.findIndex((handDomino) => isSameDomino(handDomino,domino));
 
     // make sure the player has the dominoes to remove
-    const dominoDoesNotExist = dominoIndices.find((index) => index === -1);
-    if (dominoDoesNotExist) {
+    if (dominoIndex === -1) {
       throw new Error(`the player does not have this domino ${dominoDoesNotExist}`);
     }
 
@@ -215,13 +213,13 @@ class Game {
 
     // make sure the dominoes connect
     // this will throw an error if it fails
-    const connectedDominoes = connectDominoes(toTrain.dominoes.concat(dominoes));
+    const connectedDominoes = connectDominoes(toTrain.dominoes.concat([domino]));
 
     // All error throwing is above.
     // Now, move the domino from the players hand.
 
     // remove dominoes from player's hand
-    dominoIndices.forEach((dominoIndex) => fromHand.dominoes.splice(dominoIndex, 1));
+    fromHand.dominoes.splice(dominoIndex, 1);
     // add the dominoes to the train
     toTrain.dominoes = connectedDominoes;
     // the player placed a domino on their own train
@@ -260,6 +258,7 @@ class Game {
 
     this.currentTurn.takenFromBoneYard = false;
     this.currentTurn.extendedTrainId = null;
+    this.currentTurn.playedDouble = false
   }
 
   getPlayerView(playerId) {

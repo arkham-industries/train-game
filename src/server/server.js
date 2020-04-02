@@ -125,7 +125,7 @@ app.post('/my/game/extend-train', (req, res) => {
     const {game, player} = validateSession(req.session);
     game.extendTrain({
       playerId: player.id,
-      dominoes: req.body.dominoes,
+      domino: req.body.domino,
       toTrainId: req.body.trainId
     });
     console.log(`>>> extended train in game ${game.id}`);

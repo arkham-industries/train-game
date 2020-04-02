@@ -105,7 +105,7 @@ var app = new Vue({
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ dominoes: [domino], trainId })
+        body: JSON.stringify({ domino, trainId })
       })
       .then((response) => {
         if (!response.ok) {

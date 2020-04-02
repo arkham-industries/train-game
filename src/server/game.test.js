@@ -110,28 +110,28 @@ describe('Game', () => {
     it('should only allow the active player to extend a train',  () => {
       setupGame(game);
       const playerId = mockPlayers[1].id;
-      const dominoes = [game.hands[playerId].dominoes[0]];
+      const domino = game.hands[playerId].dominoes[0];
       const toTrainId = game.trains[0].id;
       
-      expect(() => game.extendTrain({playerId, dominoes, toTrainId})).toThrow();
+      expect(() => game.extendTrain({playerId, domino, toTrainId})).toThrow();
     });
 
     it('should not allow a player to use dominoes they don\'t have',  () => {
       setupGame(game);
       const playerId = mockPlayers[1].id;
-      const dominoes = [[13,13]];
+      const domino = [13,13];
       const toTrainId = game.trains[0].id;
       
-      expect(() => game.extendTrain({playerId, dominoes, toTrainId})).toThrow();
+      expect(() => game.extendTrain({playerId, domino, toTrainId})).toThrow();
     });
 
     it('should not allow a player to place dominoes on private trains',  () => {
       setupGame(game);
       const playerId = mockPlayers[1].id;
-      const dominoes = game.hands[playerId][0];
+      const domino = game.hands[playerId][0];
       const toTrainId = game.trains[1].id;
       
-      expect(() => game.extendTrain({playerId, dominoes, toTrainId})).toThrow();
+      expect(() => game.extendTrain({playerId, domino, toTrainId})).toThrow();
     });
 
     it('should not allow a player to place dominoes that do not connect',  () => {
@@ -139,10 +139,8 @@ describe('Game', () => {
       const domino = [1,1];
       const playerId = mockPlayers[0].id;
       game.hands[playerId].dominoes.push(domino);
-      const dominoes = [domino];
       const toTrainId = game.trains[0].id;
-      
-      expect(() => game.extendTrain({playerId, dominoes, toTrainId})).toThrow();
+      expect(() => game.extendTrain({playerId, domino, toTrainId})).toThrow();
     });
 
     it('should allow a player to place a domino that does connect onto their train',  () => {
@@ -151,9 +149,8 @@ describe('Game', () => {
       const playerId = mockPlayers[0].id;
       game.hands[playerId].dominoes.push(domino);
       const playerHandLength = game.hands[playerId].dominoes.length;
-      const dominoes = [domino];
       const toTrainId = game.trains[0].id;
-      game.extendTrain({playerId, dominoes, toTrainId});
+      game.extendTrain({playerId, domino, toTrainId});
       expect(game.trains[0].public).toBe(false);
       expect(game.trains[0].dominoes.length).toBe(2);
       expect(game.hands[playerId].dominoes.length - playerHandLength).toBe(-1);
@@ -165,9 +162,8 @@ describe('Game', () => {
       const playerId = mockPlayers[0].id;
       game.hands[playerId].dominoes.push(domino);
       const playerHandLength = game.hands[playerId].dominoes.length;
-      const dominoes = [domino];
       const toTrainId = game.trains[0].id;
-      game.extendTrain({playerId, dominoes, toTrainId});
+      game.extendTrain({playerId, domino, toTrainId});
       expect(game.trains[0].public).toBe(false);
       expect(game.trains[0].dominoes.length).toBe(2);
       expect(game.hands[playerId].dominoes.length - playerHandLength).toBe(-1);
@@ -180,8 +176,8 @@ describe('Game', () => {
       game.hands[playerId].dominoes.push(dominoes[0]);
       game.hands[playerId].dominoes.push(dominoes[1]);
       const toTrainId = game.trains[0].id;
-      game.extendTrain({playerId, dominoes: [dominoes[0]], toTrainId});
-      game.extendTrain({playerId, dominoes: [dominoes[1]], toTrainId});
+      game.extendTrain({playerId, domino: dominoes[0], toTrainId});
+      game.extendTrain({playerId, domino: dominoes[1], toTrainId});
       expect(game.trains[0].dominoes.length).toBe(3);
     });
 
@@ -192,7 +188,7 @@ describe('Game', () => {
       game.hands[playerId].dominoes.push(domino);
       const toTrainId = game.trains[2].id;  //the communial triain
       expect(game.trains[2].public).toBe(true);
-      expect(() => game.extendTrain({playerId, dominoes: [domino], toTrainId})).toThrow();
+      expect(() => game.extendTrain({playerId, domino, toTrainId})).toThrow();
     });
 
     it('should not allow a player to exend different trains on the first turn',  () => {
@@ -203,8 +199,8 @@ describe('Game', () => {
       game.hands[playerId].dominoes.push(dominoes[1]);
       const toTrainId1 = game.trains[0].id;
       const toTrainId2 = game.trains[1].id;
-      game.extendTrain({playerId, dominoes: [dominoes[0]], toTrainId: toTrainId1});
-      expect(() => game.extendTrain({playerId, dominoes: [dominoes[1]], toTrainId: toTrainId2})).toThrow();
+      game.extendTrain({playerId, domino: dominoes[0], toTrainId: toTrainId1});
+      expect(() => game.extendTrain({playerId, domino: dominoes[1], toTrainId: toTrainId2})).toThrow();
     });
 
     it('should allow a player to place dominoes only once per turn after the first turn',  () => {
@@ -215,8 +211,8 @@ describe('Game', () => {
       game.hands[playerId].dominoes.push(dominoes[1]);
       game.turnCount = 1;
       const toTrainId = game.trains[0].id;
-      game.extendTrain({playerId, dominoes: [dominoes[0]], toTrainId});
-      expect(() => game.extendTrain({playerId, dominoes: [dominoes[1]], toTrainId})).toThrow();
+      game.extendTrain({playerId, domino: dominoes[0], toTrainId});
+      expect(() => game.extendTrain({playerId, domino: dominoes[1], toTrainId})).toThrow();
     });
   });
 
@@ -261,10 +257,9 @@ describe('Game', () => {
       const domino = [1,12];
       const playerId = mockPlayers[0].id;
       game.hands[playerId].dominoes.push(domino);
-      const dominoes = [domino];
       const toTrainId = game.trains[0].id;
       game.takeDominoFromBoneYard(playerId);
-      game.extendTrain({playerId, dominoes, toTrainId});
+      game.extendTrain({playerId, domino, toTrainId});
       game.endTurn(playerId);
       expect(game.trains[0].public).toBe(false);
     })
