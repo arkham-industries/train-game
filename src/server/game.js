@@ -22,7 +22,7 @@ const createDominoes = (centerDominoValue) => {
 };
 
 const dominoesConnect = (dominoA, dominoB) => {
-  return dominoA[0] === dominoB[1];
+  return dominoA[1] === dominoB[0];
 };
 
 const rotateDomino = (domino) => {
