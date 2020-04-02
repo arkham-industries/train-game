@@ -66,9 +66,10 @@ class Game {
   id = uuid();
   created_at = new Date();
   updated_at = new Date();
+  turnCount = 0;
   currentTurn = {
     index: 0,
-    placedDomino: false,
+    extendedTrainId: null,
     takenFromBoneYard: false
   };
   centerDominoValue = null;
@@ -152,7 +153,7 @@ class Game {
       throw new Error('you can only take one domino from the bone yard each turn');
     }
 
-    if (this.currentTurn.placedDomino) {
+    if (this.currentTurn.extendedTrainId) {
       throw new Error('you cannot take from the boneyard once a domino was placed');
     }
 
@@ -175,8 +176,16 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
-    if (this.currentTurn.placedDomino) {
-      throw new Error('you have already placed dominoes');
+    if (this.currentTurn.extendedTrainId) {
+      // the player is attemping to place a second domino
+      if (this.turnCount > 0) {
+        throw new Error('you can only place muliple dominoes on the first turn');
+      } else {
+        // it is their first turn
+        if (this.currentTurn.extendedTrainId !== toTrainId) {
+          throw new Error('you can only extend the same train on the first turn');
+        }
+      }
     }
 
     const fromHand = this.hands[playerId];
@@ -214,7 +223,7 @@ class Game {
       toTrain.public = false;
     }
     // indicate the player placed a domino
-    this.currentTurn.placedDomino = true;
+    this.currentTurn.extendedTrainId = toTrainId;
   }
 
   endTurn(playerId) {
@@ -224,7 +233,7 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
-    if (!this.currentTurn.placedDomino && !this.currentTurn.takenFromBoneYard) {
+    if (!this.currentTurn.extendedTrainId && !this.currentTurn.takenFromBoneYard) {
       throw new Error('you must place a tile and/or take a tile from the boneyard');
     }
 
@@ -232,18 +241,19 @@ class Game {
     const playerTrain = this.trains.find((train) => train.owner.id === player.id);
 
     // make player train public?
-    if (this.currentTurn.takenFromBoneYard && !this.currentTurn.placedDomino) {
+    if (this.currentTurn.takenFromBoneYard && !this.currentTurn.extendedTrainId) {
       playerTrain.public = true;
     }
 
     if (this.currentTurn.index === this.playerOrder.length - 1) {
       this.currentTurn.index = 0;
+      this.turnCount += 1;
     } else {
       this.currentTurn.index += 1;
     }
 
     this.currentTurn.takenFromBoneYard = false;
-    this.currentTurn.placedDomino = false;
+    this.currentTurn.extendedTrainId = null;
   }
 
   getPlayerView(playerId) {

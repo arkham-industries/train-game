@@ -173,15 +173,40 @@ describe('Game', () => {
       expect(game.hands[playerId].dominoes.length - playerHandLength).toBe(-1);
     });
 
-    it('should allow a player to place dominoes only once per turn',  () => {
+    it('should allow a player to exend the same train on the first turn',  () => {
       setupGame(game);
-      const domino = [1,12];
+      const dominoes = [[1,12],[1,1]];
       const playerId = mockPlayers[0].id;
-      game.hands[playerId].dominoes.push(domino);
-      const dominoes = [domino];
+      game.hands[playerId].dominoes.push(dominoes[0]);
+      game.hands[playerId].dominoes.push(dominoes[1]);
       const toTrainId = game.trains[0].id;
-      game.extendTrain({playerId, dominoes, toTrainId});
-      expect(() => game.extendTrain({playerId, dominoes, toTrainId})).toThrow();
+      game.extendTrain({playerId, dominoes: [dominoes[0]], toTrainId});
+      game.extendTrain({playerId, dominoes: [dominoes[1]], toTrainId});
+      expect(game.trains[0].dominoes.length).toBe(3);
+    });
+
+    it('should not allow a player to exend different trains on the first turn',  () => {
+      setupGame(game);
+      const dominoes = [[1,12],[12,1]];
+      const playerId = mockPlayers[0].id;
+      game.hands[playerId].dominoes.push(dominoes[0]);
+      game.hands[playerId].dominoes.push(dominoes[1]);
+      const toTrainId1 = game.trains[0].id;
+      const toTrainId2 = game.trains[1].id;
+      game.extendTrain({playerId, dominoes: [dominoes[0]], toTrainId: toTrainId1});
+      expect(() => game.extendTrain({playerId, dominoes: [dominoes[1]], toTrainId: toTrainId2})).toThrow();
+    });
+
+    it('should allow a player to place dominoes only once per turn after the first turn',  () => {
+      setupGame(game);
+      const dominoes = [[1,12],[1,1]];
+      const playerId = mockPlayers[0].id;
+      game.hands[playerId].dominoes.push(dominoes[0]);
+      game.hands[playerId].dominoes.push(dominoes[1]);
+      game.turnCount = 1;
+      const toTrainId = game.trains[0].id;
+      game.extendTrain({playerId, dominoes: [dominoes[0]], toTrainId});
+      expect(() => game.extendTrain({playerId, dominoes: [dominoes[1]], toTrainId})).toThrow();
     });
   });
 
@@ -208,7 +233,7 @@ describe('Game', () => {
       game.takeDominoFromBoneYard(playerId);
       game.endTurn(playerId);
       expect(game.currentTurn.index).toBe(1);
-      expect(game.currentTurn.placedDomino).toBe(false);
+      expect(game.currentTurn.extendedTrainId).toBe(null);
       expect(game.currentTurn.takenFromBoneYard).toBe(false);
     });
 
