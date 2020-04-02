@@ -176,6 +176,9 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
+    const fromHand = this.hands[playerId];
+    const toTrain = this.trains.find((train) => train.id === toTrainId);
+
     if (this.currentTurn.extendedTrainId) {
       // the player is attemping to place a second domino
       if (this.turnCount > 0) {
@@ -186,10 +189,13 @@ class Game {
           throw new Error('you can only extend the same train on the first turn');
         }
       }
+    } else {
+      if (this.turnCount === 0) {
+        if (!toTrain.owner || toTrain.owner.id !== fromHand.owner.id) {
+          throw new Error('you can only extend your own train on the first turn');
+        }
+      }
     }
-
-    const fromHand = this.hands[playerId];
-    const toTrain = this.trains.find((train) => train.id === toTrainId);
 
     const dominoIndices = dominoes.map((domino) => {
       return fromHand.dominoes.findIndex((handDomino) => isSameDomino(handDomino,domino));

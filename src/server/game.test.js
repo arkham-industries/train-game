@@ -145,7 +145,7 @@ describe('Game', () => {
       expect(() => game.extendTrain({playerId, dominoes, toTrainId})).toThrow();
     });
 
-    it('should allow a player to place a domino that does connect',  () => {
+    it('should allow a player to place a domino that does connect onto their train',  () => {
       setupGame(game);
       const domino = [1,12];
       const playerId = mockPlayers[0].id;
@@ -183,6 +183,16 @@ describe('Game', () => {
       game.extendTrain({playerId, dominoes: [dominoes[0]], toTrainId});
       game.extendTrain({playerId, dominoes: [dominoes[1]], toTrainId});
       expect(game.trains[0].dominoes.length).toBe(3);
+    });
+
+    it('should not allow a player to exend the common public train on the first turn',  () => {
+      setupGame(game);
+      const domino = [1,12];
+      const playerId = mockPlayers[0].id;
+      game.hands[playerId].dominoes.push(domino);
+      const toTrainId = game.trains[2].id;  //the communial triain
+      expect(game.trains[2].public).toBe(true);
+      expect(() => game.extendTrain({playerId, dominoes: [domino], toTrainId})).toThrow();
     });
 
     it('should not allow a player to exend different trains on the first turn',  () => {
