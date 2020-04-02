@@ -145,7 +145,7 @@ describe('Game', () => {
       expect(() => game.extendTrain({playerId, dominoes, toTrainId})).toThrow();
     });
 
-    it('should allow a player to place dominoes do connect',  () => {
+    it('should allow a player to place a domino that does connect',  () => {
       setupGame(game);
       const domino = [1,12];
       const playerId = mockPlayers[0].id;
@@ -155,10 +155,23 @@ describe('Game', () => {
       const toTrainId = game.trains[0].id;
       game.extendTrain({playerId, dominoes, toTrainId});
       expect(game.trains[0].public).toBe(false);
-      expect(game.trains[0].dominoes.length).toBe(1);
+      expect(game.trains[0].dominoes.length).toBe(2);
       expect(game.hands[playerId].dominoes.length - playerHandLength).toBe(-1);
     });
 
+    it('should allow a player to place a domino that is reversed',  () => {
+      setupGame(game);
+      const domino = [12,1];
+      const playerId = mockPlayers[0].id;
+      game.hands[playerId].dominoes.push(domino);
+      const playerHandLength = game.hands[playerId].dominoes.length;
+      const dominoes = [domino];
+      const toTrainId = game.trains[0].id;
+      game.extendTrain({playerId, dominoes, toTrainId});
+      expect(game.trains[0].public).toBe(false);
+      expect(game.trains[0].dominoes.length).toBe(2);
+      expect(game.hands[playerId].dominoes.length - playerHandLength).toBe(-1);
+    });
 
     it('should allow a player to place dominoes only once per turn',  () => {
       setupGame(game);

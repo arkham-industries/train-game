@@ -21,6 +21,33 @@ const createDominoes = (centerDominoValue) => {
   return dominoes;
 };
 
+const dominoesConnect = (dominoA, dominoB) => {
+  return dominoA[0] === dominoB[1];
+};
+
+const rotateDomino = (domino) => {
+  return [domino[1], domino[0]];
+}
+
+const connectDominoes = (dominoes) => {
+  return dominoes.map((domino, i) => {
+    const previousDomino = dominoes[i-1];
+    const rotatedDomino = rotateDomino(domino);
+    if (!previousDomino) {
+      return domino;
+    } else {
+      if (dominoesConnect(previousDomino, domino)) {
+        return domino;
+      } else if (dominoesConnect(previousDomino, rotatedDomino)) {
+        return rotatedDomino;
+      } else {
+        throw new Error(`domino ${previousDomino} does not connect to ${domino}`);
+      }
+    } 
+  });
+}
+
+
 const dominoesPerPlayer = {
   2: 15,
   3: 15,
@@ -98,7 +125,7 @@ class Game {
       return {
         id: uuid(),
         owner: player,
-        dominoes: [],
+        dominoes: [[centerDominoValue, centerDominoValue]],
         public: false
       };
     });
@@ -168,22 +195,21 @@ class Game {
     }
 
     // make sure the dominoes connect
-    const connectingValue = toTrain.dominoes.length > 0 ? toTrain.dominoes[toTrain.dominoes.length - 1][1] : this.centerDominoValue;
-    if (dominoes[0][1] !== connectingValue) {
-      throw new Error('Those dominoes do not connect');
-    }
+    // this will throw an error if it fails
+    const connectedDominoes = connectDominoes(toTrain.dominoes.concat(dominoes));
+
+    // All error throwing is above.
+    // Now, move the domino from the players hand.
 
     // remove dominoes from player's hand
     dominoIndices.forEach((dominoIndex) => fromHand.dominoes.splice(dominoIndex, 1));
-    
     // add the dominoes to the train
-    toTrain.dominoes = toTrain.dominoes.concat(dominoes);
-
+    toTrain.dominoes = connectedDominoes;
     // the player placed a domino on their own train
     if (toTrain.owner === fromHand.owner) {
       toTrain.public = false;
     }
-
+    // indicate the player placed a domino
     this.currentTurn.placedDomino = true;
   }
 
