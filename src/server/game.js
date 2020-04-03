@@ -156,7 +156,7 @@ class Game {
       throw new Error('you can only take one domino from the bone yard each turn');
     }
 
-    if (this.currentTurn.extendedTrainId) {
+    if (this.currentTurn.extendedTrainId && this.openDoubleValue === null) {
       throw new Error('you cannot take from the boneyard once a domino was placed');
     }
 
@@ -273,6 +273,10 @@ class Game {
 
     if (!this.currentTurn.extendedTrainId && !this.currentTurn.takenFromBoneYard) {
       throw new Error('you must place a tile and/or take a tile from the boneyard');
+    }
+
+    if (this.openDoubleValue !== null && !this.currentTurn.takenFromBoneYard) {
+      throw new Error('you must take from boneyard when an open double is present');
     }
 
     const player = this.playerOrder[this.currentTurn.index];

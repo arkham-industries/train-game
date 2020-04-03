@@ -227,15 +227,24 @@ describe('Game', () => {
             expect(() => game.extendTrain({playerId, domino: dominoes[2], toTrainId})).toThrow();
           });
   
+          it('should prevent a player who plays a double from ending their turn unless they play on that double or take a domino', () => {
+            const dominoes = [[1,1]];
+            const playerId = mockPlayers[0].id;
+            game.hands[playerId].dominoes.push(dominoes[0]);
+            game.trains[0].dominoes.push([12,1]);
+            const toTrainId = game.trains[0].id;
+            game.extendTrain({playerId, domino: dominoes[0], toTrainId});
+            expect(() => game.endTurn(playerId)).toThrow();
+          });
+  
           it('should force the next player to play on the double if the previous player ends with a double',  () => {
-    
-            console.log('game.turns', game.turnCount);
             const dominoesPlayer1 = [[1,1]];
             const player1Id = mockPlayers[0].id;
             game.hands[player1Id].dominoes.push(dominoesPlayer1[0]);
             game.trains[0].dominoes.push([12,1]);
             const toTrain1Id = game.trains[0].id;
             game.extendTrain({playerId: player1Id, domino: dominoesPlayer1[0], toTrainId: toTrain1Id});
+            game.takeDominoFromBoneYard(player1Id);
             game.endTurn(player1Id);
   
             const dominoesPlayer2 = [[12,1]];
