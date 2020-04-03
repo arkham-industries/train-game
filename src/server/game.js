@@ -75,6 +75,7 @@ class Game {
     dominoesPlayed: 0
   };
   centerDominoValue = null;
+  openDoubleValue = null;
   playerOrder = [];
   boneyard = [];
   trains = [];
@@ -181,6 +182,8 @@ class Game {
     const fromHand = this.hands[playerId];
     const toTrain = this.trains.find((train) => train.id === toTrainId);
     const extendingSameTrain = this.currentTurn.extendedTrainId === toTrainId;
+    const connectingDomino = toTrain.dominoes[toTrain.dominoes.length - 1];
+    const connectingDominoIsOpenDouble = this.openDoubleValue === connectingDomino[0] && this.openDoubleValue === connectingDomino[1];
 
     if (this.currentTurn.extendedTrainId) {
       // the player is attemping to place a second domino
@@ -197,13 +200,20 @@ class Game {
           throw new Error('you can only place muliple dominoes on the first turn, unless you play a double');
         }
       } else {
-        // it is their first turn
+        // it is the first turn
         if (!extendingSameTrain) {
           throw new Error('you can only extend the same train on the first turn');
         }
       }
     } else {
-      if (this.turnCount === 0) {
+      // the player is placing their fist domino
+      if (this.turnCount > 0) {
+        if (this.openDoubleValue !== null) {
+          if (!connectingDominoIsOpenDouble) {
+            throw new Error('you must play on the open double');
+          }
+        }
+      } else {
         if (!toTrain.owner || toTrain.owner.id !== fromHand.owner.id) {
           throw new Error('you can only extend your own train on the first turn');
         }
@@ -219,7 +229,9 @@ class Game {
 
     // make sure the player can place the domino on this train
     // some trains are private to other players
-    if (!toTrain.public && toTrain.owner.id !== fromHand.owner.id) {
+    const playingOnPrivateTrain = !toTrain.public && toTrain.owner.id !== fromHand.owner.id;
+    const playingOnOpenDouble = this.openDoubleValue !== null && connectingDominoIsOpenDouble;
+    if (!playingOnOpenDouble && playingOnPrivateTrain) {
       throw new Error('The player cannot place dominos on this private train');
     }
 
@@ -241,7 +253,11 @@ class Game {
 
     if (domino[0] === domino[1]) {
       this.currentTurn.playedDouble = true;  
+      this.openDoubleValue = domino[0];
+    } else {
+      this.openDoubleValue = null;
     }
+    
 
     // indicate the player placed a domino
     this.currentTurn.extendedTrainId = toTrainId;
@@ -290,7 +306,8 @@ class Game {
       hand: this.hands[playerId] && this.hands[playerId].dominoes,
       centerDominoValue: this.centerDominoValue,
       currentTurn: this.currentTurn,
-      myTurn: this.isCurrentPlayer(playerId)
+      myTurn: this.isCurrentPlayer(playerId),
+      openDoubleValue: this.openDoubleValue
     };
   }
 }
