@@ -215,7 +215,6 @@ describe('Game', () => {
           });
       
           it('should not allow a player to place two dominoes after a double after the first turn',  () => {
-    
             const dominoes = [[12,12],[12,1],[1,2]];
             const playerId = mockPlayers[0].id;
             game.hands[playerId].dominoes.push(dominoes[0]);
@@ -227,7 +226,7 @@ describe('Game', () => {
             expect(() => game.extendTrain({playerId, domino: dominoes[2], toTrainId})).toThrow();
           });
   
-          it('should prevent a player who plays a double from ending their turn unless they play on that double or take a domino', () => {
+          it('should allow a player who plays a double and then takes a domino, to end their turn', () => {
             const dominoes = [[1,1]];
             const playerId = mockPlayers[0].id;
             game.hands[playerId].dominoes.push(dominoes[0]);
@@ -235,9 +234,36 @@ describe('Game', () => {
             const toTrainId = game.trains[0].id;
             game.extendTrain({playerId, domino: dominoes[0], toTrainId});
             expect(() => game.endTurn(playerId)).toThrow();
+            game.takeDominoFromBoneYard(playerId);
+          });
+
+          it('should not allow a player to play a double and then play on another train', () => {
+            const dominoes = [[1,1], [12,10]];
+            const playerId = mockPlayers[0].id;
+            game.hands[playerId].dominoes.push(dominoes[0]);
+            game.hands[playerId].dominoes.push(dominoes[1]);
+            game.trains[0].dominoes.push([12,1]);
+            const toTrain1Id = game.trains[0].id;
+            const toTrain2Id = game.trains[0].id;
+            game.extendTrain({playerId, domino: dominoes[0], toTrainId: toTrain1Id});
+            expect(() => game.extendTrain({playerId, domino: dominoes[1], toTrainId: toTrain2Id})).toThrow();
+          });
+
+          it('should allow a player who plays a double and then plays on that double, to end their turn', () => {
+            const dominoes = [[1,1], [1,10]];
+            const playerId = mockPlayers[0].id;
+            game.hands[playerId].dominoes.push(dominoes[0]);
+            game.hands[playerId].dominoes.push(dominoes[1]);
+            game.trains[0].dominoes.push([12,1]);
+            const toTrainId = game.trains[0].id;
+            game.extendTrain({playerId, domino: dominoes[0], toTrainId});
+            expect(() => game.endTurn(playerId)).toThrow();
+            game.extendTrain({playerId, domino: dominoes[1], toTrainId});
+            game.endTurn(playerId);
+            expect(game.trains[0].dominoes.length).toBe(4);
           });
   
-          it('should force the next player to play on the double if the previous player ends with a double',  () => {
+          it('should force a player to play on the double when an open double is present',  () => {
             const dominoesPlayer1 = [[1,1]];
             const player1Id = mockPlayers[0].id;
             game.hands[player1Id].dominoes.push(dominoesPlayer1[0]);
