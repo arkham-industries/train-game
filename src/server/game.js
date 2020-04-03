@@ -305,13 +305,14 @@ class Game {
       id: this.id,
       started: this.started,
       playerOrder: this.playerOrder,
-      boneyard: this.boneyard,
+      boneyardSize: this.boneyard.length,
       trains: this.trains,
       hand: this.hands[playerId] && this.hands[playerId].dominoes,
       centerDominoValue: this.centerDominoValue,
       currentTurn: this.currentTurn,
       myTurn: this.isCurrentPlayer(playerId),
-      openDoubleValue: this.openDoubleValue
+      openDoubleValue: this.openDoubleValue,
+      playerSizes: this.playerOrder.map(({id}) => this.hands[id].dominoes.length)
     };
   }
 }
