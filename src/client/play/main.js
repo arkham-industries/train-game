@@ -191,6 +191,9 @@ var app = new Vue({
   computed: {
     inviteUrl: function() {
       return this.game.id ? `${window.location.origin}/join/${this.game.id}` : '';
+    },
+    isPlayerOne: function() {
+      return this.game.playerOrder[0].id === this.game.myPlayerId
     }
   }
 })

@@ -4,12 +4,15 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
   <body>
-    <h1>Play!</h1>
+    <h1>Mexican Train! <a target="_blank" href="https://www.mastersofgames.com/rules/mexican-train-dominoes-rules.htm">Rules</a></h1>
     <div id="app">
       <div
         v-if="!game.started">
-        <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
-        <button v-on:click="requestToStartGame()">Start!</button>
+        <div v-if="isPlayerOne">
+          <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
+          <button v-on:click="requestToStartGame()">Start!</button>
+        </div>
+        <p v-if="!isPlayerOne">Waiting for first player to start game ...</button>
       </div>
       <players
         v-bind:player-order="game.playerOrder"
