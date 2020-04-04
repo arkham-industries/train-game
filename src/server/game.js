@@ -84,6 +84,7 @@ class Game {
 
   addPlayer(player) {
     this.players[player.id] = player;
+    this.playerOrder = this.getPlayers();
   }
 
   getPlayer(playerId) {
@@ -99,22 +100,20 @@ class Game {
   }
 
   start({ centerDominoValue }) {
-    const players = this.getPlayers();
-    const numberOfDominoes = dominoesPerPlayer[players.length];
+    const numberOfDominoes = dominoesPerPlayer[this.playerOrder.length];
 
     if (this.started) {
       throw new Error('game has already started!');
-    } else if (players.length < 2) {
+    } else if (this.playerOrder.length < 2) {
       throw new Error('You need at least two players to start!');
     }
     
-    this.playerOrder = players;
     this.centerDominoValue = centerDominoValue;
     
     const shuffledDominoes = _.shuffle(createDominoes(centerDominoValue));
 
     // setup player hands
-    players.forEach((player) => {
+    this.playerOrder.forEach((player) => {
       this.hands[player.id] = {
         owner: player,
         dominoes: shuffledDominoes.splice(0, numberOfDominoes)
@@ -125,7 +124,7 @@ class Game {
     this.boneyard = shuffledDominoes;
 
     // setup train arrays
-    this.trains = players.map((player) => {
+    this.trains = this.playerOrder.map((player) => {
       return {
         id: uuid(),
         owner: player,
@@ -312,7 +311,7 @@ class Game {
       currentTurn: this.currentTurn,
       myTurn: this.isCurrentPlayer(playerId),
       openDoubleValue: this.openDoubleValue,
-      playerSizes: this.playerOrder.map(({id}) => this.hands[id].dominoes.length)
+      playerSizes: this.playerOrder.map(({id}) => this.hands[id] ? this.hands[id].dominoes.length : 0)
     };
   }
 }
