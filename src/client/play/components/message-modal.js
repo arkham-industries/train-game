@@ -1,11 +1,11 @@
 Vue.component('message-modal', {
   props: ['message'],
-  data: function() {
-    return { myText: undefined };
-  },
   template: `
     <div class="message" v-if="myText">{{ myText }}</div>
   `,
+  data: function() {
+    return { myText: undefined };
+  },
   watch: {
     message: function() {
       this.myText = this.message.text;

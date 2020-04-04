@@ -4,55 +4,15 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
   <body>
-    <h1>Mexican Train! <a target="_blank" href="https://www.mastersofgames.com/rules/mexican-train-dominoes-rules.htm">Rules</a></h1>
     <div id="app">
-      <div class="prestart-region">
-        <div
-          v-if="!game.started">
-          <div v-if="isPlayerOne">
-            <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
-            <button v-on:click="requestToStartGame()">Start!</button>
-          </div>
-          <p v-if="isPlayerOne === false">Waiting for first player to start game ...</button>
-        </div>
-      </div>
-      <div class="players-region">
-        <players
-          v-bind:player-order="game.playerOrder"
-          v-bind:player-sizes="game.playerSizes"
-          v-bind:current-index="game.currentTurn && game.currentTurn.index">
-        </players>
-      </div>
-      <div class="player-hand-region">
-        <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
-        <domino-list
-          v-bind:dominoes="game.hand"
-          v-bind:selected-domino-index="selected.dominoIndex"
-          v-on:domino-selected="onDominoSelectedFromHand($event)">
-        </domino-list>
-        <button
-          v-on:click="onEndTurn()"
-          class="end-turn-button">
-          End Turn
-        </button>
-      </div>
-      <div class="train-region">
-        <train
-          v-for="(train, index) in game.trains"
-          v-bind:train="train"
-          v-bind:selected-train="selectedTrains[index]"
-          v-bind:my-train="train.owner && train.owner.id === game.myPlayerId"
-          v-bind:key="train.id"
-          v-on:domino-selected="onTrainSelected(train.id)">
-        </train>
-      </div>
-      <message-modal v-bind:message="message"></message-modal>
+      <app></app>
     </div>
     <script type="text/javascript" src="components/domino.js"></script>
     <script type="text/javascript" src="components/domino-list.js"></script>
     <script type="text/javascript" src="components/players.js"></script>
     <script type="text/javascript" src="components/train.js"></script>
     <script type="text/javascript" src="components/message-modal.js"></script>
+    <script type="text/javascript" src="components/app.js"></script>
     <script type="text/javascript" src="main.js"></script>
   </body>
 </html>
