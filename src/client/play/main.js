@@ -97,7 +97,13 @@ var app = new Vue({
     }
   },
   created: function () {
-    console.log('vue is created')
+    console.log('vue is created');
+    // start polling for game state
+    setInterval(() => {
+      this.requestToGetGame().then((game) => {
+        this.game = game;
+      })
+    }, 2000);
   },
   watch: {
     selected: {
@@ -204,6 +210,20 @@ var app = new Vue({
       .catch((err) => {
         this.message = {text: err.message};
       });
+    },
+    requestToGetGame: function() {
+      return fetch(`/my/game`)
+      .then((response) => {
+        return response.json().then((json) => {
+          if (!response.ok) {
+            throw new Error(json.message)
+          }
+          return json;
+        });
+      })
+      .catch((err) => {
+        console.error('game fetch failed', err);
+      });
     }
   },
   computed: {
@@ -214,28 +234,4 @@ var app = new Vue({
       return this.game.playerOrder && this.game.playerOrder[0].id === this.game.myPlayerId
     }
   }
-})
-
-function getGame() {
-  return fetch(`/my/game`)
-  .then((response) => {
-    return response.json().then((json) => {
-      if (!response.ok) {
-        throw new Error(json.message)
-      }
-      return json;
-    });
-  })
-  .catch((err) => {
-    console.error('game fetch failed', err);
-  });
-}
-
-
-window.addEventListener('load', (event) => {
-  setInterval(() => {
-    getGame().then((game) => {
-      app.game = game;
-    })
-  }, 2000);
 });
