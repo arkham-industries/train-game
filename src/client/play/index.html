@@ -20,7 +20,7 @@
         v-bind:current-index="game.currentTurn && game.currentTurn.index">
       </players>
       <div class="player-hand-region">
-        <div v-if="game.myTurn">It's your turn!</div>
+        <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
         <domino-list
           v-bind:dominoes="game.hand"
           v-bind:selected-domino-index="selected.dominoIndex"
@@ -42,9 +42,7 @@
           v-on:domino-selected="onTrainSelected(train.id)">
         </train>
       </div>
-      <message
-        v-bind:text="message.text"
-        v-bind:duration="message.duration"></message>
+      <message-modal v-bind:message="message"></message-modal>
     </div>
     <script type="text/javascript" src="main.js"></script>
   </body>

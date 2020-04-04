@@ -64,14 +64,8 @@ Vue.component('players', {
   `
 });
 
-Vue.component('message', {
-  props:{
-    text: String,
-    duration: {
-      type: Number,
-      default: 4000
-    }
-  },
+Vue.component('message-modal', {
+  props: ['message'],
   data: function() {
     return { myText: undefined };
   },
@@ -79,10 +73,10 @@ Vue.component('message', {
     <div class="message" v-if="myText">{{ myText }}</div>
   `,
   watch: {
-    text: function() {
-      this.myText = this.text;
-      if (this.duration !== null) {
-        setTimeout(() => this.myText = undefined, this.duration);
+    message: function() {
+      this.myText = this.message.text;
+      if (this.message.duration !== null) {
+        setTimeout(() => this.myText = undefined, this.message.duration || 4000);
       }
     }
   }
