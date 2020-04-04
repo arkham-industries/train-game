@@ -6,19 +6,23 @@
   <body>
     <h1>Mexican Train! <a target="_blank" href="https://www.mastersofgames.com/rules/mexican-train-dominoes-rules.htm">Rules</a></h1>
     <div id="app">
-      <div
-        v-if="!game.started">
-        <div v-if="isPlayerOne">
-          <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
-          <button v-on:click="requestToStartGame()">Start!</button>
+      <div class="prestart-region">
+        <div
+          v-if="!game.started">
+          <div v-if="isPlayerOne">
+            <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
+            <button v-on:click="requestToStartGame()">Start!</button>
+          </div>
+          <p v-if="isPlayerOne === false">Waiting for first player to start game ...</button>
         </div>
-        <p v-if="isPlayerOne === false">Waiting for first player to start game ...</button>
       </div>
-      <players
-        v-bind:player-order="game.playerOrder"
-        v-bind:player-sizes="game.playerSizes"
-        v-bind:current-index="game.currentTurn && game.currentTurn.index">
-      </players>
+      <div class="players-region">
+        <players
+          v-bind:player-order="game.playerOrder"
+          v-bind:player-sizes="game.playerSizes"
+          v-bind:current-index="game.currentTurn && game.currentTurn.index">
+        </players>
+      </div>
       <div class="player-hand-region">
         <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
         <domino-list
@@ -44,6 +48,11 @@
       </div>
       <message-modal v-bind:message="message"></message-modal>
     </div>
+    <script type="text/javascript" src="components/domino.js"></script>
+    <script type="text/javascript" src="components/domino-list.js"></script>
+    <script type="text/javascript" src="components/players.js"></script>
+    <script type="text/javascript" src="components/train.js"></script>
+    <script type="text/javascript" src="components/message-modal.js"></script>
     <script type="text/javascript" src="main.js"></script>
   </body>
 </html>
