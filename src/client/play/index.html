@@ -5,9 +5,17 @@
   </head>
   <body>
     <h1>Play!</h1>
-    <p>invite: <span id="invite-link"></span></p>
-    <button onclick="startGame()">Start!</button>
     <div id="app">
+      <div
+        v-if="!game.started">
+        <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
+        <button v-on:click="requestToStartGame()">Start!</button>
+      </div>
+      <players
+        v-bind:player-order="game.playerOrder"
+        v-bind:player-sizes="game.playerSizes"
+        v-bind:current-index="game.currentTurn && game.currentTurn.index">
+      </players>
       <div class="player-hand-region">
         <div v-if="game.myTurn">It's your turn!</div>
         <domino-list

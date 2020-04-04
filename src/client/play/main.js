@@ -46,6 +46,22 @@ Vue.component('train', {
   `
 });
 
+Vue.component('players', {
+  props:['playerOrder', 'playerSizes', 'currentIndex'],
+  template: `
+    <div class="players"> 
+      <ol>
+        <li
+          class="player"
+          v-for="(player, index) in playerOrder"
+          v-bind:key="player.id">
+          {{currentIndex === index ? '▶' : ''}} {{ player.name }} - {{playerSizes[index]}} dominoes
+        </li>
+      </ol>
+    </div>
+  `
+});
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -153,13 +169,29 @@ var app = new Vue({
       .catch((err) => {
         this.message = err.message;
       });
+    },
+    requestToStartGame: function() {
+      return fetch(`/my/game/start`, { 
+        method: 'POST'
+      })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((err) => {
+            throw new Error(err.message)
+          });
+        }
+      })
+      .catch((err) => {
+        this.message = err.message;
+      });
+    }
+  },
+  computed: {
+    inviteUrl: function() {
+      return this.game.id ? `${window.location.origin}/join/${this.game.id}` : '';
     }
   }
 })
-
-function showInviteUrl(inviteUrl) {
-  return document.getElementById('invite-link').innerHTML = inviteUrl;
-}
 
 function getGame() {
   return fetch(`/my/game`)
@@ -176,27 +208,10 @@ function getGame() {
   });
 }
 
-function startGame() {
-  return fetch(`/my/game/start`, { 
-    method: 'POST'
-  })
-  .then((response) => {
-    if (!response.ok) {
-      return response.json().then((err) => {
-        throw new Error(err.message)
-      });
-    }
-  })
-  .catch((err) => {
-    app.message = err.message;
-  });
-}
 
 window.addEventListener('load', (event) => {
   setInterval(() => {
     getGame().then((game) => {
-      const inviteUrl = `${window.location.origin}/join/${game.id}`;
-      showInviteUrl(inviteUrl);
       app.game = game;
     })
   }, 2000);

@@ -1,3 +1,7 @@
+body {
+  font-family: monospace;
+}
+
 .domino {
   border: 1px solid;
   width: 20px;
@@ -45,6 +49,11 @@
   display: inline-block;
 }
 
+.train-region .domino {
+  padding: 0px 3px;
+  margin: 0 3px;
+}
+
 .message-region {
   position: absolute;
   left: 50%;
@@ -55,4 +64,20 @@
   border-radius: 3px;
   color: white;
   text-align: center;
+}
+
+.players {
+  border: 1px solid;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
+.players ol {
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+.end-turn-button {
+  padding: 5px 30px;
 }
