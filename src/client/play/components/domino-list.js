@@ -1,7 +1,9 @@
 Vue.component('domino-list', {
   props:['dominoes', 'selectedDominoIndex', 'orientation', 'rotateDoubles'],
   template: `
-    <ul class="domino-list">
+    <ul
+      v-if="dominoes"
+      class="domino-list">
       <li v-for="(domino, index) in dominoes">
         <domino
         v-bind:domino="domino"

@@ -19,7 +19,9 @@ Vue.component('app', {
           v-bind:current-index="game.currentTurn && game.currentTurn.index">
         </players>
       </div>
-      <div class="player-hand-region">
+      <div
+        v-if="game.hand"
+        class="player-hand-region">
         <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
         <domino-list
           v-bind:dominoes="game.hand"

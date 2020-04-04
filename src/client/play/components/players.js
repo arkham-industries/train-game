@@ -1,7 +1,10 @@
 Vue.component('players', {
   props:['playerOrder', 'playerSizes', 'currentIndex'],
   template: `
-    <div class="players"> 
+    <div
+      v-if="playerOrder"
+      class="players"> 
+      <h2>Players</h2>
       <ol>
         <li
           class="player"
