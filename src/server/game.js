@@ -81,6 +81,7 @@ class Game {
   trains = [];
   players = {};
   hands = {};
+  winner = undefined;
 
   addPlayer(player) {
     this.players[player.id] = player;
@@ -151,6 +152,10 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
+    if(this.winner) {
+      throw new Error('This game has ended.');
+    }
+
     if (this.currentTurn.takenFromBoneYard) {
       throw new Error('you can only take one domino from the bone yard each turn');
     }
@@ -176,6 +181,10 @@ class Game {
     // make sure it is the player's turn
     if (!this.isCurrentPlayer(playerId)) {
       throw new Error('It\'s not your turn');
+    }
+
+    if(this.winner) {
+      throw new Error('This game has ended.');
     }
 
     const fromHand = this.hands[playerId];
@@ -261,6 +270,11 @@ class Game {
     // indicate the player placed a domino
     this.currentTurn.extendedTrainId = toTrainId;
     this.currentTurn.dominoesPlayed += 1;
+
+    // end of game conditions
+    if (fromHand.dominoes.length === 0) {
+      this.winner = this.players[playerId];
+    }
   }
 
   endTurn(playerId) {
@@ -268,6 +282,10 @@ class Game {
     // make sure it is the player's turn
     if (!this.isCurrentPlayer(playerId)) {
       throw new Error('It\'s not your turn');
+    }
+
+    if(this.winner) {
+      throw new Error('This game has ended.');
     }
 
     if (!this.currentTurn.extendedTrainId && !this.currentTurn.takenFromBoneYard) {
@@ -312,8 +330,13 @@ class Game {
       currentTurn: this.currentTurn,
       myTurn: this.isCurrentPlayer(playerId),
       openDoubleValue: this.openDoubleValue,
-      playerSizes: this.playerOrder.map(({id}) => this.hands[id] ? this.hands[id].dominoes.length : 0)
+      playerSizes: this.playerOrder.map(({id}) => this.hands[id] ? this.hands[id].dominoes.length : 0),
+      winner: this.winner
     };
+  }
+
+  endGame() {
+    // TODO: tally scores and such then start a new game
   }
 }
 
