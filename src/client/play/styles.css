@@ -1,6 +1,7 @@
 body {
   font-family: monospace;
   background-color: wheat;
+  font-size: 16px;
 }
 
 .domino {
@@ -16,8 +17,7 @@ body {
 }
 
 .domino.vertical {
-  width: 25px;
-
+  width: 30px;
 }
 
 .domino.vertical .domino-top-half, .domino.vertical .domino-bottom-half {
@@ -28,22 +28,17 @@ body {
   border-bottom: 1px solid;
 }
 
-.domino.horizontal {
-  width: 50px;
-  margin: 3px 1px;
-}
-
 .domino.horizontal .domino-top-half, .domino.horizontal .domino-bottom-half {
   display: inline-block;
   height: 22px;
-  padding-top: 3px;
   line-height: 17px;
-  width: 15px;
+  width: 25px;
+  padding: 4px 3px 0 3px;
 }
 
 .domino.horizontal .domino-top-half {
   border-right: 1px solid;
-  padding-right: 5px;
+  padding-right: 3px;
 }
 
 .domino.empty {
@@ -57,11 +52,12 @@ body {
 .player-hand-region {
   position: fixed;
   bottom: 0;
-  background-color: #00000066;
+  background-color: #00000085;
   left: 0;
   right: 0;
   text-align: center;
   padding: 10px;
+  z-index: 1;
 }
 
 .player-hand-region .domino-list li{
@@ -79,6 +75,7 @@ body {
 
 .train-region .domino-list {
   list-style: none;
+  padding: 15px;
 }
 
 .train-region .domino-list li {
@@ -93,16 +90,29 @@ body {
 
 .train {
   position: relative;
+  white-space: nowrap;
 }
 
-.train.public:before {
-  content: "🚂";
-  font-size: 25px;
-  position: absolute;
-  top: 0;
-  left: 0;
+.train .train-info {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
 }
 
+.train .train-icon {
+  font-size: 45px;
+}
+
+.train .train-owner {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80px;
+}
+
+.train .domino-list {
+  display: inline-block;
+}
 .message {
   position: absolute;
   left: 50%;
@@ -116,12 +126,20 @@ body {
 }
 
 .players {
-  border: 1px solid;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   padding: 10px;
+  background-color: #00000085;
+  color: #fff;
+  border-radius: 2px;
+  z-index: 1;
 }
+
+.players h2 {
+  margin: 0 0 5px 0;
+}
+
 .players ol {
   margin: 0;
   padding: 0 0 0 20px;
