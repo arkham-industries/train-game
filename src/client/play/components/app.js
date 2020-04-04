@@ -23,6 +23,7 @@ Vue.component('app', {
         <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
         <domino-list
           v-bind:dominoes="game.hand"
+          v-bind:orientation="'vertical'"
           v-bind:selected-domino-index="selected.dominoIndex"
           v-on:domino-selected="onDominoSelectedFromHand($event)">
         </domino-list>
