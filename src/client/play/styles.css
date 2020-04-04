@@ -26,7 +26,7 @@ body {
 .player-hand-region {
   position: fixed;
   bottom: 0;
-  background-color: #0f0;
+  background-color: #009400;
   left: 0;
   right: 0;
   text-align: center;
@@ -34,6 +34,10 @@ body {
 
 .player-hand-region .domino-list li{
   display: inline-block;
+}
+
+.player-hand-region .your-turn-text {
+  color: #fff;
 }
 
 .player-hand-region .domino {
