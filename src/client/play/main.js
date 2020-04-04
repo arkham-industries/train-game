@@ -34,9 +34,11 @@ Vue.component('domino-list', {
 });
 
 Vue.component('train', {
-  props:['train', 'selectedTrain'],
+  props:['train', 'selectedTrain', 'myTrain'],
   template: `
-    <div class="train">
+    <div
+      class="train"
+      v-bind:class="{ public: train.public || myTrain }">
       <domino-list
         v-bind:dominoes="train.dominoes"
         v-bind:selected-domino-index="selectedTrain ? null : undefined"

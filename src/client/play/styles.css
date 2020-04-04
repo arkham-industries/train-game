@@ -54,6 +54,18 @@ body {
   margin: 0 3px;
 }
 
+.train {
+  position: relative;
+}
+
+.train.public:before {
+  content: "🚂";
+  font-size: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .message-region {
   position: absolute;
   left: 50%;

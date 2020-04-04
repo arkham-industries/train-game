@@ -302,6 +302,7 @@ class Game {
   getPlayerView(playerId) {
     return {
       id: this.id,
+      myPlayerId: playerId, 
       started: this.started,
       playerOrder: this.playerOrder,
       boneyardSize: this.boneyard.length,
