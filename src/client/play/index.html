@@ -12,7 +12,7 @@
           <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
           <button v-on:click="requestToStartGame()">Start!</button>
         </div>
-        <p v-if="!isPlayerOne">Waiting for first player to start game ...</button>
+        <p v-if="isPlayerOne === false">Waiting for first player to start game ...</button>
       </div>
       <players
         v-bind:player-order="game.playerOrder"
@@ -42,11 +42,9 @@
           v-on:domino-selected="onTrainSelected(train.id)">
         </train>
       </div>
-      <div
-        v-if="message"
-        class="message-region">
-        {{message}}
-      </div>
+      <message
+        v-bind:text="message.text"
+        v-bind:duration="message.duration"></message>
     </div>
     <script type="text/javascript" src="main.js"></script>
   </body>

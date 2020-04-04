@@ -64,6 +64,30 @@ Vue.component('players', {
   `
 });
 
+Vue.component('message', {
+  props:{
+    text: String,
+    duration: {
+      type: Number,
+      default: 4000
+    }
+  },
+  data: function() {
+    return { myText: undefined };
+  },
+  template: `
+    <div class="message" v-if="myText">{{ myText }}</div>
+  `,
+  watch: {
+    text: function() {
+      this.myText = this.text;
+      if (this.duration !== null) {
+        setTimeout(() => this.myText = undefined, this.duration);
+      }
+    }
+  }
+});
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -73,15 +97,15 @@ var app = new Vue({
       trainId: undefined,
     },
     selectedTrains: [],
-    message: undefined
+    message: {
+      text: undefined,
+      duration: undefined
+    }
   },
   created: function () {
     console.log('vue is created')
   },
   watch: {
-    game: function() {
-      console.log('vue heard game update', this.game);
-    },
     selected: {
       deep: true,
       handler: function() {
@@ -96,8 +120,8 @@ var app = new Vue({
         }
       }
     },
-    message: function() {
-      setTimeout(() => this.message = undefined, 4000);
+    'game.winner': function() {
+      this.message = { text: `Player ${game.winner.name} won!`, duration: null};
     }
   },
   methods: {
@@ -135,7 +159,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        this.message = err.message;
+        this.message = {text: err.message};
       });
     },
     requestToEndTurn: function() {
@@ -152,7 +176,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        this.message = err.message;
+        this.message = {text: err.message};
       });
     },
     requestToTakeDomino: function() {
@@ -169,7 +193,7 @@ var app = new Vue({
       })
       .then((game) => this.game = game)
       .catch((err) => {
-        this.message = err.message;
+        this.message = {text: err.message};
       });
     },
     requestToStartGame: function() {
@@ -184,7 +208,7 @@ var app = new Vue({
         }
       })
       .catch((err) => {
-        this.message = err.message;
+        this.message = {text: err.message};
       });
     }
   },
@@ -193,7 +217,7 @@ var app = new Vue({
       return this.game.id ? `${window.location.origin}/join/${this.game.id}` : '';
     },
     isPlayerOne: function() {
-      return this.game.playerOrder[0].id === this.game.myPlayerId
+      return this.game.playerOrder && this.game.playerOrder[0].id === this.game.myPlayerId
     }
   }
 })
