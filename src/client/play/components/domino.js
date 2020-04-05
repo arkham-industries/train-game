@@ -14,10 +14,11 @@ Vue.component('domino', {
           horizontal: orientation === 'horizontal', 
         }"
         v-on:click="$emit('domino-selected', domino)"
-        v-on:keyup.arrow-left="$emit('move-left', domino)"
-        v-on:keyup.arrow-right="$emit('move-right', domino)">
-        <div class="domino-top-half">{{domino ? domino[0] : '?'}}
-        </div><div class="domino-bottom-half">{{domino ? domino[1] : '?'}}
+        v-on:keyup.arrow-left.stop="$emit('move-left', domino)"
+        v-on:keyup.arrow-right.stop="$emit('move-right', domino)"
+        v-on:keyup.arrow-up="onFlip()">
+        <div class="domino-top-half">{{myDomino ? myDomino[0] : '?'}}
+        </div><div class="domino-bottom-half">{{myDomino ? myDomino[1] : '?'}}
         </div>
       </div>
       <div
@@ -34,14 +35,22 @@ Vue.component('domino', {
       </div>
     </div>
   `,
+  data: function() {
+    return { myDomino: undefined }
+  },
   created: function() {
-    console.log('domino', this.domino, this.orientation);
+    this.myDomino = this.domino;
   },
   watch: {
     selected: function() {
       if (this.selected) {
         this.$refs.domino.focus();
       }
+    }
+  },
+  methods: {
+    onFlip: function() {
+      this.myDomino = [this.myDomino[1], this.myDomino[0]];
     }
   }
 });
