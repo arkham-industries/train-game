@@ -37,3 +37,20 @@ function joinGame() {
   });
 
 }
+
+window.onload = function() {
+
+  // Allow a user to join game by pressing enter on name input
+  var input = document.getElementById("player-name");
+
+  // Execute a function when the user releases a key on the keyboard
+  input.addEventListener("keyup", function(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      // Cancel the default (form) action
+      event.preventDefault();
+      // Trigger the button element with a click
+      joinGame();
+    }
+  });
+}
