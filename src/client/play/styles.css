@@ -4,8 +4,8 @@ body {
   font-size: 16px;
 }
 
-.app {
-  padding-bottom: 200px;
+#app {
+  padding-bottom: 300px;
 }
 
 .domino-container {
@@ -97,7 +97,7 @@ body {
 
 .player-hand-region .domino {
   padding: 0px 3px;
-  margin: 5px 3px;
+  margin: 20px 3px;
 }
 
 .train-region .domino-list {
