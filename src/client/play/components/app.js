@@ -36,7 +36,10 @@ Vue.component('app', {
           End Turn
         </button>
       </div>
-      <div class="train-region">
+      <div
+        v-if="game.trains"
+        class="train-region">
+        <p>Boneyard: {{ game.boneyardSize }} dominoes</p>
         <train
           v-for="(train, index) in game.trains"
           v-bind:train="train"
