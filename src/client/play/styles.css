@@ -83,6 +83,10 @@ body {
   z-index: 1;
 }
 
+.player-hand-region .domino-list {
+  padding: 0;
+}
+
 .player-hand-region .domino-list li{
   display: inline-block;
 }
@@ -153,6 +157,10 @@ body {
   text-align: center;
 }
 
+.players-region {
+  display: relative;
+}
+
 .players {
   position: fixed;
   top: 0;
@@ -162,6 +170,12 @@ body {
   color: #fff;
   border-radius: 2px;
   z-index: 1;
+  min-width: 100px;
+  min-height: 15px;
+}
+
+.players.hidden {
+  top: calc(-100% -10px);
 }
 
 .players h2 {
@@ -171,6 +185,24 @@ body {
 .players ol {
   margin: 0;
   padding: 0 0 0 20px;
+}
+
+.player-content.hidden {
+  display: none;
+}
+
+.show-toggle-button {
+  text-align: center;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
 }
 
 .end-turn-button {
