@@ -5,7 +5,6 @@ Vue.component('domino', {
       class="domino-container">
       <div
         class="domino"
-        tabindex="0"
         ref="domino"
         v-bind:class="{
           empty: !domino,
@@ -13,10 +12,7 @@ Vue.component('domino', {
           vertical: orientation === 'vertical', 
           horizontal: orientation === 'horizontal', 
         }"
-        v-on:click="$emit('domino-selected', domino)"
-        v-on:keyup.arrow-left.stop="$emit('move-left', domino)"
-        v-on:keyup.arrow-right.stop="$emit('move-right', domino)"
-        v-on:keyup.arrow-up="onFlip()">
+        v-on:click="onClick()">
         <div class="domino-top-half">{{myDomino ? myDomino[0] : '?'}}
         </div><div class="domino-bottom-half">{{myDomino ? myDomino[1] : '?'}}
         </div>
@@ -51,6 +47,14 @@ Vue.component('domino', {
   methods: {
     onFlip: function() {
       this.myDomino = [this.myDomino[1], this.myDomino[0]];
+    },
+    onClick: function() {
+      if (!this.selected) {
+        this.$emit('domino-selected', this.domino)
+      } else {
+        this.onFlip();
+      }
+      
     }
   }
 });
