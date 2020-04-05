@@ -8,6 +8,28 @@ body {
   padding-bottom: 200px;
 }
 
+.domino-container {
+  position: relative;
+}
+
+.domino-container .left-arrow {
+  position: absolute;
+  top: -35px;
+  left: -18px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.domino-container .right-arrow {
+  position: absolute;
+  top: -35px;
+  right: -20px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+
 .domino {
   color: #4d4d46;
   border: 1px solid #c8c8bd;

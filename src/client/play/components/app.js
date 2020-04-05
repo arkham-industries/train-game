@@ -25,8 +25,9 @@ Vue.component('app', {
         <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
         <domino-list
           v-bind:dominoes="game.hand"
+          v-bind:sortable="true"
           v-bind:orientation="'vertical'"
-          v-bind:selected-domino-index="selected.dominoIndex"
+          v-bind:selected-domino="selected.domino"
           v-on:domino-selected="onDominoSelectedFromHand($event)">
         </domino-list>
         <button
@@ -52,7 +53,7 @@ Vue.component('app', {
     return {
       game: {},
       selected: {
-        dominoIndex: undefined,
+        domino: undefined,
         trainId: undefined,
       },
       selectedTrains: [],
@@ -76,12 +77,11 @@ Vue.component('app', {
       deep: true,
       handler: function() {
         console.log('selected', this.selected);
-        if (this.selected.dominoIndex === null) {
+        if (this.selected.domino === null) {
           this.requestToTakeDomino()
           .then(() => this.resetSelection());
-        } else if (this.selected.dominoIndex !== undefined && this.selected.trainId !== undefined) {
-          const domino = this.game.hand[this.selected.dominoIndex];
-          this.requestToConnectTrain(domino, this.selected.trainId)
+        } else if (this.selected.domino !== undefined && this.selected.trainId !== undefined) {
+          this.requestToConnectTrain(this.selected.domino, this.selected.trainId)
           .then(() => this.resetSelection());
         }
       }
@@ -96,7 +96,7 @@ Vue.component('app', {
       this.onTrainSelected(undefined);
     },
     onDominoSelectedFromHand: function ({domino, index}) {
-      this.selected.dominoIndex = index;
+      this.selected.domino = domino;
       console.log('this domino was selected!', domino, index);
     },
     onTrainSelected: function (trainId) {
