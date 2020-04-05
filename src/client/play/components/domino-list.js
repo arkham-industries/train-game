@@ -4,7 +4,9 @@ Vue.component('domino-list', {
     <ul
       v-if="myDominoes"
       class="domino-list">
-      <li v-for="(domino, index) in myDominoes">
+      <li
+        v-for="(domino, index) in myDominoes"
+        v-bind:key="domino[0] + '-' + domino[1]">
         <domino
         v-bind:domino="domino"
         v-bind:moveable="sortable"
@@ -39,7 +41,6 @@ Vue.component('domino-list', {
         return !this.myDominoes.some((domino) => this.isSameDomino(myDomino, domino));
       });
 
-      console.log('?', keptDominoes, extraDominoes)
       this.myDominoes = keptDominoes.concat(extraDominoes);
     }
   },
@@ -65,7 +66,6 @@ Vue.component('domino-list', {
         const maxIndex = this.myDominoes.length - 1;
         toIndex = fromIndex + 1 > maxIndex ? maxIndex : fromIndex + 1;
       }
-      console.log('moving', direction, fromIndex, toIndex);
       var domino = this.myDominoes.splice(fromIndex, 1)[0];
       this.myDominoes.splice(toIndex, 0, domino);
     },
