@@ -59,6 +59,7 @@ Vue.component('domino-list', {
       return (dominoA[0] === dominoB[0] && dominoA[1] === dominoB[1]) || (dominoA[0] === dominoB[1] && dominoA[1] === dominoB[0]);
     },
     onMove: function(direction, fromIndex) {
+      if (!this.sortable) { return; }
       let toIndex;
       if (direction === 'left') {
         toIndex = fromIndex - 1 < 0 ? 0 : fromIndex - 1;
