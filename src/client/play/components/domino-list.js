@@ -8,13 +8,13 @@ Vue.component('domino-list', {
         v-for="(domino, index) in myDominoes"
         v-bind:key="domino[0] + '-' + domino[1]">
         <domino
-        v-bind:domino="domino"
-        v-bind:moveable="sortable"
-        v-on:move-left="onMove('left', index)"
-        v-on:move-right="onMove('right', index)"
-        v-bind:orientation="getOrientation(domino)"
-        v-bind:selected="isSameDomino(selectedDomino, domino)"
-        v-on:domino-selected="$emit('domino-selected', {domino, index})">
+          v-bind:domino="domino"
+          v-bind:moveable="sortable"
+          v-on:move-left="onMove('left', index)"
+          v-on:move-right="onMove('right', index)"
+          v-bind:orientation="getOrientation(domino)"
+          v-bind:selected="isSameDomino(selectedDomino, domino)"
+          v-on:domino-selected="$emit('domino-selected', {domino, index})">
         </domino>
       </li>
       <li>
