@@ -1,7 +1,6 @@
 Vue.component('app', {
   template: `
     <div class="game">
-      <h1>Mexican Train! <a target="_blank" href="https://www.mastersofgames.com/rules/mexican-train-dominoes-rules.htm">Rules</a></h1>
       <div class="prestart-region">
         <div
           v-if="!game.started"
@@ -32,6 +31,7 @@ Vue.component('app', {
           v-on:domino-selected="onDominoSelectedFromHand($event)">
         </domino-list>
         <button
+          v-if="game.myTurn"
           v-on:click="onEndTurn()"
           class="big-button end-turn-button">
           End Turn
@@ -40,7 +40,7 @@ Vue.component('app', {
       <div
         v-if="game.trains"
         class="train-region">
-        <p>Boneyard: {{ game.boneyardSize }} dominoes</p>
+        <p class="boneyard-count">Boneyard: {{ game.boneyardSize }} dominoes</p>
         <train
           v-for="(train, index) in game.trains"
           v-bind:train="train"
