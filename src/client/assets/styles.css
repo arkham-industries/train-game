@@ -20,3 +20,17 @@ body {
   text-align: center;
   margin-top: -75px;
 }
+
+.big-button {
+  padding: 10px 40px;
+  border-radius: 3px;
+  background-color: #ffb252;
+  color: #fff;
+  box-shadow: 1px 1px #dfdddd;
+  cursor: pointer;
+}
+
+.big-button:hover {
+  box-shadow: none;
+  background-color: #fbc697;
+}

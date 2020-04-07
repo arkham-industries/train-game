@@ -4,10 +4,11 @@ Vue.component('app', {
       <h1>Mexican Train! <a target="_blank" href="https://www.mastersofgames.com/rules/mexican-train-dominoes-rules.htm">Rules</a></h1>
       <div class="prestart-region">
         <div
-          v-if="!game.started">
+          v-if="!game.started"
+          class="centered-container">
           <div v-if="isPlayerOne">
-            <p>invite: <span id="invite-link">{{ inviteUrl }}</span></p>
-            <button v-on:click="requestToStartGame()">Start!</button>
+            <p id="invite-link">{{ inviteUrl }}</p>
+            <button class="big-button" v-on:click="requestToStartGame()">Start Game!</button>
           </div>
           <p v-if="isPlayerOne === false">Waiting for first player to start game ...</p>
         </div>
@@ -32,7 +33,7 @@ Vue.component('app', {
         </domino-list>
         <button
           v-on:click="onEndTurn()"
-          class="end-turn-button">
+          class="big-button end-turn-button">
           End Turn
         </button>
       </div>

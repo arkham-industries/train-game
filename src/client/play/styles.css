@@ -89,6 +89,7 @@ button {
 
 .player-hand-region .domino-list {
   padding: 0;
+  margin: 0;
 }
 
 .player-hand-region .domino-list li{
@@ -126,6 +127,10 @@ button {
 .train {
   position: relative;
   white-space: nowrap;
+  background-color: #ffb590eb;
+  margin: 10px 0;
+  border-radius: 5px;
+  box-shadow: 2px 2px #ffcfcd;
 }
 
 .train .train-info {
@@ -148,6 +153,10 @@ button {
 
 .train .domino-list {
   display: inline-block;
+}
+
+.mexican-train .train-owner {
+  font-size: 30px;
 }
 
 .message {
@@ -211,5 +220,6 @@ button {
 }
 
 .end-turn-button {
-  padding: 5px 30px;
+  padding: 10px 50px;
+  font-size: 16px;
 }

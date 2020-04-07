@@ -3,10 +3,12 @@ Vue.component('train', {
   template: `
     <div
       class="train"
-      v-bind:class="{ public: train.public || myTrain }">
+      v-bind:class="{ public: train.public || myTrain, 'mexican-train': !train.owner  }">
       <div class="train-info">
         <div v-if="train.public || myTrain" class="train-icon">🚂</div>
-        <div class="train-owner">{{train.owner ? train.owner.name : '🤠'}}</div>
+        <div class="train-owner">
+          {{train.owner ? train.owner.name : '🤠'}}
+        </div>
       </div>
       <domino-list
         v-bind:dominoes="train.dominoes"
