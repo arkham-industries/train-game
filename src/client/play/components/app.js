@@ -38,7 +38,7 @@ Vue.component('app', {
         </button>
       </div>
       <div
-        v-if="game.trains"
+        v-if="game.trains && game.trains.length > 0"
         class="train-region">
         <p class="boneyard-count">Boneyard: {{ game.boneyardSize }} dominoes</p>
         <train
