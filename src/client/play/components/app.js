@@ -27,6 +27,7 @@ Vue.component('app', {
           v-bind:dominoes="game.hand"
           v-bind:sortable="true"
           v-bind:orientation="'vertical'"
+          v-bind:hide-question-mark-domino="!game.myTurn"
           v-bind:selected-domino="selected.domino"
           v-on:domino-selected="onDominoSelectedFromHand($event)">
         </domino-list>
@@ -43,6 +44,7 @@ Vue.component('app', {
         <p class="boneyard-count">Boneyard: {{ game.boneyardSize }} dominoes</p>
         <train
           v-for="(train, index) in game.trains"
+          v-bind:my-turn="game.myTurn"
           v-bind:train="train"
           v-bind:selected-train="selectedTrains[index]"
           v-bind:my-train="train.owner && train.owner.id === game.myPlayerId"

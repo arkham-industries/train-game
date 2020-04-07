@@ -73,8 +73,8 @@ button {
 
 .domino.empty {
   border: 2px dashed #4dc600;
+  background-color: #d2ffd2;
 }
-
 
 .player-hand-region {
   position: fixed;
