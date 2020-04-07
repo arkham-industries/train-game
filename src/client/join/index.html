@@ -1,14 +1,16 @@
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="/assets/styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script type="text/javascript" src="main.js"></script>
   </head>
   <body>
-    <h1>Join!</h1>
-    <form class="join-form" action="javascript:void(0);"></form>
-      <label for="player-name">Enter name:</label>
-      <input id="player-name" type="text" name="playerName" />
-      <input type="button" value="Join Game!" onclick="joinGame()" />
-    </form>
-    <div id="error-message"></div>
+    <div class="centered-container">
+      <h1><span>¡</span>Tren Mexicano!</h1>
+      <form class="join-form" action="javascript:void(0);"></form>
+        <input placeholder="Enter name" id="player-name" type="text" name="playerName" />
+      </form>
+      <div id="error-message"></div>
+    </div>
   </body>
 </html>
