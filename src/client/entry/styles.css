@@ -1,0 +1,38 @@
+body {
+  background: url("/assets/train-background.svg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+h1 {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.main-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #662928bf;
+  border: 1px solid #491915;
+  padding: 15px;
+  border-radius: 3px;
+  color: white;
+  text-align: center;
+}
+
+.start-button {
+  padding: 10px 40px;
+  border-radius: 3px;
+  background-color: #ffb252;
+  color: #fff;
+  box-shadow: 1px 1px #dfdddd;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  box-shadow: none;
+  background-color: #fbc697;
+}
