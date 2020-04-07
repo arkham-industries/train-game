@@ -6,7 +6,7 @@ const Game = require('./game').Game;
 
 const app = express();
 
-// a in-memory cache of all games
+// an in-memory cache of all games
 const games = {};
 
 const sendGameState = ({game, player}, res) => {
@@ -30,6 +30,14 @@ const sendGameError = (error, res) => {
   res.status(400).json({ message: error.message });
 }
 
+const createUniqueJoinCode = () => {
+  // https://stackoverflow.com/a/38622545
+  const code = Math.random().toString(36).substr(2, 5).toUpperCase();
+  const existingCode = Object.values(games).some((game) => game.joinCode === code);
+  return existingCode ? createUniqueJoinCode() : code;
+};
+
+
 // static pages
 app.use('/', express.static('src/client/entry'));
 app.use('/join/:id', express.static('src/client/join'));
@@ -48,16 +56,17 @@ app.use(cookieSession({
 }));
 
 // create a game
-app.post('/game', (req, res) => {  
-  const game = new Game();
+app.post('/game', (req, res) => { 
+  const joinCode = createUniqueJoinCode(); 
+  const game = new Game({joinCode});
   games[game.id] = game;
   console.log('>>> created a game', game.id);
   res.send(game);
 });
 
 // create a player in a game
-app.post('/game/:gameId/join', (req, res) => {
-  const game = games[req.params.gameId];
+app.post('/game/:joinCode/join', (req, res) => {
+  const game = Object.values(games).find((game) => game.joinCode === req.params.joinCode);
   const name = req.body.name;
   if (!game) {
     res.status(400).json({ message: 'Game does not exist' });

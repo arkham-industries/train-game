@@ -64,6 +64,7 @@ class Game {
 
   started = false;
   id = uuid();
+  joinCode = null;
   created_at = new Date();
   updated_at = new Date();
   turnCount = 0;
@@ -82,6 +83,11 @@ class Game {
   players = {};
   hands = {};
   winner = undefined;
+
+  constructor({joinCode}) {
+    if (!joinCode) { throw new Error('a join code must be provided to create a game'); }
+    this.joinCode = joinCode;
+  }
 
   addPlayer(player) {
     this.players[player.id] = player;
@@ -319,7 +325,7 @@ class Game {
 
   getPlayerView(playerId) {
     return {
-      id: this.id,
+      joinCode: this.joinCode,
       myPlayerId: playerId, 
       started: this.started,
       playerOrder: this.playerOrder,

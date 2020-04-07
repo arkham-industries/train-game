@@ -19,7 +19,7 @@ describe('Game', () => {
   let game;
 
   beforeEach(() => {
-    game = new Game();
+    game = new Game({ joinCode: 'my-join-code' });
   });
 
   it('should exist', () => {
@@ -62,6 +62,7 @@ describe('Game', () => {
       expect(game.boneyard.length).toBeGreaterThan(0);
       expect(Object.keys(game.hands).length).toBe(2);
       expect(game.started).toBe(true);
+      expect(game.joinCode).toBe('my-join-code');
       expect(game.centerDominoValue).toEqual(centerDominoValue);
       expect(game.isCurrentPlayer(mockPlayers[0].id)).toBe(true);
     });

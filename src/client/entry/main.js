@@ -1,5 +1,5 @@
-function showLink(gameId) {
-  const url = `/join/${gameId}`;
+function showLink(joinCode) {
+  const url = `/join/${joinCode}`;
   document.getElementById('join-link').setAttribute('href', url);
   document.getElementById('join-link').text = 'Join Game';
 }
@@ -10,9 +10,7 @@ function startGame() {
     return response.json();
   })
   .then((json) => {
-    console.log('create game response', json);
-    gameId = json.id;
-    showLink(gameId);
+    showLink(json.joinCode);
   });
 }
 
