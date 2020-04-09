@@ -1,5 +1,5 @@
 Vue.component('train', {
-  props:['train', 'selectedTrain', 'myTrain', 'myTurn'],
+  props:['train', 'selectedTrain', 'myTrain', 'myTurn', 'openDoubleValue'],
   template: `
     <div
       class="train"
@@ -13,11 +13,17 @@ Vue.component('train', {
       <domino-list
         v-bind:dominoes="train.dominoes"
         v-bind:rotate-doubles="true"
-        v-bind:hide-extra-domino="!myTurn || (!train.public && !myTrain)"
+        v-bind:hide-extra-domino="!myTurn || (!train.public && !myTrain && !isOpenDouble)"
         v-bind:orientation="'horizontal'"
         v-bind:selected-domino-index="selectedTrain ? null : undefined"
         v-on:domino-selected="$emit('domino-selected', $event)">
       </domino-list>
     </div>
   `,
+  computed: {
+    isOpenDouble() {
+      const lastDomino = this.train.dominoes[this.train.dominoes.length - 1];
+      return this.openDoubleValue === lastDomino[0] && this.openDoubleValue === lastDomino[1];
+    }
+  }
 });
