@@ -300,7 +300,7 @@ class Game {
     }
 
     const canTakeDomino = this.boneyard.length > 0;
-    if (!this.currentTurn.extendedTrainId && (canTakeDomino && !this.currentTurn.takenFromBoneYard)) {
+    if (!this.currentTurn.extendedTrainId && !(canTakeDomino && this.currentTurn.takenFromBoneYard)) {
       throw new Error('you must place a tile and/or take a tile from the boneyard');
     }
 
@@ -315,6 +315,8 @@ class Game {
     if (this.currentTurn.takenFromBoneYard && !this.currentTurn.extendedTrainId) {
       playerTrain.public = true;
     }
+
+    // record the no action
 
     if (this.currentTurn.index === this.playerOrder.length - 1) {
       this.currentTurn.index = 0;
