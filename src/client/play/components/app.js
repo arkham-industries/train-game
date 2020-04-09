@@ -27,8 +27,9 @@ Vue.component('app', {
           v-bind:dominoes="game.hand"
           v-bind:sortable="true"
           v-bind:orientation="'vertical'"
-          v-bind:hide-question-mark-domino="!game.myTurn"
+          v-bind:hide-extra-domino="!game.myTurn"
           v-bind:selected-domino="selected.domino"
+          v-bind:extra-domino-type="'add'"
           v-on:domino-selected="onDominoSelectedFromHand($event)">
         </domino-list>
         <button

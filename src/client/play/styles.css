@@ -76,6 +76,24 @@ button {
   background-color: #d2ffd2;
 }
 
+.domino.add {
+  border: 2px dashed #a5a5a5;
+  font-size: 32px;
+  color: #4d4d46;
+  height: 55px;
+  line-height: 55px;
+  vertical-align: bottom;
+}
+
+.domino.add:after {
+  content: "draw";
+  position: absolute;
+  bottom: -40px;
+  left: 1px;
+  font-size: 18px;
+  color: #fff;
+}
+
 .player-hand-region {
   position: fixed;
   bottom: 0;
@@ -94,6 +112,7 @@ button {
 
 .player-hand-region .domino-list li{
   display: inline-block;
+  vertical-align: bottom;
 }
 
 .player-hand-region .domino.selected {
@@ -222,6 +241,7 @@ button {
 .end-turn-button {
   padding: 10px 50px;
   font-size: 16px;
+  margin-top: 5px;
 }
 
 .boneyard-count {

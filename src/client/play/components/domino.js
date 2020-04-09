@@ -1,9 +1,16 @@
 Vue.component('domino', {
-  props:['domino', 'selected', 'orientation', 'moveable'],
+  props:['domino', 'selected', 'orientation', 'moveable', 'defaultSymbol', 'specialType'],
   template: `
     <div
       class="domino-container">
       <div
+        v-if="specialType === 'add'"
+        class="domino vertical add"
+        v-on:click="onClick()">
+        +
+      </div>
+      <div
+        v-else
         class="domino"
         ref="domino"
         v-bind:class="{
@@ -13,8 +20,8 @@ Vue.component('domino', {
           horizontal: orientation === 'horizontal', 
         }"
         v-on:click="onClick()">
-        <div class="domino-top-half">{{myDomino ? myDomino[0] : '?'}}
-        </div><div class="domino-bottom-half">{{myDomino ? myDomino[1] : '?'}}
+        <div class="domino-top-half">{{myDomino ? myDomino[0] : ''}}
+        </div><div class="domino-bottom-half">{{myDomino ? myDomino[1] : ''}}
         </div>
       </div>
       <div

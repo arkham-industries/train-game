@@ -1,5 +1,5 @@
 Vue.component('domino-list', {
-  props:['dominoes', 'selectedDomino', 'orientation', 'rotateDoubles', 'sortable', 'hideQuestionMarkDomino'],
+  props:['dominoes', 'selectedDomino', 'orientation', 'rotateDoubles', 'sortable', 'hideExtraDomino', 'extraDominoType'],
   template: `
     <ul
       v-if="myDominoes"
@@ -19,7 +19,8 @@ Vue.component('domino-list', {
       </li>
       <li>
         <domino
-          v-if="!hideQuestionMarkDomino"
+          v-if="!hideExtraDomino"
+          v-bind:special-type="extraDominoType"
           v-bind:orientation="orientation"
           v-bind:selected="selectedDomino === null"
           v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">

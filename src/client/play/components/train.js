@@ -13,7 +13,7 @@ Vue.component('train', {
       <domino-list
         v-bind:dominoes="train.dominoes"
         v-bind:rotate-doubles="true"
-        v-bind:hide-question-mark-domino="!myTurn || (!train.public && !myTrain)"
+        v-bind:hide-extra-domino="!myTurn || (!train.public && !myTrain)"
         v-bind:orientation="'horizontal'"
         v-bind:selected-domino-index="selectedTrain ? null : undefined"
         v-on:domino-selected="$emit('domino-selected', $event)">
