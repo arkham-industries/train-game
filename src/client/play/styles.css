@@ -130,7 +130,7 @@ button {
 
 .train-region .domino-list {
   list-style: none;
-  padding: 10px;
+  padding: 0px 10px;
 }
 
 .train-region .domino-list li {
