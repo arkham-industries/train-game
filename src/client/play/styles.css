@@ -76,7 +76,7 @@ button {
   background-color: #d2ffd2;
 }
 
-.domino.add {
+.domino-container.add .domino {
   border: 2px dashed #a5a5a5;
   font-size: 32px;
   color: #4d4d46;
@@ -85,11 +85,11 @@ button {
   vertical-align: bottom;
 }
 
-.domino.add:after {
+.domino-container.add:after {
   content: "draw";
   position: absolute;
-  bottom: -45px;
-  left: 4px;
+  bottom: -20px;
+  left: 5px;
   font-size: 18px;
   color: #fff;
 }

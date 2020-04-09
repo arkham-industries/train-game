@@ -2,10 +2,11 @@ Vue.component('domino', {
   props:['domino', 'selected', 'orientation', 'moveable', 'defaultSymbol', 'specialType'],
   template: `
     <div
-      class="domino-container">
+      class="domino-container"
+      v-bind:class="{add: specialType === 'add'}">
       <div
         v-if="specialType === 'add'"
-        class="domino vertical add"
+        class="domino vertical"
         v-on:click="onClick()">
         +
       </div>
