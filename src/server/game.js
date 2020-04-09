@@ -168,6 +168,10 @@ class Game {
 
     if (this.currentTurn.extendedTrainId && this.openDoubleValue === null) {
       throw new Error('you cannot take from the boneyard once a domino was placed');
+    } 
+
+    if (this.boneyard.length === 0) {
+      throw new Error('there are no more dominoes in the boneyard');
     }
 
     const hand = this.hands[playerId];
@@ -294,7 +298,8 @@ class Game {
       throw new Error('This game has ended.');
     }
 
-    if (!this.currentTurn.extendedTrainId && !this.currentTurn.takenFromBoneYard) {
+    const canTakeDomino = this.boneyard.length > 0;
+    if (!this.currentTurn.extendedTrainId && (canTakeDomino && !this.currentTurn.takenFromBoneYard)) {
       throw new Error('you must place a tile and/or take a tile from the boneyard');
     }
 

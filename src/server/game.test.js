@@ -91,6 +91,11 @@ describe('Game', () => {
         expect(() => game.takeDominoFromBoneYard(mockPlayers[0].id)).toThrow();
       });
   
+      it('should not allow the active player to take from boneyard when no dominoes are left',  () => {
+        game.boneyard = [];
+        expect(() => game.takeDominoFromBoneYard(mockPlayers[0].id)).toThrow();
+      });
+
       it('should remove a domino from the boneyard and put it in the player\'s hand',  () => {
         const boneyardLength = game.boneyard.length;
         const playerDominoes = game.hands[mockPlayers[0].id].dominoes;
