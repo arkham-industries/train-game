@@ -13,7 +13,7 @@ Vue.component('train', {
       <domino-list
         v-bind:dominoes="train.dominoes"
         v-bind:rotate-doubles="true"
-        v-bind:hide-extra-domino="!myTurn || (!train.public && !myTrain && !isOpenDouble)"
+        v-bind:hide-extra-domino="!showExtraDouble"
         v-bind:orientation="'horizontal'"
         v-bind:selected-domino-index="selectedTrain ? null : undefined"
         v-on:domino-selected="$emit('domino-selected', $event)">
@@ -24,6 +24,16 @@ Vue.component('train', {
     isOpenDouble() {
       const lastDomino = this.train.dominoes[this.train.dominoes.length - 1];
       return this.openDoubleValue === lastDomino[0] && this.openDoubleValue === lastDomino[1];
+    },
+    showExtraDouble() {
+      const openDoublePresent = this.openDoubleValue !== null && this.openDoubleValue !== undefined;
+      if (openDoublePresent) {
+        // only highlight the open double on the player's turn
+        return this.myTurn && this.isOpenDouble;
+      } else {
+        // highlight the playable trains on the player's turn
+        return this.myTurn && (this.train.public || this.myTrain);
+      }
     }
   }
 });
