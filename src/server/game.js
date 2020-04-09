@@ -63,6 +63,7 @@ const dominoesPerPlayer = {
 class Game {
 
   started = false;
+  ended = false;
   id = uuid();
   joinCode = null;
   created_at = new Date();
@@ -82,7 +83,6 @@ class Game {
   trains = [];
   players = {};
   hands = {};
-  winner = undefined;
 
   constructor({joinCode}) {
     if (!joinCode) { throw new Error('a join code must be provided to create a game'); }
@@ -90,7 +90,7 @@ class Game {
   }
 
   addPlayer(player) {
-    player.score = 0;
+    player.scores = [];
     this.players[player.id] = player;
     this.playerOrder = this.getPlayers();
   }
@@ -159,7 +159,7 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
-    if(this.winner) {
+    if (this.ended) {
       throw new Error('This game has ended.');
     }
 
@@ -194,7 +194,7 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
-    if(this.winner) {
+    if (this.ended) {
       throw new Error('This game has ended.');
     }
 
@@ -284,7 +284,7 @@ class Game {
 
     // end of game conditions
     if (fromHand.dominoes.length === 0) {
-      this.winner = this.players[playerId];
+      this.endGame();
     }
   }
 
@@ -295,7 +295,7 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
-    if(this.winner) {
+    if (this.ended) {
       throw new Error('This game has ended.');
     }
 
@@ -345,19 +345,24 @@ class Game {
       myTurn: this.isCurrentPlayer(playerId),
       openDoubleValue: this.openDoubleValue,
       playerSizes: this.playerOrder.map(({id}) => this.hands[id] ? this.hands[id].dominoes.length : 0),
-      winner: this.winner
+      ended: this.ended
     };
   }
 
   endGame() {
+    this.ended = true;
+    this.started = false;
+    // tally scores
     this.playerOrder.forEach((player) => {
       const hand = this.hands[player.id];
-      const currentScore = this.players[player.id].score;
-      this.players[player.id].score = hand.dominoes.reduce((acc, domino) => {
+      
+      const value = hand.dominoes.reduce((acc, domino) => {
         return acc += domino[0] + domino[1];
-      }, currentScore);
+      }, 0);
+
+      this.players[player.id].scores.push({ value });
     });
-    this.started = false;
+
   }
 }
 

@@ -362,17 +362,22 @@ describe('Game', () => {
     });
 
     describe('endGame', () => {
+      it('should set the game to ended', () => {
+        game.endGame();
+        expect(game.ended).toBe(true);
+      });
+
+
       it('should set the game to not started', () => {
         game.endGame();
         expect(game.started).toBe(false);
       });
 
       it('should tally the scores', () => {
-        const expectedScore = 17;
-        game.players[mockPlayers[0].id].score = 1;
+        const expectedScore = 16;
         game.hands[mockPlayers[0].id].dominoes = [[12,3],[0,1]];
         game.endGame();
-        expect(game.players[mockPlayers[0].id].score).toBe(expectedScore);
+        expect(game.players[mockPlayers[0].id].scores[0].value).toBe(expectedScore);
       });
     });
   });
