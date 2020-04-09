@@ -104,21 +104,33 @@ class Game {
   }
 
   isCurrentPlayer(playerId) {
-    return this.playerOrder.length ? this.playerOrder[this.currentTurn.index].id === playerId : false;
+    const currentPlayer = this.playerOrder.length && this.playerOrder[this.currentTurn.index];
+    return currentPlayer ? currentPlayer.id === playerId : false;
   }
 
-  start({ centerDominoValue }) {
-    const numberOfDominoes = dominoesPerPlayer[this.playerOrder.length];
+  updateCenterDominoValue() {
+    if (this.centerDominoValue === null) {
+      this.centerDominoValue = 12;
+    } else if (this.centerDominoValue === 0) {
+      throw new Error('center domino value at zero!');
+    } else {
+      this.centerDominoValue -= 1;
+    }
+  }
 
-    if (this.started) {
-      throw new Error('game has already started!');
+  start() {
+    const numberOfDominoes = dominoesPerPlayer[this.playerOrder.length];
+   
+    if (this.started && !this.ended) {
+      throw new Error('game is currently in progress!');
     } else if (this.playerOrder.length < 2) {
       throw new Error('You need at least two players to start!');
     }
     
-    this.centerDominoValue = centerDominoValue;
-    
-    const shuffledDominoes = _.shuffle(createDominoes(centerDominoValue));
+    this.ended = false;
+    this.updateCenterDominoValue();
+  
+    const shuffledDominoes = _.shuffle(createDominoes(this.centerDominoValue));
 
     // setup player hands
     this.playerOrder.forEach((player) => {
@@ -136,7 +148,7 @@ class Game {
       return {
         id: uuid(),
         owner: player,
-        dominoes: [[centerDominoValue, centerDominoValue]],
+        dominoes: [[this.centerDominoValue, this.centerDominoValue]],
         public: false
       };
     });
@@ -145,7 +157,7 @@ class Game {
     this.trains.push({
       id: uuid(),
       owner: null,
-      dominoes: [[centerDominoValue, centerDominoValue]],
+      dominoes: [[this.centerDominoValue, this.centerDominoValue]],
       public: true
     });
 
@@ -351,15 +363,13 @@ class Game {
 
   endGame() {
     this.ended = true;
-    this.started = false;
+    this.currentTurn.index = -1;
     // tally scores
     this.playerOrder.forEach((player) => {
       const hand = this.hands[player.id];
-      
       const value = hand.dominoes.reduce((acc, domino) => {
         return acc += domino[0] + domino[1];
       }, 0);
-
       this.players[player.id].scores.push({ value });
     });
 

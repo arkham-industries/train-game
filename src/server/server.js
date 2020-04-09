@@ -122,7 +122,7 @@ app.post('/my/game/start', (req, res) => {
   try {
     const {game, player} = validateSession(req.session);
     // try to start the game
-    game.start({ centerDominoValue: 12 });
+    game.start();
     // the game started, free up the join code
     delete game.joinCode;
     console.log(`>>> started game ${game.id}`);
