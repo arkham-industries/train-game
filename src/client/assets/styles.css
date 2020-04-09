@@ -19,6 +19,7 @@ body {
   color: white;
   text-align: center;
   margin-top: -75px;
+  z-index: 2;
 }
 
 .big-button {

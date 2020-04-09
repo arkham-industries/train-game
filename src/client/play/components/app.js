@@ -12,6 +12,24 @@ Vue.component('app', {
           <p v-if="isPlayerOne === false">Waiting for first player to start game ...</p>
         </div>
       </div>
+      <div class="ended-region">
+        <div
+          v-if="game.ended"
+          class="centered-container">
+          <h1>Round Ended!</h1>
+          <table class="game-summary">
+            <tr v-for="player in game.playerOrder">
+              <td>{{ player.name }}</td>
+              <td 
+                v-for="score in player.scores"
+                class="score-cell">
+                {{score.value}}
+              </td>
+            </tr>
+          </table>
+          <button class="big-button" v-on:click="requestToStartGame()">Start Next Round!</button>
+        </div>
+      </div>
       <div class="players-region">
         <players
           v-bind:player-order="game.playerOrder"

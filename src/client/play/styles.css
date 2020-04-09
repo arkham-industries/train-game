@@ -248,3 +248,20 @@ button {
 .boneyard-count {
   color: #fff;
 }
+
+table.game-summary {
+  color: #fff;
+  margin: 0px auto 20px auto;
+  font-size: 16px;
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+table.game-summary td {
+  padding: 5px; 
+  border: 1px solid;
+}
+table.game-summary td.score-cell {
+  width: 40px;
+  text-align: center;
+}
