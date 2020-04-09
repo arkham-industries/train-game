@@ -90,6 +90,7 @@ class Game {
   }
 
   addPlayer(player) {
+    player.score = 0;
     this.players[player.id] = player;
     this.playerOrder = this.getPlayers();
   }
@@ -347,7 +348,14 @@ class Game {
   }
 
   endGame() {
-    // TODO: tally scores and such then start a new game
+    this.playerOrder.forEach((player) => {
+      const hand = this.hands[player.id];
+      const currentScore = this.players[player.id].score;
+      this.players[player.id].score = hand.dominoes.reduce((acc, domino) => {
+        return acc += domino[0] + domino[1];
+      }, currentScore);
+    });
+    this.started = false;
   }
 }
 

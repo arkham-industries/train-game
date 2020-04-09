@@ -360,6 +360,21 @@ describe('Game', () => {
         expect(game.trains[0].public).toBe(false);
       })
     });
+
+    describe('endGame', () => {
+      it('should set the game to not started', () => {
+        game.endGame();
+        expect(game.started).toBe(false);
+      });
+
+      it('should tally the scores', () => {
+        const expectedScore = 17;
+        game.players[mockPlayers[0].id].score = 1;
+        game.hands[mockPlayers[0].id].dominoes = [[12,3],[0,1]];
+        game.endGame();
+        expect(game.players[mockPlayers[0].id].score).toBe(expectedScore);
+      });
+    });
   });
 
 
