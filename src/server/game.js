@@ -76,6 +76,7 @@ class Game {
     playedDouble: false,
     dominoesPlayed: 0
   };
+  gamesPlayed = 0;
   centerDominoValue = null;
   openDoubleValue = null;
   playerOrder = [];
@@ -119,7 +120,6 @@ class Game {
   }
 
   start() {
-    const numberOfDominoes = dominoesPerPlayer[this.playerOrder.length];
    
     if (this.started && !this.ended) {
       throw new Error('game is currently in progress!');
@@ -131,6 +131,18 @@ class Game {
     this.updateCenterDominoValue();
   
     const shuffledDominoes = _.shuffle(createDominoes(this.centerDominoValue));
+    const numberOfDominoes = dominoesPerPlayer[this.playerOrder.length];
+
+    // shift player order
+    if (this.gamesPlayed > 0) {
+      this.playerOrder = this.playerOrder.map((player, i) => {
+        if (this.playerOrder[i+1]) {
+          return this.playerOrder[i+1];
+        } else {
+          return this.playerOrder[0];
+        }
+      });
+    };
 
     // setup player hands
     this.playerOrder.forEach((player) => {
@@ -363,6 +375,7 @@ class Game {
 
   endGame() {
     this.ended = true;
+    this.gamesPlayed += 1;
     this.currentTurn.index = -1;
     // tally scores
     this.playerOrder.forEach((player) => {
