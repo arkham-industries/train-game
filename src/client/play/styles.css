@@ -150,6 +150,7 @@ button {
   margin: 10px 0;
   border-radius: 5px;
   box-shadow: 2px 2px #ffcfcd;
+  display: table;
 }
 
 .train .train-info {
