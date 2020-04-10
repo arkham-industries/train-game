@@ -121,12 +121,14 @@ class Game {
       throw new Error('You need at least two players to start!');
     }
 
+    // try to update center domino value
+    this.updateCenterDominoValue();
+
     // reset things
     this.started = true;
     this.ended = false;
     this.openDoubleValue = null;
     this.turnCount = 0;
-    this.updateCenterDominoValue();
     this.currentTurn = {
       index: 0,
       extendedTrainId: null,
