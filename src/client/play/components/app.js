@@ -6,7 +6,7 @@ Vue.component('app', {
           v-if="!game.started"
           class="centered-container">
           <div v-if="isPlayerOne">
-            <p>Invite other players!</p>
+            <p>Invite players by sending link!</p>
             <p id="invite-link">{{ inviteUrl }}</p>
             <button class="big-button" v-on:click="requestToStartGame()">Start Game!</button>
           </div>
@@ -55,7 +55,6 @@ Vue.component('app', {
           v-for="(train, index) in game.trains"
           v-bind:my-turn="game.myTurn"
           v-bind:train="train"
-          v-bind:selected-train="selectedTrains[index]"
           v-bind:my-train="train.owner && train.owner.id === game.myPlayerId"
           v-bind:open-double-value="game.openDoubleValue"
           v-bind:key="train.id"
@@ -90,37 +89,24 @@ Vue.component('app', {
       })
     }, 2000);
   },
-  watch: {
-    selected: {
-      deep: true,
-      handler: function() {
-        console.log('selected', this.selected);
-        if (this.selected.domino === null) {
-          this.requestToTakeDomino()
-          .then(() => this.resetSelection());
-        } else if (this.selected.domino !== undefined && this.selected.trainId !== undefined) {
-          this.requestToConnectTrain(this.selected.domino, this.selected.trainId)
-          .then(() => this.resetSelection());
-        }
-      }
-    },
-    'game.winner': function() {
-      this.message = { text: `Player ${game.winner.name} won!`, duration: null};
-    }
-  },
   methods: {
     resetSelection: function() {
       this.onDominoSelectedFromHand({domino: undefined, index: undefined});
-      this.onTrainSelected(undefined);
     },
     onDominoSelectedFromHand: function ({domino, index}) {
-      this.selected.domino = domino;
-      console.log('this domino was selected!', domino, index);
+      if (domino === null) {
+        this.requestToTakeDomino();
+      } else {
+        this.selected.domino = domino;
+      }
     },
     onTrainSelected: function (trainId) {
-      this.selected.trainId = trainId;
-      this.selectedTrains = this.game.trains.map((train) => train.id === trainId);
-      console.log('this train was selected!', trainId);
+      if (this.selected.domino !== undefined) {
+        this.requestToConnectTrain(this.selected.domino, trainId)
+        .then(() => this.resetSelection());
+      } else {
+        this.message = {text: 'Choose a domino from your hand before selecting a place on a train.'};
+      }
     },
     onEndTurn: function() {
       this.requestToEndTurn();
