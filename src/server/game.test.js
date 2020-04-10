@@ -361,24 +361,50 @@ describe('Game', () => {
       })
     });
 
-    describe('endGame', () => {
+    describe('end', () => {
       it('should set the game to ended', () => {
-        game.endGame();
+        game.end();
         expect(game.ended).toBe(true);
-      });
-
-
-      it('should set the game to not started', () => {
-        game.endGame();
-        expect(game.started).toBe(false);
       });
 
       it('should tally the scores', () => {
         const expectedScore = 16;
         game.hands[mockPlayers[0].id].dominoes = [[12,3],[0,1]];
-        game.endGame();
+        game.end();
         expect(game.players[mockPlayers[0].id].scores[0].value).toBe(expectedScore);
       });
+
+      it('should increment the games played when a game ends', () => {
+        game.end();
+        expect(game.gamesPlayed).toBe(1);
+      });
+
+      it('should set the turn index to a player that does not exist', () => {
+        game.end();
+        expect(game.currentTurn.index).toBe(-1);
+      });
+
+    });
+
+    describe('the next game', () => {
+
+      it('should allow the player to start a new game', () => {
+        game.end();
+        game.start();
+      });
+
+      it('should decrement the center domino value of the next game', () => {
+        game.end();
+        game.start();
+        expect(game.centerDominoValue).toBe(11);
+      });
+      
+      it('should rotate the players on each round', () => {
+        game.end();
+        game.start();
+        expect(game.playerOrder[0]).toBe(mockPlayers[1]);
+      });
+
     });
   });
 

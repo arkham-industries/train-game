@@ -62,20 +62,14 @@ const dominoesPerPlayer = {
 
 class Game {
 
-  started = false;
-  ended = false;
+  started = null;
+  ended = null;
   id = uuid();
   joinCode = null;
   created_at = new Date();
   updated_at = new Date();
   turnCount = 0;
-  currentTurn = {
-    index: 0,
-    extendedTrainId: null,
-    takenFromBoneYard: false,
-    playedDouble: false,
-    dominoesPlayed: 0
-  };
+  currentTurn = null;
   gamesPlayed = 0;
   centerDominoValue = null;
   openDoubleValue = null;
@@ -126,10 +120,21 @@ class Game {
     } else if (this.playerOrder.length < 2) {
       throw new Error('You need at least two players to start!');
     }
-    
+
+    // reset things
+    this.started = true;
     this.ended = false;
+    this.openDoubleValue = null;
+    this.turnCount = 0;
     this.updateCenterDominoValue();
-  
+    this.currentTurn = {
+      index: 0,
+      extendedTrainId: null,
+      takenFromBoneYard: false,
+      playedDouble: false,
+      dominoesPlayed: 0
+    };
+
     const shuffledDominoes = _.shuffle(createDominoes(this.centerDominoValue));
     const numberOfDominoes = dominoesPerPlayer[this.playerOrder.length];
 
@@ -173,7 +178,6 @@ class Game {
       public: true
     });
 
-    this.started = true;
   }
 
   takeDominoFromBoneYard(playerId) {
@@ -308,7 +312,7 @@ class Game {
 
     // end of game conditions
     if (fromHand.dominoes.length === 0) {
-      this.endGame();
+      this.end();
     }
   }
 
@@ -373,7 +377,7 @@ class Game {
     };
   }
 
-  endGame() {
+  end() {
     this.ended = true;
     this.gamesPlayed += 1;
     this.currentTurn.index = -1;
