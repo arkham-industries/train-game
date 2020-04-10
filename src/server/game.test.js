@@ -362,8 +362,14 @@ describe('Game', () => {
     });
 
     describe('end', () => {
-      it('should set the game to ended', () => {
-        game.end();
+
+      it('should end the game when a player who has no dominoes ends their turn', () => {
+        const playerId = mockPlayers[0].id;
+        const domino = [12,1];
+        game.hands[playerId].dominoes = [domino];
+        const toTrainId = game.trains[0].id;
+        game.extendTrain({playerId, domino, toTrainId});
+        game.endTurn(playerId)
         expect(game.ended).toBe(true);
       });
 

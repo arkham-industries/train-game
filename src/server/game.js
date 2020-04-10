@@ -311,11 +311,6 @@ class Game {
     // indicate the player placed a domino
     this.currentTurn.extendedTrainId = toTrainId;
     this.currentTurn.dominoesPlayed += 1;
-
-    // end of game conditions
-    if (fromHand.dominoes.length === 0) {
-      this.end();
-    }
   }
 
   endTurn(playerId) {
@@ -354,11 +349,17 @@ class Game {
     } else {
       this.currentTurn.index += 1;
     }
-
     this.currentTurn.takenFromBoneYard = false;
     this.currentTurn.extendedTrainId = null;
     this.currentTurn.playedDouble = false;
     this.currentTurn.dominoesPlayed = 0;
+
+    // check end of game conditions
+    const fromHand = this.hands[playerId];
+    if (fromHand.dominoes.length === 0) {
+      this.end();
+    }
+  
   }
 
   getPlayerView(playerId) {
