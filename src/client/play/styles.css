@@ -280,3 +280,11 @@ table.game-summary td.score-cell.total {
   font-weight: bold;
   min-width: 60px;
 }
+
+.version {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  color: #494949;
+  z-index: 2;
+}

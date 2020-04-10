@@ -63,10 +63,12 @@ Vue.component('app', {
         </train>
       </div>
       <message-modal v-bind:message="message"></message-modal>
+      <div class="version">{{ version }}</div>
     </div>
   `,
   data: function() {
     return {
+      version: 'v1.0.0',
       game: {},
       selected: {
         domino: undefined,
