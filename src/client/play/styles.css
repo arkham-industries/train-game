@@ -154,6 +154,10 @@ button {
   display: table;
 }
 
+.train.public {
+  background-color: #ffe790eb;
+}
+
 .train .train-info {
   display: inline-block;
   vertical-align: middle;
