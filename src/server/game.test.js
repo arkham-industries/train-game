@@ -388,6 +388,19 @@ describe('Game', () => {
         expect(game.ended).toBe(true);
       });
 
+      fit('should not mark a turn as passed when player player plays and the boneyard is empty', () => {
+        game.boneyard = [];
+
+        const playerId = mockPlayers[0].id;
+        const domino = [12,1];
+        const toTrainId = game.trains[0].id;
+        console.log('?', toTrainId);
+        game.hands[playerId].dominoes = [domino];
+        game.extendTrain({playerId, domino, toTrainId});
+        game.endTurn(playerId);
+        expect(game.turnsPassed).toBe(0);
+      });
+
       it('should tally the scores', () => {
         const expectedScore = 16;
         game.hands[mockPlayers[0].id].dominoes = [[12,3],[0,1]];

@@ -315,6 +315,7 @@ class Game {
   }
 
   endTurn(playerId) {
+    const canTakeDomino = this.boneyard.length > 0;
 
     // make sure it is the player's turn
     if (!this.isCurrentPlayer(playerId)) {
@@ -325,7 +326,6 @@ class Game {
       throw new Error('This game has ended.');
     }
 
-    const canTakeDomino = this.boneyard.length > 0;
     if (!this.currentTurn.extendedTrainId && (!this.currentTurn.takenFromBoneYard && canTakeDomino)) {
       throw new Error('you must place a tile and/or take a tile from the boneyard');
     }
@@ -355,17 +355,6 @@ class Game {
       // else, there is an open double from another player, no public train penalty for not satisfying it
     }
 
-    if (this.currentTurn.index === this.playerOrder.length - 1) {
-      this.currentTurn.index = 0;
-      this.roundCount += 1;
-    } else {
-      this.currentTurn.index += 1;
-    }
-    this.currentTurn.takenFromBoneYard = false;
-    this.currentTurn.extendedTrainId = null;
-    this.currentTurn.playedDouble = false;
-    this.currentTurn.dominoesPlayed = 0;
-
     // check end of game conditions
     const fromHand = this.hands[playerId];
     if (fromHand.dominoes.length === 0) {
@@ -373,6 +362,7 @@ class Game {
     }
 
     // tally the consecutive turns passed
+    console.log('?', this.currentTurn.extendedTrainId, canTakeDomino);
     const passedTurn = !this.currentTurn.extendedTrainId && !canTakeDomino;
     if (passedTurn) {
       this.turnsPassed += 1;
@@ -384,7 +374,19 @@ class Game {
     if (this.turnsPassed === this.playerOrder.length) {
       this.end();
     }
-  
+    
+    // set turn data
+    if (this.currentTurn.index === this.playerOrder.length - 1) {
+      this.currentTurn.index = 0;
+      this.roundCount += 1;
+    } else {
+      this.currentTurn.index += 1;
+    }
+    this.currentTurn.takenFromBoneYard = false;
+    this.currentTurn.extendedTrainId = null;
+    this.currentTurn.playedDouble = false;
+    this.currentTurn.dominoesPlayed = 0;
+
   }
 
   getPlayerView(playerId) {
