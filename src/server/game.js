@@ -325,7 +325,7 @@ class Game {
     }
 
     const canTakeDomino = this.boneyard.length > 0;
-    if (!this.currentTurn.extendedTrainId && !(canTakeDomino && this.currentTurn.takenFromBoneYard)) {
+    if (!this.currentTurn.extendedTrainId && (!this.currentTurn.takenFromBoneYard && canTakeDomino)) {
       throw new Error('you must place a tile and/or take a tile from the boneyard');
     }
 

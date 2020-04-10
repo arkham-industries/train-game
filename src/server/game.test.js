@@ -358,7 +358,14 @@ describe('Game', () => {
         game.extendTrain({playerId, domino, toTrainId});
         game.endTurn(playerId);
         expect(game.trains[0].public).toBe(false);
-      })
+      });
+
+      it('should allow a player to end their turn without drawing a domino if the boneyard is empty', () => {
+        game.boneyard = [];
+        const playerId = mockPlayers[0].id;
+        game.endTurn(playerId);
+        expect(game.currentTurn.index).toBe(1);
+      });
     });
 
     describe('end', () => {
