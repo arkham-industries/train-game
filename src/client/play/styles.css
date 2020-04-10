@@ -265,3 +265,7 @@ table.game-summary td.score-cell {
   width: 40px;
   text-align: center;
 }
+
+table.game-summary td.score-cell.total {
+  font-weight: bold;
+}
