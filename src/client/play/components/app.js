@@ -13,22 +13,11 @@ Vue.component('app', {
         </div>
       </div>
       <div class="ended-region">
-        <div
+        <game-summary
           v-if="game.ended"
-          class="centered-container">
-          <h1>Round Ended!</h1>
-          <table class="game-summary">
-            <tr v-for="player in game.playerOrder">
-              <td>{{ player.name }}</td>
-              <td 
-                v-for="score in player.scores"
-                class="score-cell">
-                {{score.value}}
-              </td>
-            </tr>
-          </table>
-          <button class="big-button" v-on:click="requestToStartGame()">Start Next Round!</button>
-        </div>
+          v-bind:player-order="game.playerOrder"
+          v-on:start-new-game="requestToStartGame()">
+        </game-summary>
       </div>
       <div class="players-region">
         <players
