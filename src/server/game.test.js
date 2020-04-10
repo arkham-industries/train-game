@@ -205,7 +205,7 @@ describe('Game', () => {
       });
   
       describe('after the first turn', () => {
-        beforeEach(() => game.turnCount = 1)
+        beforeEach(() => game.roundCount = 1)
   
         describe('playing doubles', () => {
           it('should allow a player to place a dominoes after a double after the first turn',  () => {
@@ -377,6 +377,14 @@ describe('Game', () => {
         const toTrainId = game.trains[0].id;
         game.extendTrain({playerId, domino, toTrainId});
         game.endTurn(playerId)
+        expect(game.ended).toBe(true);
+      });
+
+      it('should end the game when all players pass their turns', () => {
+        game.boneyard = [];
+        game.endTurn(mockPlayers[0].id);
+        game.endTurn(mockPlayers[1].id);
+        expect(game.turnsPassed).toBe(2);
         expect(game.ended).toBe(true);
       });
 

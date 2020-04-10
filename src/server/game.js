@@ -68,9 +68,10 @@ class Game {
   joinCode = null;
   created_at = new Date();
   updated_at = new Date();
-  turnCount = 0;
+  roundCount = 0;
   currentTurn = null;
   gamesPlayed = 0;
+  turnsPassed = 0;
   centerDominoValue = null;
   openDoubleValue = null;
   playerOrder = [];
@@ -128,7 +129,7 @@ class Game {
     this.started = true;
     this.ended = false;
     this.openDoubleValue = null;
-    this.turnCount = 0;
+    this.roundCount = 0;
     this.currentTurn = {
       index: 0,
       extendedTrainId: null,
@@ -236,7 +237,7 @@ class Game {
 
     if (this.currentTurn.extendedTrainId) {
       // the player is attemping to place a second domino
-      if (this.turnCount > 0) {
+      if (this.roundCount > 0) {
         if (this.currentTurn.playedDouble) {
           // a player can play only one more domino on the same train
           if (!extendingSameTrain) {
@@ -256,7 +257,7 @@ class Game {
       }
     } else {
       // the player is placing their fist domino
-      if (this.turnCount > 0) {
+      if (this.roundCount > 0) {
         if (this.openDoubleValue !== null) {
           if (!connectingDominoIsOpenDouble) {
             throw new Error('you must play on the open double');
@@ -356,7 +357,7 @@ class Game {
 
     if (this.currentTurn.index === this.playerOrder.length - 1) {
       this.currentTurn.index = 0;
-      this.turnCount += 1;
+      this.roundCount += 1;
     } else {
       this.currentTurn.index += 1;
     }
@@ -368,6 +369,19 @@ class Game {
     // check end of game conditions
     const fromHand = this.hands[playerId];
     if (fromHand.dominoes.length === 0) {
+      this.end();
+    }
+
+    // tally the consecutive turns passed
+    const passedTurn = !this.currentTurn.extendedTrainId && !canTakeDomino;
+    if (passedTurn) {
+      this.turnsPassed += 1;
+    } else {
+      this.turnsPassed = 0;
+    }
+
+    // check to see if everyone passed
+    if (this.turnsPassed === this.playerOrder.length) {
       this.end();
     }
   
