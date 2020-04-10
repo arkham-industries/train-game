@@ -22,6 +22,10 @@ body {
   z-index: 2;
 }
 
+.centered-container.darker {
+  background-color: #662928e6;
+}
+
 .big-button {
   padding: 10px 40px;
   border-radius: 3px;

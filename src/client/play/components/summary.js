@@ -2,11 +2,16 @@ Vue.component('game-summary', {
   props:['playerOrder'],
   template: `
     <div
-      class="centered-container">
+      class="centered-container darker">
       <h1>Round Ended!</h1>
       <table class="game-summary">
+        <tr>
+          <th>Player</th>
+          <th v-for="round in rounds">{{totalRounds - round - 1}}</th>
+          <th>Total</th>
+        </tr>
         <tr v-for="(player, index) in playerOrder">
-          <td>{{ player.name }}</td>
+          <td class="name-cell">{{ player.name }}</td>
           <td 
             v-for="round in rounds"
             class="score-cell">
@@ -22,7 +27,11 @@ Vue.component('game-summary', {
     </div>
   `,
   data: function() {
-    return { rounds: [...Array(13).keys()] }
+    const totalRounds = 13;
+    return {
+      totalRounds,
+      rounds: [...Array(totalRounds).keys()]
+    }
   },
   computed: {
     totals() {

@@ -261,11 +261,17 @@ table.game-summary td {
   padding: 5px; 
   border: 1px solid;
 }
+
 table.game-summary td.score-cell {
-  width: 40px;
+  min-width: 40px;
   text-align: center;
+}
+
+table.game-summary td.name-cell {
+  min-width: 60px;
 }
 
 table.game-summary td.score-cell.total {
   font-weight: bold;
+  min-width: 60px;
 }
