@@ -67,7 +67,7 @@ Vue.component('app', {
   `,
   data: function() {
     return {
-      version: 'v1.0.0',
+      version: 'v1.0.1',
       game: {},
       selected: {
         domino: undefined,
