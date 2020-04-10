@@ -8,7 +8,13 @@ Vue.component('app', {
           <div v-if="isPlayerOne">
             <p>Invite players by sending link!</p>
             <p id="invite-link">{{ inviteUrl }}</p>
-            <button class="big-button" v-on:click="requestToStartGame()">Start Game!</button>
+            <p>(2 players required)</p>
+            <button
+              class="big-button"
+              v-on:click="requestToStartGame()"
+              v-bind:disabled="game.playerOrder.length < 2">
+              Start Game!
+            </button>
           </div>
           <p v-if="isPlayerOne === false">Waiting for first player to start game ...</p>
         </div>

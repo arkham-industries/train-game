@@ -29,16 +29,21 @@ body {
 .big-button {
   padding: 10px 40px;
   border-radius: 3px;
-  background-color: #ffb252;
+  background-color: #ffa535;
   color: #fff;
   box-shadow: 1px 1px #dfdddd;
   cursor: pointer;
   font-size: 20px;
   font-family: 'Courier New', Courier, monospace;
-  text-shadow: 1px 1px 1px #bd673f;
+  text-shadow: 1px 1px 1px #92370d;
 }
 
 .big-button:hover {
   box-shadow: none;
   background-color: #fbc697;
+}
+
+.big-button:disabled {
+  background-color: #ccc;
+  color: #9b9b9b;
 }
