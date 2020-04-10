@@ -6,6 +6,7 @@ Vue.component('app', {
           v-if="!game.started"
           class="centered-container">
           <div v-if="isPlayerOne">
+            <p>Invite other players!</p>
             <p id="invite-link">{{ inviteUrl }}</p>
             <button class="big-button" v-on:click="requestToStartGame()">Start Game!</button>
           </div>
