@@ -99,7 +99,7 @@ class Game {
   }
 
   isCurrentPlayer(playerId) {
-    const currentPlayer = this.playerOrder.length && this.playerOrder[this.currentTurn.index];
+    const currentPlayer = this.playerOrder.length && this.currentTurn && this.playerOrder[this.currentTurn.index];
     return currentPlayer ? currentPlayer.id === playerId : false;
   }
 
