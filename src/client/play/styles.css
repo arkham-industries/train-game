@@ -10,6 +10,7 @@ button {
 
 #app {
   padding-bottom: 300px;
+  margin-top: 50px;
 }
 
 .domino-container {
@@ -173,6 +174,7 @@ button {
 
 .train .domino-list {
   display: inline-block;
+  margin: 5px 0px;
 }
 
 .mexican-train .train-owner {
@@ -247,6 +249,9 @@ button {
 
 .boneyard-count {
   color: #fff;
+  position:fixed;
+  top: -5px;
+  left: 10px;
 }
 
 table.game-summary {
