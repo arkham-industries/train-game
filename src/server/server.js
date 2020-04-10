@@ -30,9 +30,10 @@ const sendGameError = (error, res) => {
   res.status(400).json({ message: error.message });
 }
 
+const codeCharacters = 'ABCDEFHJKLMNPRSTWXY345789';
+
 const createUniqueJoinCode = () => {
-  // https://stackoverflow.com/a/38622545
-  const code = Math.random().toString(36).substr(2, 5).toUpperCase();
+  const code = _.sampleSize(codeCharacters, 5).join('');
   const existingCode = Object.values(games).some((game) => game.joinCode === code);
   return existingCode ? createUniqueJoinCode() : code;
 };
