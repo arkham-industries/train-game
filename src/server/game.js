@@ -337,11 +337,22 @@ class Game {
     const playerTrain = this.trains.find((train) => train.owner.id === player.id);
 
     // make player train public?
-    if (this.currentTurn.takenFromBoneYard && !this.currentTurn.extendedTrainId) {
-      playerTrain.public = true;
+    if (this.currentTurn.playedDouble) {
+      // the player has played a double
+      if (this.currentTurn.dominoesPlayed !== 2) {
+        // the player failed to satisfy their double
+        playerTrain.public = true;
+      }
+    } else {
+      // the player has not played a double this turn
+      if (this.openDoubleValue === null) {
+        // no open double to satisfy
+        if (this.currentTurn.takenFromBoneYard && !this.currentTurn.extendedTrainId) {
+          playerTrain.public = true;
+        }
+      }
+      // else, there is an open double from another player, no public train penalty for not satisfying it
     }
-
-    // record the no action
 
     if (this.currentTurn.index === this.playerOrder.length - 1) {
       this.currentTurn.index = 0;
