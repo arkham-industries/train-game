@@ -1,4 +1,5 @@
 const express = require('express');
+const _ = require('lodash');
 const uuid = require('uuid').v4;
 const cookieSession = require('cookie-session')
 var bodyParser = require('body-parser')
