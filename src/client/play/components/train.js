@@ -5,7 +5,7 @@ Vue.component('train', {
       class="train"
       v-bind:class="{ public: train.public || myTrain, 'mexican-train': !train.owner  }">
       <div class="train-info">
-        <div v-if="train.public || myTrain" class="train-icon">🚂</div>
+        <div v-if="train.public" class="train-icon">🚂</div>
         <div class="train-owner">
           {{train.owner ? train.owner.name : '🤠'}}
         </div>
