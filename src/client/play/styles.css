@@ -199,15 +199,15 @@ button {
 
 .players {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 6px;
+  right: 10px;
   padding: 10px 20px;
   background-color: #00000085;
   color: #fff;
-  border-radius: 2px;
+  border-radius: 5px;
   z-index: 1;
-  min-width: 120px;
-  min-height: 15px;
+  min-width: 100px;
+  min-height: 10px;
 }
 
 .players.hidden {
@@ -227,9 +227,9 @@ button {
   display: none;
 }
 
-.show-toggle-button {
+.players .show-toggle-button {
   text-align: center;
-  padding: 10px;
+  padding: 0;
   position: absolute;
   top: 0;
   right: 15px;
@@ -238,7 +238,6 @@ button {
   font-size: 16px;
   color: white;
   cursor: pointer;
-  padding: 5px;
 }
 
 .end-turn-button {

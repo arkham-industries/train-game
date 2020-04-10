@@ -46,4 +46,5 @@ body {
 .big-button:disabled {
   background-color: #ccc;
   color: #9b9b9b;
+  cursor: not-allowed;
 }
