@@ -1,4 +1,4 @@
-function startGame() {
+window.startGame = () => {
   fetch('game', { method: 'POST'})
   .then((response) => {
     return response.json();

@@ -1,5 +1,6 @@
 body {
-  background: url("/assets/train-background.svg") no-repeat center center fixed;
+  // background url relative to where it will be imported
+  background: url("../assets/train-background.svg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -20,10 +21,10 @@ body {
   text-align: center;
   margin-top: -75px;
   z-index: 2;
-}
 
-.centered-container.darker {
-  background-color: #662928e6;
+  &.darker {
+    background-color: #662928e6;
+  }
 }
 
 .big-button {
@@ -36,15 +37,15 @@ body {
   font-size: 20px;
   font-family: 'Courier New', Courier, monospace;
   text-shadow: 1px 1px 1px #92370d;
-}
 
-.big-button:hover {
-  box-shadow: none;
-  background-color: #fbc697;
-}
+  &:hover {
+    box-shadow: none;
+    background-color: #fbc697;
+  }
 
-.big-button:disabled {
-  background-color: #ccc;
-  color: #9b9b9b;
-  cursor: not-allowed;
+  &:disabled {
+    background-color: #ccc;
+    color: #9b9b9b;
+    cursor: not-allowed;
+  }
 }

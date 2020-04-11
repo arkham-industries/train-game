@@ -42,10 +42,9 @@ const createUniqueJoinCode = () => {
 
 
 // static pages
-app.use('/assets', express.static('src/client/assets'));
-app.use('/', express.static('src/client/entry'));
-app.use('/join/:id', express.static('src/client/join'));
-app.use('/play', express.static('src/client/play'));
+app.use('/', express.static('dist/entry'));
+app.use('/join/:id', express.static('dist/join'));
+app.use('/play', express.static('dist/play'));
 
 // form submission
 app.use(bodyParser.json());

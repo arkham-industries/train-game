@@ -22,24 +22,24 @@ function joinGame() {
     cache: 'no-cache',
     body: JSON.stringify(payload)
   })
-  .then((response) => {
+  .then(function (response) {
     if (!response.ok) {
-      return response.json().then((err) => {
+      return response.json().then(function (err) {
         throw new Error(err.message)
       });
     } else {
       window.location.href = '/play';
     }
   })
-  .catch((err) => {
+  .catch(function(err) {
     displayError(err.message);
     console.log('join failed', err);
   });
 
-}
+};
 
-window.onload = function() {
-
+window.addEventListener("load", function() {
+  console.log('?');
   // Allow a user to join game by pressing enter on name input
   var input = document.getElementById("player-name");
 
@@ -53,4 +53,4 @@ window.onload = function() {
       joinGame();
     }
   });
-}
+});
