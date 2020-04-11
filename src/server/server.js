@@ -18,11 +18,12 @@ const sendGameState = ({game, player}, res) => {
 
 const validateSession = (session) => {
   const game = games[session.gameId];
-  const player = game.players[session.playerId];
   if (!game) {
-    throw new Error('bad session: game does not exist');
-  } else if (!player) {
-    throw new Error('bad session: player does not exist');
+    throw new Error(`bad session: game ${session.gameId} does not exist`);
+  }
+  const player = game.players[session.playerId];
+  if (!player) {
+    throw new Error(`bad session: player ${session.playerId} does not exist`);
   }
   return {game, player};
 }
