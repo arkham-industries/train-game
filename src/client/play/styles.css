@@ -13,6 +13,10 @@ button {
   margin-top: 50px;
 }
 
+#invite-link {
+  white-space: nowrap;
+}
+
 .domino-container {
   position: relative;
 }
