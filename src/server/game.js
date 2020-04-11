@@ -316,6 +316,7 @@ class Game {
 
   endTurn(playerId) {
     const canTakeDomino = this.boneyard.length > 0;
+    const haventTakenFromBoneyardButCan = !this.currentTurn.takenFromBoneYard && canTakeDomino;
 
     // make sure it is the player's turn
     if (!this.isCurrentPlayer(playerId)) {
@@ -326,11 +327,11 @@ class Game {
       throw new Error('This game has ended.');
     }
 
-    if (!this.currentTurn.extendedTrainId && (!this.currentTurn.takenFromBoneYard && canTakeDomino)) {
+    if (!this.currentTurn.extendedTrainId && haventTakenFromBoneyardButCan) {
       throw new Error('you must place a tile and/or take a tile from the boneyard');
     }
 
-    if (this.openDoubleValue !== null && !this.currentTurn.takenFromBoneYard) {
+    if (this.openDoubleValue !== null && haventTakenFromBoneyardButCan) {
       throw new Error('you must take from boneyard when an open double is present');
     }
 
@@ -362,7 +363,6 @@ class Game {
     }
 
     // tally the consecutive turns passed
-    console.log('?', this.currentTurn.extendedTrainId, canTakeDomino);
     const passedTurn = !this.currentTurn.extendedTrainId && !canTakeDomino;
     if (passedTurn) {
       this.turnsPassed += 1;

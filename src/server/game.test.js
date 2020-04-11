@@ -366,6 +366,19 @@ describe('Game', () => {
         game.endTurn(playerId);
         expect(game.currentTurn.index).toBe(1);
       });
+
+      fit('should allow a player to end their turn without drawing a domino if an open double is present and the boneyard is empty', () => {
+        game.boneyard = [];
+        const domino = [1,1];
+        const playerId = mockPlayers[0].id;
+        game.hands[playerId].dominoes.push(domino);
+        game.trains[0].dominoes.push([12, 1]);
+        const toTrainId = game.trains[0].id;
+        game.extendTrain({playerId, domino, toTrainId});
+
+        game.endTurn(playerId);
+        expect(game.currentTurn.index).toBe(1);
+      });
     });
 
     describe('end', () => {
