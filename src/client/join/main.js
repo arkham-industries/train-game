@@ -1,3 +1,5 @@
+import 'whatwg-fetch';  // polyfill for window.fetch
+
 function getGameId() {
   const params = window.location.pathname.split('/');
   return params[2];

@@ -1,3 +1,5 @@
+import 'whatwg-fetch';  // polyfill for window.fetch
+
 window.startGame = () => {
   fetch('game', { method: 'POST'})
   .then((response) => {
