@@ -21,84 +21,89 @@ button {
 
 .domino-container {
   position: relative;
-}
+  .left-arrow  {
+    position: absolute;
+    top: -35px;
+    left: -18px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
 
-.domino-container .left-arrow {
-  position: absolute;
-  top: -35px;
-  left: -18px;
-  font-size: 30px;
-  color: #fff;
-  cursor: pointer;
-}
+  .right-arrow {
+    position: absolute;
+    top: -35px;
+    right: -20px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
 
-.domino-container .right-arrow {
-  position: absolute;
-  top: -35px;
-  right: -20px;
-  font-size: 30px;
-  color: #fff;
-  cursor: pointer;
-}
+  &.add {
 
-.domino {
-  color: #4d4d46;
-  border: 1px solid #c8c8bd;
-  background-color: ivory;
-  box-shadow: 1px 1px 0px #a2a296;
-  padding: 3px;
-  text-align: center;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: transform .1s;
-}
+    &:after {
+      content: "draw";
+      position: absolute;
+      bottom: -20px;
+      left: 5px;
+      font-size: 18px;
+      color: #fff;
+    }
 
-.domino.vertical {
-  width: 35px;
-}
+    .domino {
+      border: 2px dashed #a5a5a5;
+      font-size: 32px;
+      color: #4d4d46;
+      height: 67px;
+      line-height: 67px;
+      vertical-align: bottom;
+    }
+  }
 
-.domino.vertical .domino-top-half, .domino.vertical .domino-bottom-half {
-  padding: 8px 0;
-}
-
-.domino.vertical .domino-top-half {
-  border-bottom: 1px solid;
-}
-
-.domino.horizontal .domino-top-half, .domino.horizontal .domino-bottom-half {
-  display: inline-block;
-  height: 25px;
-  line-height: 17px;
-  width: 30px;
-  padding: 8px 3px 0 3px;
-}
-
-.domino.horizontal .domino-top-half {
-  border-right: 1px solid;
-  padding-right: 3px;
-}
-
-.domino.empty {
-  border: 2px dashed #4dc600;
-  background-color: #d2ffd2;
-}
-
-.domino-container.add .domino {
-  border: 2px dashed #a5a5a5;
-  font-size: 32px;
-  color: #4d4d46;
-  height: 67px;
-  line-height: 67px;
-  vertical-align: bottom;
-}
-
-.domino-container.add:after {
-  content: "draw";
-  position: absolute;
-  bottom: -20px;
-  left: 5px;
-  font-size: 18px;
-  color: #fff;
+  .domino {
+    color: #4d4d46;
+    border: 1px solid #c8c8bd;
+    background-color: ivory;
+    box-shadow: 1px 1px 0px #a2a296;
+    padding: 3px;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: transform .1s;
+  
+    &.vertical {
+      width: 35px;
+  
+      .domino-top-half, .domino-bottom-half{
+        padding: 8px 0;
+      }
+  
+      .domino-top-half {
+        border-bottom: 1px solid;
+      }
+    }
+  
+    &.horizontal {
+      .domino-top-half, .domino-bottom-half{
+        display: inline-block;
+        height: 25px;
+        line-height: 17px;
+        width: 30px;
+        padding: 8px 3px 0 3px;
+      }
+  
+      .domino-top-half {
+        border-right: 1px solid;
+        padding-right: 3px;
+      }
+    }
+  
+    &.empty {
+      border: 2px dashed #4dc600;
+      background-color: #d2ffd2;
+    }
+  
+  }
 }
 
 .player-hand-region {
@@ -110,85 +115,87 @@ button {
   text-align: center;
   padding: 10px;
   z-index: 1;
+
+  .domino-list {
+    padding: 0;
+    margin: 0;
+    li{
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+
+  .domino{
+    &.selected {
+      transform: translateY(-30px);
+    }
+  }
+
+  .your-turn-text {
+    color: #fff;
+  }
+
+  .domino {
+    padding: 0px 3px;
+    margin: 20px 5px;
+  }
 }
 
-.player-hand-region .domino-list {
-  padding: 0;
-  margin: 0;
-}
+.train-region {
 
-.player-hand-region .domino-list li{
-  display: inline-block;
-  vertical-align: bottom;
-}
+  .train {
+    position: relative;
+    white-space: nowrap;
+    background-color: #f5968ceb;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 2px 2px #e78884;
+    display: table;
 
-.player-hand-region .domino.selected {
-  transform: translateY(-30px);
-}
+    &.playable {
+      background-color: #ffd890eb;
+    }
+  
+    .train-info {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      margin-top: -5px;
+    }
+    .train-icon {
+      font-size: 45px;
+    }
+    .train-owner {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 80px;
+    }
 
-.player-hand-region .your-turn-text {
-  color: #fff;
-}
+    .domino-list {
+      display: inline-block;
+      margin: 5px 0px;
+      list-style: none;
+      padding: 0px 10px;
 
-.player-hand-region .domino {
-  padding: 0px 3px;
-  margin: 20px 5px;
-}
+      li {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 15px 0px;
+      }
 
-.train-region .domino-list {
-  list-style: none;
-  padding: 0px 10px;
-}
-
-.train-region .domino-list li {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 15px 0px;
-}
-
-.train-region .domino {
-  margin: 0 3px;
-}
-
-.train {
-  position: relative;
-  white-space: nowrap;
-  background-color: #f5968ceb;
-  margin: 10px 0;
-  border-radius: 5px;
-  box-shadow: 2px 2px #e78884;
-  display: table;
-}
-
-.train.playable {
-  background-color: #ffd890eb;
-}
-
-.train .train-info {
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-  margin-top: -5px;
-}
-
-.train .train-icon {
-  font-size: 45px;
-}
-
-.train .train-owner {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 80px;
-}
-
-.train .domino-list {
-  display: inline-block;
-  margin: 5px 0px;
-}
-
-.mexican-train .train-owner {
-  font-size: 30px;
+      .domino {
+        margin: 0 3px;
+      }
+    }
+  }
+  
+  .mexican-train {
+    .train-owner {
+      font-size: 30px;
+    }
+  }
+  
 }
 
 .message {
@@ -205,49 +212,72 @@ button {
 
 .players-region {
   display: relative;
+
+  .players {
+    position: fixed;
+    top: 6px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #00000085;
+    color: #fff;
+    border-radius: 5px;
+    z-index: 1;
+    min-width: 100px;
+    min-height: 10px;
+
+    &.hidden {
+      top: calc(-100% -10px);
+    }
+    h2 {
+      margin: 0 0 5px 0;
+    }
+    ol {
+      margin: 0;
+      padding: 0 0 0 20px;
+    }
+    .show-toggle-button {
+      text-align: center;
+      padding: 0;
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+    }
+    
+  }
+  .player-content{
+    &.hidden {
+      display: none;
+    }
+  }
 }
 
-.players {
-  position: fixed;
-  top: 6px;
-  right: 10px;
-  padding: 10px 20px;
-  background-color: #00000085;
+.game-summary {
   color: #fff;
-  border-radius: 5px;
-  z-index: 1;
-  min-width: 100px;
-  min-height: 10px;
-}
-
-.players.hidden {
-  top: calc(-100% -10px);
-}
-
-.players h2 {
-  margin: 0 0 5px 0;
-}
-
-.players ol {
-  margin: 0;
-  padding: 0 0 0 20px;
-}
-
-.player-content.hidden {
-  display: none;
-}
-
-.players .show-toggle-button {
-  text-align: center;
-  padding: 0;
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  background: transparent;
-  border: none;
+  margin: 0px auto 20px auto;
   font-size: 16px;
-  color: white;
-  cursor: pointer;
+  border: 1px solid;
+  border-collapse: collapse;
+
+  td {
+    padding: 5px; 
+    border: 1px solid;
+    &.score-cell {
+      min-width: 40px;
+      text-align: center;
+      &.total {
+        font-weight: bold;
+        min-width: 60px;
+      }
+    }
+    &.name-cell {
+      min-width: 60px;
+    }
+  }
 }
 
 .end-turn-button {
@@ -261,33 +291,6 @@ button {
   position:fixed;
   top: -5px;
   left: 10px;
-}
-
-table.game-summary {
-  color: #fff;
-  margin: 0px auto 20px auto;
-  font-size: 16px;
-  border: 1px solid;
-  border-collapse: collapse;
-}
-
-table.game-summary td {
-  padding: 5px; 
-  border: 1px solid;
-}
-
-table.game-summary td.score-cell {
-  min-width: 40px;
-  text-align: center;
-}
-
-table.game-summary td.name-cell {
-  min-width: 60px;
-}
-
-table.game-summary td.score-cell.total {
-  font-weight: bold;
-  min-width: 60px;
 }
 
 .version {
