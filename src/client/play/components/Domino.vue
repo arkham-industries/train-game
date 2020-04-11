@@ -40,6 +40,7 @@
 
 <script>
 export default {
+  name:'Domino',
   props:['domino', 'selected', 'orientation', 'moveable', 'defaultSymbol', 'specialType'],
   data() {
     return { myDomino: undefined }

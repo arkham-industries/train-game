@@ -23,6 +23,7 @@
 import DominoList from './DominoList';
 
 export default {
+  name:'Train',
   props:['train', 'selectedTrain', 'myTrain', 'myTurn', 'openDoubleValue'],
   components: {
     DominoList

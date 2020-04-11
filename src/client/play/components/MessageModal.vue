@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  name:'MessageModal',
   props: ['message'],
   data() {
     return { myText: undefined };

@@ -23,6 +23,7 @@
 
 <script>
 export default {
+  name:'Players',
   props:['playerOrder', 'playerSizes', 'currentIndex'],
   data: function () {
     return { playersHidden: false };

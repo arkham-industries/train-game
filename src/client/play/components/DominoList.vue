@@ -31,6 +31,7 @@
 import Domino from './Domino';
 
 export default {
+  name:'DominoList',
   props:['dominoes', 'selectedDomino', 'orientation', 'rotateDoubles', 'sortable', 'hideExtraDomino', 'extraDominoType'],
   components: {
     Domino

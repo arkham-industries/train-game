@@ -34,6 +34,7 @@
 
 <script>
 export default {
+  name:'Summary',
   props:['playerOrder'],
   data() {
     const totalRounds = 13;
