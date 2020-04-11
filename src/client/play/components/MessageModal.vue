@@ -19,3 +19,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.message {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #007bff;
+  padding: 15px;
+  border-radius: 3px;
+  color: white;
+  text-align: center;
+}
+</style>

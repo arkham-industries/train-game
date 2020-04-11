@@ -52,3 +52,29 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.game-summary {
+  color: #fff;
+  margin: 0px auto 20px auto;
+  font-size: 16px;
+  border: 1px solid;
+  border-collapse: collapse;
+
+  td {
+    padding: 5px; 
+    border: 1px solid;
+    &.score-cell {
+      min-width: 40px;
+      text-align: center;
+      &.total {
+        font-weight: bold;
+        min-width: 60px;
+      }
+    }
+    &.name-cell {
+      min-width: 60px;
+    }
+  }
+}
+</style>

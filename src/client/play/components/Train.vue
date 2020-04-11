@@ -46,3 +46,63 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.train-region {
+  .domino-list {
+    display: inline-block;
+    margin: 5px 0px;
+    list-style: none;
+    padding: 0px 10px;
+    li {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 15px 0px;
+    }
+    .domino {
+      margin: 0 3px;
+    }
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.train-region {
+  .train {
+    position: relative;
+    white-space: nowrap;
+    background-color: #f5968ceb;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 2px 2px #e78884;
+    display: table;
+
+    &.playable {
+      background-color: #ffd890eb;
+    }
+  
+    .train-info {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      margin-top: -5px;
+    }
+    .train-icon {
+      font-size: 45px;
+    }
+    .train-owner {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 80px;
+    }
+  }
+  
+  .mexican-train {
+    .train-owner {
+      font-size: 30px;
+    }
+  }
+  
+}
+</style>

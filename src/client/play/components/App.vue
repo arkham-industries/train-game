@@ -73,6 +73,7 @@
 </template>
 
 <script>
+
 import MessageModal from './MessageModal';
 import Train from './Train';
 import DominoList from './DominoList';
@@ -229,3 +230,70 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.player-hand-region {
+  .domino-list {
+    padding: 0;
+    margin: 0;
+    li{
+      display: inline-block;
+      vertical-align: bottom;
+    }
+    .domino{
+      padding: 0px 3px;
+      margin: 20px 5px;
+      &.selected {
+        transform: translateY(-30px);
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.game {
+  padding-bottom: 300px;
+  margin-top: 50px;
+}
+
+#invite-link {
+  white-space: nowrap;
+}
+
+.end-turn-button {
+  padding: 10px 50px;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.boneyard-count {
+  color: #fff;
+  position:fixed;
+  top: -5px;
+  left: 10px;
+}
+
+.version {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  color: #494949;
+  z-index: 2;
+}
+
+.player-hand-region {
+  position: fixed;
+  bottom: 0;
+  background-color: #00000085;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+  z-index: 1;
+
+  .your-turn-text {
+    color: #fff;
+  }
+}
+</style>

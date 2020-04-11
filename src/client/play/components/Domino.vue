@@ -70,3 +70,94 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.domino-container {
+  position: relative;
+  font-family: sans-serif;
+
+  .left-arrow  {
+    position: absolute;
+    top: -35px;
+    left: -18px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .right-arrow {
+    position: absolute;
+    top: -35px;
+    right: -20px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  &.add {
+
+    &:after {
+      content: "draw";
+      position: absolute;
+      bottom: -20px;
+      left: 5px;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .domino {
+      border: 2px dashed #a5a5a5;
+      font-size: 32px;
+      color: #4d4d46;
+      height: 67px;
+      line-height: 67px;
+      vertical-align: bottom;
+    }
+  }
+
+  .domino {
+    color: #4d4d46;
+    border: 1px solid #c8c8bd;
+    background-color: ivory;
+    box-shadow: 1px 1px 0px #a2a296;
+    padding: 3px;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: transform .1s;
+  
+    &.vertical {
+      width: 35px;
+  
+      .domino-top-half, .domino-bottom-half{
+        padding: 8px 0;
+      }
+  
+      .domino-top-half {
+        border-bottom: 1px solid;
+      }
+    }
+  
+    &.horizontal {
+      .domino-top-half, .domino-bottom-half{
+        display: inline-block;
+        height: 25px;
+        line-height: 17px;
+        width: 30px;
+        padding: 8px 3px 0 3px;
+      }
+  
+      .domino-top-half {
+        border-right: 1px solid;
+        padding-right: 3px;
+      }
+    }
+  
+    &.empty {
+      border: 2px dashed #4dc600;
+      background-color: #d2ffd2;
+    }
+  
+  }
+}
+</style>
