@@ -1,17 +1,20 @@
-Vue.component('message-modal', {
+<template>
+  <div class="message" v-if="myText">{{ myText }}</div>
+</template>
+
+<script>
+export default {
   props: ['message'],
-  template: `
-    <div class="message" v-if="myText">{{ myText }}</div>
-  `,
-  data: function() {
+  data() {
     return { myText: undefined };
   },
   watch: {
-    message: function() {
+    message() {
       this.myText = this.message.text;
       if (this.message.duration !== null) {
         setTimeout(() => this.myText = undefined, this.message.duration || 4000);
       }
     }
   }
-});
+};
+</script>

@@ -1,38 +1,45 @@
-Vue.component('domino-list', {
+<template>
+  <ul
+    v-if="myDominoes"
+    class="domino-list">
+    <li
+      v-for="(domino, index) in myDominoes"
+      v-bind:key="domino[0] + '-' + domino[1]">
+      <Domino
+        v-bind:domino="domino"
+        v-bind:moveable="sortable"
+        v-on:move-left="onMove('left', index)"
+        v-on:move-right="onMove('right', index)"
+        v-bind:orientation="getOrientation(domino)"
+        v-bind:selected="isSameDomino(selectedDomino, domino)"
+        v-on:domino-selected="$emit('domino-selected', {domino, index})">
+      </Domino>
+    </li>
+    <li>
+      <Domino
+        v-if="!hideExtraDomino"
+        v-bind:special-type="extraDominoType"
+        v-bind:orientation="orientation"
+        v-bind:selected="selectedDomino === null"
+        v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">
+      </Domino>
+    </li>
+  </ul>
+</template>
+
+<script>
+import Domino from './Domino';
+
+export default {
   props:['dominoes', 'selectedDomino', 'orientation', 'rotateDoubles', 'sortable', 'hideExtraDomino', 'extraDominoType'],
-  template: `
-    <ul
-      v-if="myDominoes"
-      class="domino-list">
-      <li
-        v-for="(domino, index) in myDominoes"
-        v-bind:key="domino[0] + '-' + domino[1]">
-        <domino
-          v-bind:domino="domino"
-          v-bind:moveable="sortable"
-          v-on:move-left="onMove('left', index)"
-          v-on:move-right="onMove('right', index)"
-          v-bind:orientation="getOrientation(domino)"
-          v-bind:selected="isSameDomino(selectedDomino, domino)"
-          v-on:domino-selected="$emit('domino-selected', {domino, index})">
-        </domino>
-      </li>
-      <li>
-        <domino
-          v-if="!hideExtraDomino"
-          v-bind:special-type="extraDominoType"
-          v-bind:orientation="orientation"
-          v-bind:selected="selectedDomino === null"
-          v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">
-        </domino>
-      </li>
-    </ul>
-  `,
-  data: function() {
+  components: {
+    Domino
+  },
+  data() {
     return { myDominoes: [] };
   },
   watch: {
-    dominoes: function() {
+    dominoes() {
       // remove any dominoes that are not in the incoming set
       const keptDominoes = this.myDominoes.filter((myDomino) => {
         return this.dominoes.some((domino) => this.isSameDomino(myDomino, domino));
@@ -47,20 +54,20 @@ Vue.component('domino-list', {
     }
   },
   methods: {
-    isDouble: function(domino) {
+    isDouble(domino) {
       return domino[0] === domino[1];
     },
-    getOrientation: function (domino) {
+    getOrientation (domino) {
       return this.rotateDoubles && this.isDouble(domino) ? this.flipOrientation() : this.orientation; 
     },
-    flipOrientation: function(orinetation) {
+    flipOrientation(orinetation) {
       return this.orinetation === 'vertical' ? 'horizontal' : 'vertical';
     },
-    isSameDomino: function(dominoA, dominoB) {
+    isSameDomino(dominoA, dominoB) {
       if (!dominoA || !dominoB) { return false; }
       return (dominoA[0] === dominoB[0] && dominoA[1] === dominoB[1]) || (dominoA[0] === dominoB[1] && dominoA[1] === dominoB[0]);
     },
-    onMove: function(direction, fromIndex) {
+    onMove(direction, fromIndex) {
       if (!this.sortable) { return; }
       let toIndex;
       if (direction === 'left') {
@@ -74,4 +81,5 @@ Vue.component('domino-list', {
     },
 
   }
-});
+};
+</script>
