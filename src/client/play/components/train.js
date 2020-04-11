@@ -3,7 +3,7 @@ Vue.component('train', {
   template: `
     <div
       class="train"
-      v-bind:class="{ public: train.public || myTrain, 'mexican-train': !train.owner  }">
+      v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }">
       <div class="train-info">
         <div v-if="train.public" class="train-icon">🚂</div>
         <div class="train-owner">
@@ -13,7 +13,7 @@ Vue.component('train', {
       <domino-list
         v-bind:dominoes="train.dominoes"
         v-bind:rotate-doubles="true"
-        v-bind:hide-extra-domino="!showExtraDouble"
+        v-bind:hide-extra-domino="!trainPlayable"
         v-bind:orientation="'horizontal'"
         v-bind:selected-domino-index="selectedTrain ? null : undefined"
         v-on:domino-selected="$emit('domino-selected', $event)">
@@ -25,7 +25,7 @@ Vue.component('train', {
       const lastDomino = this.train.dominoes[this.train.dominoes.length - 1];
       return this.openDoubleValue === lastDomino[0] && this.openDoubleValue === lastDomino[1];
     },
-    showExtraDouble() {
+    trainPlayable() {
       const openDoublePresent = this.openDoubleValue !== null && this.openDoubleValue !== undefined;
       if (openDoublePresent) {
         // only highlight the open double on the player's turn
