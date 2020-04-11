@@ -13,7 +13,7 @@ Vue.component('train', {
       <domino-list
         v-bind:dominoes="train.dominoes"
         v-bind:rotate-doubles="true"
-        v-bind:hide-extra-domino="!trainPlayable"
+        v-bind:hide-extra-domino="!(myTurn && trainPlayable)"
         v-bind:orientation="'horizontal'"
         v-bind:selected-domino-index="selectedTrain ? null : undefined"
         v-on:domino-selected="$emit('domino-selected', $event)">
@@ -29,10 +29,10 @@ Vue.component('train', {
       const openDoublePresent = this.openDoubleValue !== null && this.openDoubleValue !== undefined;
       if (openDoublePresent) {
         // only highlight the open double on the player's turn
-        return this.myTurn && this.isOpenDouble;
+        return this.isOpenDouble;
       } else {
         // highlight the playable trains on the player's turn
-        return this.myTurn && (this.train.public || this.myTrain);
+        return this.train.public || this.myTrain;
       }
     }
   }
