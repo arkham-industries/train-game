@@ -373,20 +373,19 @@ class Game {
     // check to see if everyone passed
     if (this.turnsPassed === this.playerOrder.length) {
       this.end();
-    }
-    
-    // set turn data
-    if (this.currentTurn.index === this.playerOrder.length - 1) {
-      this.currentTurn.index = 0;
-      this.roundCount += 1;
     } else {
-      this.currentTurn.index += 1;
+      // set turn data
+      if (this.currentTurn.index === this.playerOrder.length - 1) {
+        this.currentTurn.index = 0;
+        this.roundCount += 1;
+      } else {
+        this.currentTurn.index += 1;
+      }
+      this.currentTurn.takenFromBoneYard = false;
+      this.currentTurn.extendedTrainId = null;
+      this.currentTurn.playedDouble = false;
+      this.currentTurn.dominoesPlayed = 0;
     }
-    this.currentTurn.takenFromBoneYard = false;
-    this.currentTurn.extendedTrainId = null;
-    this.currentTurn.playedDouble = false;
-    this.currentTurn.dominoesPlayed = 0;
-
   }
 
   getPlayerView(playerId) {
