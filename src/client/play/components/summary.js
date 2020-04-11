@@ -15,7 +15,7 @@ Vue.component('game-summary', {
           <td 
             v-for="round in rounds"
             class="score-cell">
-            {{player.scores[round]?.value === undefined ? '-' : player.scores[round].value}}
+            {{(player.scores[round] && player.scores[round].value) === undefined ? '-' : player.scores[round].value}}
           </td>
           <td 
           class="score-cell total">
