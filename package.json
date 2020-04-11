@@ -50,5 +50,8 @@
     "hooks": {
       "pre-push": "npm test"
     }
-  }
+  },
+  "browserslist": [
+    "> 0.25%"
+  ]
 }
