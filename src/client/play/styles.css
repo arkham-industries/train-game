@@ -147,7 +147,7 @@ button {
 .train {
   position: relative;
   white-space: nowrap;
-  background-color: #ffd890eb;
+  background-color: #f5968ceb;
   margin: 10px 0;
   border-radius: 5px;
   box-shadow: 2px 2px #e78884;
@@ -155,7 +155,7 @@ button {
 }
 
 .train.playable {
-  background-color: #ffe790eb;
+  background-color: #ffd890eb;
 }
 
 .train .train-info {
