@@ -12,7 +12,7 @@
     "build:play": "rm -rf dist/play && parcel build src/client/play/index.html --out-dir dist/play --public-url ./",
     "build:entry": "rm -rf dist/entry && parcel build src/client/entry/index.html --out-dir dist/entry",
     "build:join": "rm -rf dist/join && parcel build src/client/join/index.html --out-dir dist/join --public-url ./",
-    "build": "npm run build:join -- --no-cache && npm run build:entry -- --no-cache && npm run build:play -- --no-cache"
+    "build": "npm run build:join & npm run build:entry & npm run build:play"
   },
   "repository": {
     "type": "git",
@@ -29,8 +29,6 @@
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
-    "parcel-bundler": "^1.12.4",
-    "supertest": "^4.0.2",
     "uuid": "^7.0.2",
     "vue": "^2.6.11",
     "whatwg-fetch": "^3.0.0"
@@ -43,8 +41,9 @@
     "babel-jest": "^25.2.3",
     "husky": "^4.2.3",
     "jest": "^25.2.3",
-    "node-sass": "^4.13.1",
+    "parcel-bundler": "^1.12.4",
     "sass": "^1.26.3",
+    "supertest": "^4.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "husky": {
