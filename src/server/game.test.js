@@ -364,10 +364,10 @@ describe('Game', () => {
         game.boneyard = [];
         const playerId = mockPlayers[0].id;
         game.endTurn(playerId);
-        expect(game.currentTurn.index).toBe(1);
+        expect(game.ended).toBe(true);
       });
 
-      fit('should allow a player to end their turn without drawing a domino if an open double is present and the boneyard is empty', () => {
+      it('should allow a player to end their turn without drawing a domino if an open double is present and the boneyard is empty', () => {
         game.boneyard = [];
         const domino = [1,1];
         const playerId = mockPlayers[0].id;
@@ -377,7 +377,7 @@ describe('Game', () => {
         game.extendTrain({playerId, domino, toTrainId});
 
         game.endTurn(playerId);
-        expect(game.currentTurn.index).toBe(1);
+        expect(game.ended).toBe(true);
       });
     });
 
@@ -393,25 +393,10 @@ describe('Game', () => {
         expect(game.ended).toBe(true);
       });
 
-      it('should end the game when all players pass their turns', () => {
+      it('should end the game when the boneyard is empty', () => {
         game.boneyard = [];
         game.endTurn(mockPlayers[0].id);
-        game.endTurn(mockPlayers[1].id);
-        expect(game.turnsPassed).toBe(2);
         expect(game.ended).toBe(true);
-      });
-
-      fit('should not mark a turn as passed when player player plays and the boneyard is empty', () => {
-        game.boneyard = [];
-
-        const playerId = mockPlayers[0].id;
-        const domino = [12,1];
-        const toTrainId = game.trains[0].id;
-        console.log('?', toTrainId);
-        game.hands[playerId].dominoes = [domino];
-        game.extendTrain({playerId, domino, toTrainId});
-        game.endTurn(playerId);
-        expect(game.turnsPassed).toBe(0);
       });
 
       it('should tally the scores', () => {

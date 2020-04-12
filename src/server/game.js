@@ -71,7 +71,6 @@ class Game {
   roundCount = 0;
   currentTurn = null;
   gamesPlayed = 0;
-  turnsPassed = 0;
   centerDominoValue = null;
   openDoubleValue = null;
   playerOrder = [];
@@ -323,6 +322,16 @@ class Game {
       throw new Error('It\'s not your turn');
     }
 
+    // check end of game conditions
+    const fromHand = this.hands[playerId];
+    if (fromHand.dominoes.length === 0) {
+      return this.end();
+    }
+
+    if (this.boneyard.length === 0) {
+      return this.end();
+    }
+    
     if (this.ended) {
       throw new Error('This game has ended.');
     }
@@ -356,36 +365,18 @@ class Game {
       // else, there is an open double from another player, no public train penalty for not satisfying it
     }
 
-    // check end of game conditions
-    const fromHand = this.hands[playerId];
-    if (fromHand.dominoes.length === 0) {
-      this.end();
+    // end of turn logistics
+    if (this.currentTurn.index === this.playerOrder.length - 1) {
+      this.currentTurn.index = 0;
+      this.roundCount += 1;
+    } else {
+      this.currentTurn.index += 1;
     }
 
-    // tally the consecutive turns passed
-    const passedTurn = !this.currentTurn.extendedTrainId && !canTakeDomino;
-    if (passedTurn) {
-      this.turnsPassed += 1;
-    } else {
-      this.turnsPassed = 0;
-    }
-
-    // check to see if everyone passed
-    if (this.turnsPassed === this.playerOrder.length) {
-      this.end();
-    } else {
-      // set turn data
-      if (this.currentTurn.index === this.playerOrder.length - 1) {
-        this.currentTurn.index = 0;
-        this.roundCount += 1;
-      } else {
-        this.currentTurn.index += 1;
-      }
-      this.currentTurn.takenFromBoneYard = false;
-      this.currentTurn.extendedTrainId = null;
-      this.currentTurn.playedDouble = false;
-      this.currentTurn.dominoesPlayed = 0;
-    }
+    this.currentTurn.takenFromBoneYard = false;
+    this.currentTurn.extendedTrainId = null;
+    this.currentTurn.playedDouble = false;
+    this.currentTurn.dominoesPlayed = 0;
   }
 
   getPlayerView(playerId) {
