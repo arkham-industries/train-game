@@ -8,6 +8,7 @@ A web version of the wildly popular Mexican Train domino game, suitable for all 
 
 ```
 > npm i
+> npm run build
 > npm start
 ```
 
