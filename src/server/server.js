@@ -69,15 +69,16 @@ app.post('/game', (req, res) => {
 
 // create a player in a game
 app.post('/game/:joinCode/join', (req, res) => {
-  const game = Object.values(games).find((game) => game.joinCode === req.params.joinCode);
+  const submittedJoinCode = req.params.joinCode.toUpperCase();
+  const game = Object.values(games).find((game) => game.joinCode === submittedJoinCode);
   const name = req.body.name;
   if (!game) {
-    res.status(400).json({ message: 'Game does not exist' });
+    res.status(400).json({ message: 'join code is not valid' });
     return;
   }
 
   if (!name) {
-    res.status(400).json({ message: 'Player name not provided' });
+    res.status(400).json({ message: 'player name not provided' });
     return;
   }
 
