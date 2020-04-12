@@ -1,3 +1,5 @@
+![Node.js CI](https://github.com/arkham-industries/train-game/workflows/Node.js%20CI/badge.svg)
+
 # Train Game
 
 A web version of the wildly popular Mexican Train domino game, suitable for all ages!
