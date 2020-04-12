@@ -8,11 +8,10 @@ A web version of the wildly popular Mexican Train domino game, suitable for all 
 
 ```
 > npm i
-> npm run build
-> npm start
+> npm run start:watch
 ```
 
-go to `http://localhost:3000`
+go to `http://localhost:3000`. The watch task watches all files in `/client`.
 
 ## Tests
 
