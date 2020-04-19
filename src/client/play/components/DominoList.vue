@@ -1,20 +1,28 @@
 <template>
-  <ul
-    v-if="myDominoes"
-    class="domino-list">
-    <li
-      v-for="(domino, index) in myDominoes"
-      v-bind:key="domino[0] + '-' + domino[1]">
-      <Domino
-        v-bind:domino="domino"
-        v-bind:moveable="sortable"
+    <draggable
+      v-if="myDominoes"
+      v-model="myDominoes"
+      tag="ul"
+      class="domino-list"
+      group="dominoes"
+      ghost-class="ghost"
+      v-bind:disabled="!sortable"
+      v-bind:swap-threshold="1"
+      v-bind:invert-swap="false"
+      v-bind:animation="150">
+      <li
+        v-for="(domino, index) in myDominoes"
+        v-bind:key="domino[0] + '-' + domino[1]">
+        <Domino
+          v-bind:domino="domino"
+          v-bind:moveable="sortable"
         v-on:move-left="onMove('left', index)"
         v-on:move-right="onMove('right', index)"
-        v-bind:orientation="getOrientation(domino)"
-        v-bind:selected="isSameDomino(selectedDomino, domino)"
-        v-on:domino-selected="$emit('domino-selected', {domino, index})">
-      </Domino>
-    </li>
+          v-bind:orientation="getOrientation(domino)"
+          v-bind:selected="isSameDomino(selectedDomino, domino)"
+          v-on:domino-selected="$emit('domino-selected', {domino, index})">
+        </Domino>
+      </li>
     <li>
       <Domino
         v-if="!hideExtraDomino"
@@ -24,17 +32,19 @@
         v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">
       </Domino>
     </li>
-  </ul>
+  </draggable>
 </template>
 
 <script>
 import Domino from './Domino';
+import draggable from 'vuedraggable'
 
 export default {
   name:'DominoList',
   props:['dominoes', 'selectedDomino', 'orientation', 'rotateDoubles', 'sortable', 'hideExtraDomino', 'extraDominoType'],
   components: {
-    Domino
+    Domino,
+    draggable
   },
   data() {
     return { myDominoes: [] };
@@ -42,16 +52,20 @@ export default {
   watch: {
     dominoes() {
       // remove any dominoes that are not in the incoming set
-      const keptDominoes = this.myDominoes.filter((myDomino) => {
+      this.myDominoes.filter((myDomino) => {
         return this.dominoes.some((domino) => this.isSameDomino(myDomino, domino));
       });
 
       // identify new dominoes
-      const extraDominoes = this.dominoes.filter((myDomino) => {
-        return !this.myDominoes.some((domino) => this.isSameDomino(myDomino, domino));
+      const extraDominoes = this.dominoes.filter((domino) => {
+        return !this.myDominoes.some((myDomino) => this.isSameDomino(domino, myDomino));
       });
 
-      this.myDominoes = keptDominoes.concat(extraDominoes);
+      // push new dominoes onto myDominoes (mutate)
+      extraDominoes.forEach((domino) => {
+        this.myDominoes.push(domino);
+      });
+
     }
   },
   methods: {
@@ -84,3 +98,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.ghost {
+  opacity: 0.5;
+}
+</style>
