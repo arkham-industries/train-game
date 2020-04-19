@@ -16,8 +16,6 @@
         <Domino
           v-bind:domino="domino"
           v-bind:moveable="sortable"
-        v-on:move-left="onMove('left', index)"
-        v-on:move-right="onMove('right', index)"
           v-bind:orientation="getOrientation(domino)"
           v-bind:selected="isSameDomino(selectedDomino, domino)"
           v-on:domino-selected="$emit('domino-selected', {domino, index})">
@@ -81,20 +79,7 @@ export default {
     isSameDomino(dominoA, dominoB) {
       if (!dominoA || !dominoB) { return false; }
       return (dominoA[0] === dominoB[0] && dominoA[1] === dominoB[1]) || (dominoA[0] === dominoB[1] && dominoA[1] === dominoB[0]);
-    },
-    onMove(direction, fromIndex) {
-      if (!this.sortable) { return; }
-      let toIndex;
-      if (direction === 'left') {
-        toIndex = fromIndex - 1 < 0 ? 0 : fromIndex - 1;
-      } else if (direction === 'right') {
-        const maxIndex = this.myDominoes.length - 1;
-        toIndex = fromIndex + 1 > maxIndex ? maxIndex : fromIndex + 1;
-      }
-      var domino = this.myDominoes.splice(fromIndex, 1)[0];
-      this.myDominoes.splice(toIndex, 0, domino);
-    },
-
+    }
   }
 };
 </script>
