@@ -6,6 +6,7 @@
       class="domino-list"
       group="dominoes"
       ghost-class="ghost"
+      filter=".not-draggable"
       v-bind:disabled="!sortable"
       v-bind:swap-threshold="1"
       v-bind:invert-swap="false"
@@ -21,7 +22,7 @@
           v-on:domino-selected="$emit('domino-selected', {domino, index})">
         </Domino>
       </li>
-    <li>
+    <li class="not-draggable">
       <Domino
         v-if="!hideExtraDomino"
         v-bind:special-type="extraDominoType"
