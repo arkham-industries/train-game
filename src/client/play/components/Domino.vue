@@ -23,18 +23,6 @@
       </div><div class="domino-bottom-half">{{myDomino ? myDomino[1] : ''}}
       </div>
     </div>
-    <div
-      v-if="moveable && selected"
-      v-on:click="$emit('move-left', domino)"
-      class="left-arrow">
-      ←
-    </div>
-    <div
-      v-if="moveable && selected"
-      v-on:click="$emit('move-right', domino)"
-      class="right-arrow">
-      →
-    </div>
   </div>
 </template>
 
@@ -75,24 +63,6 @@ export default {
 .domino-container {
   position: relative;
   font-family: sans-serif;
-
-  .left-arrow  {
-    position: absolute;
-    top: -35px;
-    left: -18px;
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  .right-arrow {
-    position: absolute;
-    top: -35px;
-    right: -20px;
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
-  }
 
   &.add {
 
