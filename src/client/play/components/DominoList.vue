@@ -51,8 +51,13 @@ export default {
   watch: {
     dominoes() {
       // remove any dominoes that are not in the incoming set
-      this.myDominoes.filter((myDomino) => {
-        return this.dominoes.some((domino) => this.isSameDomino(myDomino, domino));
+      this.myDominoes.forEach((myDomino, i) => {
+        const existingIndex = this.dominoes.findIndex((domino) => this.isSameDomino(myDomino, domino))
+        if(existingIndex === -1) {
+          // domino does not exist in the new set of dominoes
+          // we want to remove it
+          this.myDominoes.splice(i, 1);
+        }
       });
 
       // identify new dominoes
