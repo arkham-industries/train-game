@@ -29,6 +29,8 @@
   },
   "homepage": "https://github.com/arkham-industries/train-game#readme",
   "dependencies": {
+    "@bugsnag/js": "^7.0.0",
+    "@bugsnag/plugin-vue": "^7.0.0",
     "body-parser": "^1.19.0",
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
