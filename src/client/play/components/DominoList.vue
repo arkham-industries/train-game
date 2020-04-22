@@ -7,6 +7,7 @@
     group="dominoes"
     ghost-class="ghost"
     filter=".not-draggable"
+    v-bind:prevent-on-filter="false"
     v-bind:disabled="!sortable"
     v-bind:swap-threshold="1"
     v-bind:invert-swap="false"
