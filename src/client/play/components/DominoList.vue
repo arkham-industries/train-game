@@ -11,7 +11,8 @@
     v-bind:disabled="!sortable"
     v-bind:swap-threshold="1"
     v-bind:invert-swap="false"
-    v-bind:animation="150">
+    v-bind:animation="150"
+    v-on:choose="onDragChoose($event)">
     <li
       v-for="(domino, index) in myDominoes"
       v-bind:key="domino[0] + '-' + domino[1]">
@@ -86,6 +87,11 @@ export default {
     isSameDomino(dominoA, dominoB) {
       if (!dominoA || !dominoB) { return false; }
       return (dominoA[0] === dominoB[0] && dominoA[1] === dominoB[1]) || (dominoA[0] === dominoB[1] && dominoA[1] === dominoB[0]);
+    },
+    onDragChoose(ev) {
+      const index = [...ev.item.parentElement.children].findIndex(item => item === ev.item);
+      const domino = this.myDominoes[index];
+      this.$emit('domino-selected', {domino, index});
     }
   }
 };
