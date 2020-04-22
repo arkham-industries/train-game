@@ -1,27 +1,27 @@
 <template>
-    <draggable
-      v-if="myDominoes"
-      v-model="myDominoes"
-      tag="ul"
-      class="domino-list"
-      group="dominoes"
-      ghost-class="ghost"
-      filter=".not-draggable"
-      v-bind:disabled="!sortable"
-      v-bind:swap-threshold="1"
-      v-bind:invert-swap="false"
-      v-bind:animation="150">
-      <li
-        v-for="(domino, index) in myDominoes"
-        v-bind:key="domino[0] + '-' + domino[1]">
-        <Domino
-          v-bind:domino="domino"
-          v-bind:moveable="sortable"
-          v-bind:orientation="getOrientation(domino)"
-          v-bind:selected="isSameDomino(selectedDomino, domino)"
-          v-on:domino-selected="$emit('domino-selected', {domino, index})">
-        </Domino>
-      </li>
+  <draggable
+    v-if="myDominoes"
+    v-model="myDominoes"
+    tag="ul"
+    class="domino-list"
+    group="dominoes"
+    ghost-class="ghost"
+    filter=".not-draggable"
+    v-bind:disabled="!sortable"
+    v-bind:swap-threshold="1"
+    v-bind:invert-swap="false"
+    v-bind:animation="150">
+    <li
+      v-for="(domino, index) in myDominoes"
+      v-bind:key="domino[0] + '-' + domino[1]">
+      <Domino
+        v-bind:domino="domino"
+        v-bind:moveable="sortable"
+        v-bind:orientation="getOrientation(domino)"
+        v-bind:selected="isSameDomino(selectedDomino, domino)"
+        v-on:domino-selected="$emit('domino-selected', {domino, index})">
+      </Domino>
+    </li>
     <li class="not-draggable">
       <Domino
         v-if="!hideExtraDomino"
