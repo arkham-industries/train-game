@@ -1,6 +1,9 @@
 <template>
 <div
   class="train"
+  v-on:dragover="onDragOver($event)"
+  v-on:dragenter="onDragEnter($event)"
+  v-on:drop="onDrop($event)"
   v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }">
   <div class="train-info">
     <div v-if="train.public" class="train-icon">🚂</div>
@@ -14,7 +17,7 @@
     v-bind:hide-extra-domino="!(myTurn && trainPlayable)"
     v-bind:orientation="'horizontal'"
     v-bind:selected-domino-index="selectedTrain ? null : undefined"
-    v-on:domino-selected="$emit('domino-selected', $event)">
+    v-on:domino-selected="$emit('train-selected', train.id)">
   </DominoList>
 </div>
 </template>
@@ -42,6 +45,21 @@ export default {
         // highlight the playable trains on the player's turn
         return this.train.public || this.myTrain;
       }
+    }
+  },
+  methods: {
+    onDragOver(ev) {
+      // must call preventDefault to enable drop
+      ev.preventDefault();
+      // todo: verify domino is being dragged
+    },
+     onDragEnter(ev) {
+       // must call preventDefault to enable drop
+      ev.preventDefault();
+      // todo: verify domino is being dragged
+    },
+    onDrop(ev) {
+      this.$emit('train-selected', this.train.id)
     }
   }
 };

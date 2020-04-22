@@ -64,7 +64,7 @@
         v-bind:my-train="train.owner && train.owner.id === game.myPlayerId"
         v-bind:open-double-value="game.openDoubleValue"
         v-bind:key="train.id"
-        v-on:domino-selected="onTrainSelected(train.id)">
+        v-on:train-selected="onTrainSelected($event)">
       </Train>
     </div>
     <MessageModal v-bind:message="message"></MessageModal>
