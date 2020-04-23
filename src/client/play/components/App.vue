@@ -79,6 +79,7 @@ import Train from './Train';
 import DominoList from './DominoList';
 import GameSummary from './Summary';
 import Players from './Players';
+import { debounce } from 'lodash-es';
 
 export default {
   components: {
@@ -112,19 +113,22 @@ export default {
         this.game = game;
       })
     }, 2000);
+
+    // prevent drag and click from firing this handler twice
+    this.onDominoSelectedFromHand = debounce(this.onDominoSelectedFromHand, 200);
   },
   methods: {
     resetSelection() {
       this.onDominoSelectedFromHand({domino: undefined, index: undefined});
     },
-    onDominoSelectedFromHand ({domino, index}) {
+    onDominoSelectedFromHand({domino, index}) {
       if (domino === null) {
         this.requestToTakeDomino();
       } else {
         this.selected.domino = domino;
       }
     },
-    onTrainSelected (trainId) {
+    onTrainSelected(trainId) {
       if (this.selected.domino !== undefined) {
         this.requestToConnectTrain(this.selected.domino, trainId)
         .then(() => this.resetSelection());
