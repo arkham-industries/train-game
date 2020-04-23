@@ -1,8 +1,8 @@
 <template>
 <div
   class="train"
-  v-on:dragover="onDragOver($event)"
-  v-on:dragenter="onDragEnter($event)"
+  v-on:dragover.prevent="onDragOver($event)"
+  v-on:dragenter.prevent="onDragEnter($event)"
   v-on:drop="onDrop($event)"
   v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }">
   <div class="train-info">
@@ -48,15 +48,9 @@ export default {
     }
   },
   methods: {
-    onDragOver(ev) {
-      // must call preventDefault to enable drop
-      ev.preventDefault();
-      // todo: verify domino is being dragged
+    onDragOver() {
     },
-     onDragEnter(ev) {
-       // must call preventDefault to enable drop
-      ev.preventDefault();
-      // todo: verify domino is being dragged
+    onDragEnter() {
     },
     onDrop(ev) {
       this.$emit('train-selected', this.train.id)
