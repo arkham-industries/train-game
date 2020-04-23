@@ -3,7 +3,7 @@
   class="train"
   v-on:dragover.prevent="onDragOver($event)"
   v-on:dragenter.prevent="onDragEnter($event)"
-  v-on:drop="onDrop($event)"
+  v-on:drop.prevent="onDrop($event)"
   v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }">
   <div class="train-info">
     <div v-if="train.public" class="train-icon">🚂</div>
