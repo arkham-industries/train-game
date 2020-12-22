@@ -4,32 +4,25 @@
     v-model="myDominoes"
     tag="ul"
     class="domino-list"
-    group="dominoes"
-    ghost-class="ghost"
+    group="train-dominoes"
     filter=".not-draggable"
-    v-bind:prevent-on-filter="false"
-    v-bind:disabled="!sortable"
-    v-bind:swap-threshold="1"
-    v-bind:invert-swap="false"
-    v-bind:animation="150"
+    v-bind:disabled="true"
     v-on:choose="onDragChoose($event)">
     <li
+      class="not-draggable"
       v-for="(domino, index) in myDominoes"
       v-bind:key="domino[0] + '-' + domino[1]">
       <Domino
         v-bind:domino="domino"
-        v-bind:moveable="sortable"
+        v-bind:moveable="false"
         v-bind:orientation="getOrientation(domino)"
-        v-bind:selected="isSameDomino(selectedDomino, domino)"
         v-on:domino-selected="$emit('domino-selected', {domino, index})">
       </Domino>
     </li>
     <li class="not-draggable">
       <Domino
         v-if="!hideExtraDomino"
-        v-bind:special-type="extraDominoType"
-        v-bind:orientation="orientation"
-        v-bind:selected="selectedDomino === null"
+        v-bind:orientation="'horizontal'"
         v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">
       </Domino>
     </li>
@@ -42,7 +35,7 @@ import draggable from 'vuedraggable'
 
 export default {
   name:'DominoList',
-  props:['dominoes', 'selectedDomino', 'orientation', 'rotateDoubles', 'sortable', 'hideExtraDomino', 'extraDominoType'],
+  props:['dominoes', 'hideExtraDomino'],
   components: {
     Domino,
     draggable
@@ -79,10 +72,7 @@ export default {
       return domino[0] === domino[1];
     },
     getOrientation (domino) {
-      return this.rotateDoubles && this.isDouble(domino) ? this.flipOrientation() : this.orientation; 
-    },
-    flipOrientation(orinetation) {
-      return this.orinetation === 'vertical' ? 'horizontal' : 'vertical';
+      return this.isDouble(domino) ? 'vertical' : 'horizontal'; 
     },
     isSameDomino(dominoA, dominoB) {
       if (!dominoA || !dominoB) { return false; }
