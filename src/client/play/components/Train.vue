@@ -11,25 +11,22 @@
       {{train.owner ? train.owner.name : '🤠'}}
     </div>
   </div>
-  <DominoList
+  <TrainDominoes
     v-bind:dominoes="train.dominoes"
-    v-bind:rotate-doubles="true"
-    v-bind:hide-extra-domino="!(myTurn && trainPlayable)"
-    v-bind:orientation="'horizontal'"
-    v-bind:selected-domino-index="selectedTrain ? null : undefined"
-    v-on:domino-selected="$emit('train-selected', train.id)">
-  </DominoList>
+    v-bind:extendable="myTurn"
+    v-on:train-extended="$emit('train-selected', train.id)">
+  </TrainDominoes>
 </div>
 </template>
 
 <script>
-import DominoList from './DominoList';
+import TrainDominoes from './TrainDominoes';
 
 export default {
   name:'Train',
   props:['train', 'selectedTrain', 'myTrain', 'myTurn', 'openDoubleValue'],
   components: {
-    DominoList
+    TrainDominoes
   },
   computed: {
     isOpenDouble() {

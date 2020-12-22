@@ -73,7 +73,7 @@
 
 import MessageModal from './MessageModal';
 import Train from './Train';
-import DominoList from './DominoList';
+import TrainDominoes from './TrainDominoes';
 import GameSummary from './Summary';
 import Players from './Players';
 import PlayerHand from './PlayerHand';
@@ -84,7 +84,7 @@ export default {
     PlayerHand,
     MessageModal,
     Train,
-    DominoList,
+    TrainDominoes,
     MessageModal,
     GameSummary,
     Players

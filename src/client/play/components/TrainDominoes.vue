@@ -1,32 +1,24 @@
 <template>
-  <draggable
-    v-if="myDominoes"
-    v-model="myDominoes"
-    tag="ul"
-    class="domino-list"
-    group="train-dominoes"
-    filter=".not-draggable"
-    v-bind:disabled="true"
-    v-on:choose="onDragChoose($event)">
+  <ul v-if="myDominoes" class="domino-list">
     <li
-      class="not-draggable"
-      v-for="(domino, index) in myDominoes"
+      v-for="(domino) in myDominoes"
       v-bind:key="domino[0] + '-' + domino[1]">
       <Domino
         v-bind:domino="domino"
         v-bind:moveable="false"
-        v-bind:orientation="getOrientation(domino)"
-        v-on:domino-selected="$emit('domino-selected', {domino, index})">
+        v-bind:orientation="getOrientation(domino)">
       </Domino>
     </li>
-    <li class="not-draggable">
-      <Domino
-        v-if="!hideExtraDomino"
-        v-bind:orientation="'horizontal'"
-        v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">
-      </Domino>
-    </li>
-  </draggable>
+    <draggable
+      v-if="extendable"
+      class="drop-zone"
+      tag="li"
+      group="dominoes"
+      ghost-class="ghost"
+      v-bind:swap-threshold="1"
+      v-on:add="onDragAdd($event)">
+    </draggable>
+  </ul>
 </template>
 
 <script>
@@ -34,8 +26,8 @@ import Domino from './Domino';
 import draggable from 'vuedraggable'
 
 export default {
-  name:'DominoList',
-  props:['dominoes', 'hideExtraDomino'],
+  name:'TrainDominoes',
+  props:['dominoes', 'extendable'],
   components: {
     Domino,
     draggable
@@ -71,23 +63,25 @@ export default {
     isDouble(domino) {
       return domino[0] === domino[1];
     },
-    getOrientation (domino) {
+    getOrientation(domino) {
       return this.isDouble(domino) ? 'vertical' : 'horizontal'; 
     },
     isSameDomino(dominoA, dominoB) {
       if (!dominoA || !dominoB) { return false; }
       return (dominoA[0] === dominoB[0] && dominoA[1] === dominoB[1]) || (dominoA[0] === dominoB[1] && dominoA[1] === dominoB[0]);
     },
-    onDragChoose(ev) {
-      const index = [...ev.item.parentElement.children].findIndex(item => item === ev.item);
-      const domino = this.myDominoes[index];
-      this.$emit('domino-selected', {domino, index});
+    onDragAdd(ev) {
+      this.$emit('train-extended');
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.drop-zone {
+  min-width: 35px;
+  min-height: 35px;
+}
 .ghost {
   opacity: 0.5;
 }
