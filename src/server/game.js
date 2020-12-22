@@ -281,7 +281,7 @@ class Game {
     const playingOnPrivateTrain = !toTrain.public && toTrain.owner.id !== fromHand.owner.id;
     const playingOnOpenDouble = this.openDoubleValue !== null && connectingDominoIsOpenDouble;
     if (!playingOnOpenDouble && playingOnPrivateTrain) {
-      throw new Error('The player cannot place dominos on this private train');
+      throw new Error('This player\'s train is private! (train is not up)');
     }
 
     // make sure the dominoes connect
