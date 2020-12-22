@@ -37,15 +37,12 @@
       v-if="game.hand"
       class="player-hand-region">
       <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
-      <DominoList
+      <PlayerHand
         v-bind:dominoes="game.hand"
-        v-bind:sortable="true"
-        v-bind:orientation="'vertical'"
         v-bind:hide-extra-domino="!game.myTurn"
         v-bind:selected-domino="selected.domino"
-        v-bind:extra-domino-type="'add'"
         v-on:domino-selected="onDominoSelectedFromHand($event)">
-      </DominoList>
+      </PlayerHand>
       <button
         v-if="game.myTurn"
         v-on:click="onEndTurn()"
@@ -79,10 +76,12 @@ import Train from './Train';
 import DominoList from './DominoList';
 import GameSummary from './Summary';
 import Players from './Players';
+import PlayerHand from './PlayerHand';
 import { debounce } from 'lodash-es';
 
 export default {
   components: {
+    PlayerHand,
     MessageModal,
     Train,
     DominoList,
@@ -140,7 +139,7 @@ export default {
       this.requestToEndTurn();
     },
     requestToConnectTrain(domino, trainId) {
-      return fetch(`/my/game/extend-train`, { 
+      return fetch(`/my/game/extend-train`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -161,7 +160,7 @@ export default {
       });
     },
     requestToEndTurn() {
-      return fetch(`/my/game/end-turn`, { 
+      return fetch(`/my/game/end-turn`, {
         method: 'POST'
       })
       .then((response) => {
@@ -178,7 +177,7 @@ export default {
       });
     },
     requestToTakeDomino() {
-      return fetch(`/my/game/take-domino`, { 
+      return fetch(`/my/game/take-domino`, {
         method: 'POST'
       })
       .then((response) => {
@@ -195,7 +194,7 @@ export default {
       });
     },
     requestToStartGame() {
-      return fetch(`/my/game/start`, { 
+      return fetch(`/my/game/start`, {
         method: 'POST'
       })
       .then((response) => {
