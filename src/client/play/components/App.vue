@@ -5,9 +5,9 @@
       class="prestart-region">
       <div class="centered-container">
         <div v-if="isPlayerOne">
-          <p>Invite players by sending link!</p>
+          <p>Invite players by sharing link!</p>
           <p id="invite-link">{{ inviteUrl }}</p>
-          <p>(2 players required)</p>
+          <p>(min 2 players required to start)</p>
           <button
             class="big-button"
             v-on:click="requestToStartGame()"
@@ -94,7 +94,7 @@ export default {
   },
   data() {
     return {
-      version: 'v1.0.4',
+      version: 'v1.1.0',
       game: {},
       selected: {
         domino: undefined,
