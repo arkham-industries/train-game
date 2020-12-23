@@ -302,13 +302,13 @@ export default {
 
 @keyframes pulse {
   0% {
-    background-color: #ffa535;
+    background-color: #ff9818;
   }
   50% {
     background-color: #dd6153;
   }
   100% {
-    background-color: #ffa535;
+    background-color: #ff9818;
   }
 }
 </style>
