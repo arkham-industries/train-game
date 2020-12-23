@@ -35,7 +35,10 @@
     </div>
     <div
       v-if="game.hand"
-      class="player-hand-region">
+      class="player-hand-region"
+      v-bind:class="{
+        active: game.myTurn
+      }">
       <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
       <PlayerHand
         v-bind:dominoes="game.hand"
@@ -244,6 +247,11 @@ export default {
   text-align: center;
   padding: 10px;
   z-index: 1;
+  border:2px solid transparent;
+
+  &.active {
+    border:2px solid #4dc600;
+  }
 
   .domino {
     &.selected {
@@ -253,7 +261,7 @@ export default {
 
   .your-turn-text {
     color: #fff;
-    background-color: #ef7c50;
+    background-color: #4dc600;
   }
 }
 </style>
