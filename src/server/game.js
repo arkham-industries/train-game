@@ -317,21 +317,11 @@ class Game {
     const canTakeDomino = this.boneyard.length > 0;
     const haventTakenFromBoneyardButCan = !this.currentTurn.takenFromBoneYard && canTakeDomino;
 
-    // make sure it is the player's turn
+    // check that this player can end their turn
     if (!this.isCurrentPlayer(playerId)) {
       throw new Error('It\'s not your turn');
     }
 
-    // check end of game conditions
-    const fromHand = this.hands[playerId];
-    if (fromHand.dominoes.length === 0) {
-      return this.end();
-    }
-
-    if (this.boneyard.length === 0) {
-      return this.end();
-    }
-    
     if (this.ended) {
       throw new Error('This game has ended.');
     }
@@ -344,6 +334,17 @@ class Game {
       throw new Error('you must take from boneyard when an open double is present');
     }
 
+    // check end of game conditions
+    const fromHand = this.hands[playerId];
+    if (fromHand.dominoes.length === 0) {
+      return this.end();
+    }
+
+    if (this.boneyard.length === 0) {
+      return this.end();
+    }
+    
+    // end of turn logistics
     const player = this.playerOrder[this.currentTurn.index];
     const playerTrain = this.trains.find((train) => train.owner.id === player.id);
 
@@ -365,7 +366,6 @@ class Game {
       // else, there is an open double from another player, no public train penalty for not satisfying it
     }
 
-    // end of turn logistics
     if (this.currentTurn.index === this.playerOrder.length - 1) {
       this.currentTurn.index = 0;
       this.roundCount += 1;
