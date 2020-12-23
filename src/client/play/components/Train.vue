@@ -1,9 +1,6 @@
 <template>
 <div
   class="train"
-  v-on:dragover.prevent="onDragOver($event)"
-  v-on:dragenter.prevent="onDragEnter($event)"
-  v-on:drop.prevent="onDrop($event)"
   v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }">
   <div class="train-info">
     <div v-if="train.public" class="train-icon">🚂</div>
@@ -42,15 +39,6 @@ export default {
         // highlight the playable trains on the player's turn
         return this.train.public || this.myTrain;
       }
-    }
-  },
-  methods: {
-    onDragOver() {
-    },
-    onDragEnter() {
-    },
-    onDrop(ev) {
-      this.$emit('train-selected', this.train.id)
     }
   }
 };
