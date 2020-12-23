@@ -80,7 +80,7 @@ export default {
 <style lang="scss" scoped>
 .drop-zone {
   min-width: 35px;
-  min-height: 35px;
+  min-height: 70px;
 }
 .ghost {
   opacity: 0.5;
