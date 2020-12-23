@@ -78,9 +78,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.drop-zone {
-  min-width: 35px;
-  min-height: 70px;
+.domino-list {
+  display: inline-block;
+  list-style: none;
+  padding: 0px 10px;
+  margin: 15px 0px;
+  li {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 3px;
+    &.drop-zone {
+      min-width: 48px;
+      min-height: 76px;
+      border: 2px dashed #4dc600;
+      background-color: #d2ffd2;
+      border-radius: 3px;
+    }
+  }
 }
 .ghost {
   opacity: 0.5;

@@ -96,6 +96,9 @@ export default {
     cursor: pointer;
     transition: transform .1s;
   
+    &.selected {
+      transform: translateY(-30px);
+    }
     &.vertical {
       width: 35px;
   

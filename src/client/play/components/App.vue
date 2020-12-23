@@ -236,20 +236,17 @@ export default {
 
 <style lang="scss">
 .player-hand-region {
-  .domino-list {
-    padding: 0;
-    margin: 0;
-    li{
-      display: inline-block;
-      vertical-align: bottom;
-    }
-    .domino{
-      padding: 0px 3px;
-      margin: 20px 5px;
-      &.selected {
-        transform: translateY(-30px);
-      }
-    }
+  position: fixed;
+  bottom: 0;
+  background-color: #00000085;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+  z-index: 1;
+  .your-turn-text {
+    color: #fff;
+    background-color: #ef7c50;
   }
 }
 </style>

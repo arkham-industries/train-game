@@ -45,25 +45,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.train-region {
-  .domino-list {
-    display: inline-block;
-    margin: 5px 0px;
-    list-style: none;
-    padding: 0px 10px;
-    li {
-      display: inline-block;
-      vertical-align: middle;
-      margin: 15px 0px;
-    }
-    .domino {
-      margin: 0 3px;
-    }
-  }
-}
-</style>
-
 <style lang="scss" scoped>
 .train-region {
   .train {

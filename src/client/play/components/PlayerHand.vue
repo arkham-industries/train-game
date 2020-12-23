@@ -90,6 +90,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.domino-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  li {
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 0 3px;
+  }
+}
 .ghost {
   opacity: 0.5;
 }
