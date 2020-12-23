@@ -399,6 +399,16 @@ describe('Game', () => {
         expect(game.ended).toBe(true);
       });
 
+      it('should not end the game when an open double is present', () => {
+        const playerId = mockPlayers[0].id;
+        const domino = [12,12];
+        game.hands[playerId].dominoes = [domino];
+        const toTrainId = game.trains[0].id;
+        game.extendTrain({playerId, domino, toTrainId});
+        expect(() => game.endTurn(playerId)).toThrow();
+        expect(game.ended).toBe(false);
+      });
+
       it('should tally the scores', () => {
         const expectedScore = 16;
         game.hands[mockPlayers[0].id].dominoes = [[12,3],[0,1]];

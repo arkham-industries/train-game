@@ -1,37 +1,24 @@
 <template>
-    <draggable
-      v-if="myDominoes"
-      v-model="myDominoes"
-      tag="ul"
-      class="domino-list"
-      group="dominoes"
-      ghost-class="ghost"
-      filter=".not-draggable"
-      v-bind:disabled="!sortable"
-      v-bind:swap-threshold="1"
-      v-bind:invert-swap="false"
-      v-bind:animation="150">
-      <li
-        v-for="(domino, index) in myDominoes"
-        v-bind:key="domino[0] + '-' + domino[1]">
-        <Domino
-          v-bind:domino="domino"
-          v-bind:moveable="sortable"
-          v-bind:orientation="getOrientation(domino)"
-          v-bind:selected="isSameDomino(selectedDomino, domino)"
-          v-on:domino-selected="$emit('domino-selected', {domino, index})">
-        </Domino>
-      </li>
-    <li class="not-draggable">
+  <ul v-if="myDominoes" class="domino-list">
+    <li
+      v-for="(domino) in myDominoes"
+      v-bind:key="domino[0] + '-' + domino[1]">
       <Domino
-        v-if="!hideExtraDomino"
-        v-bind:special-type="extraDominoType"
-        v-bind:orientation="orientation"
-        v-bind:selected="selectedDomino === null"
-        v-on:domino-selected="$emit('domino-selected', {domino: null, index: null})">
+        v-bind:domino="domino"
+        v-bind:moveable="false"
+        v-bind:orientation="getOrientation(domino)">
       </Domino>
     </li>
-  </draggable>
+    <draggable
+      v-if="extendable"
+      class="drop-zone"
+      tag="li"
+      group="dominoes"
+      ghost-class="ghost"
+      v-bind:swap-threshold="1"
+      v-on:add="onDragAdd($event)">
+    </draggable>
+  </ul>
 </template>
 
 <script>
@@ -39,8 +26,8 @@ import Domino from './Domino';
 import draggable from 'vuedraggable'
 
 export default {
-  name:'DominoList',
-  props:['dominoes', 'selectedDomino', 'orientation', 'rotateDoubles', 'sortable', 'hideExtraDomino', 'extraDominoType'],
+  name:'TrainDominoes',
+  props:['dominoes', 'extendable'],
   components: {
     Domino,
     draggable
@@ -76,21 +63,39 @@ export default {
     isDouble(domino) {
       return domino[0] === domino[1];
     },
-    getOrientation (domino) {
-      return this.rotateDoubles && this.isDouble(domino) ? this.flipOrientation() : this.orientation; 
-    },
-    flipOrientation(orinetation) {
-      return this.orinetation === 'vertical' ? 'horizontal' : 'vertical';
+    getOrientation(domino) {
+      return this.isDouble(domino) ? 'vertical' : 'horizontal'; 
     },
     isSameDomino(dominoA, dominoB) {
       if (!dominoA || !dominoB) { return false; }
       return (dominoA[0] === dominoB[0] && dominoA[1] === dominoB[1]) || (dominoA[0] === dominoB[1] && dominoA[1] === dominoB[0]);
+    },
+    onDragAdd(ev) {
+      this.$emit('train-extended');
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.domino-list {
+  display: inline-block;
+  list-style: none;
+  padding: 0px 10px;
+  margin: 15px 0px;
+  li {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 3px;
+    &.drop-zone {
+      min-width: 48px;
+      min-height: 76px;
+      border: 2px dashed #4dc600;
+      background-color: #d2ffd2;
+      border-radius: 3px;
+    }
+  }
+}
 .ghost {
   opacity: 0.5;
 }

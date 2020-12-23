@@ -1,32 +1,30 @@
 <template>
 <div
   class="train"
-  v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }">
+  v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }"
+  v-on:click="$emit('train-selected', train.id)">
   <div class="train-info">
     <div v-if="train.public" class="train-icon">🚂</div>
     <div class="train-owner">
       {{train.owner ? train.owner.name : '🤠'}}
     </div>
   </div>
-  <DominoList
+  <TrainDominoes
     v-bind:dominoes="train.dominoes"
-    v-bind:rotate-doubles="true"
-    v-bind:hide-extra-domino="!(myTurn && trainPlayable)"
-    v-bind:orientation="'horizontal'"
-    v-bind:selected-domino-index="selectedTrain ? null : undefined"
-    v-on:domino-selected="$emit('domino-selected', $event)">
-  </DominoList>
+    v-bind:extendable="myTurn && trainPlayable"
+    v-on:train-extended="$emit('train-selected', train.id)">
+  </TrainDominoes>
 </div>
 </template>
 
 <script>
-import DominoList from './DominoList';
+import TrainDominoes from './TrainDominoes';
 
 export default {
   name:'Train',
   props:['train', 'selectedTrain', 'myTrain', 'myTurn', 'openDoubleValue'],
   components: {
-    DominoList
+    TrainDominoes
   },
   computed: {
     isOpenDouble() {
@@ -47,25 +45,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.train-region {
-  .domino-list {
-    display: inline-block;
-    margin: 5px 0px;
-    list-style: none;
-    padding: 0px 10px;
-    li {
-      display: inline-block;
-      vertical-align: middle;
-      margin: 15px 0px;
-    }
-    .domino {
-      margin: 0 3px;
-    }
-  }
-}
-</style>
-
 <style lang="scss" scoped>
 .train-region {
   .train {
@@ -76,6 +55,7 @@ export default {
     border-radius: 5px;
     box-shadow: 2px 2px #e78884;
     display: table;
+    cursor: pointer;
 
     &.playable {
       background-color: #ffd890eb;

@@ -5,9 +5,9 @@
       class="prestart-region">
       <div class="centered-container">
         <div v-if="isPlayerOne">
-          <p>Invite players by sending link!</p>
+          <p>Invite players by sharing link!</p>
           <p id="invite-link">{{ inviteUrl }}</p>
-          <p>(2 players required)</p>
+          <p>(min 2 players required to start)</p>
           <button
             class="big-button"
             v-on:click="requestToStartGame()"
@@ -35,17 +35,17 @@
     </div>
     <div
       v-if="game.hand"
-      class="player-hand-region">
+      class="player-hand-region"
+      v-bind:class="{
+        active: game.myTurn
+      }">
       <div class="your-turn-text" v-if="game.myTurn">It's your turn!</div>
-      <DominoList
+      <PlayerHand
         v-bind:dominoes="game.hand"
-        v-bind:sortable="true"
-        v-bind:orientation="'vertical'"
         v-bind:hide-extra-domino="!game.myTurn"
         v-bind:selected-domino="selected.domino"
-        v-bind:extra-domino-type="'add'"
         v-on:domino-selected="onDominoSelectedFromHand($event)">
-      </DominoList>
+      </PlayerHand>
       <button
         v-if="game.myTurn"
         v-on:click="onEndTurn()"
@@ -64,7 +64,7 @@
         v-bind:my-train="train.owner && train.owner.id === game.myPlayerId"
         v-bind:open-double-value="game.openDoubleValue"
         v-bind:key="train.id"
-        v-on:domino-selected="onTrainSelected(train.id)">
+        v-on:train-selected="onTrainSelected($event)">
       </Train>
     </div>
     <MessageModal v-bind:message="message"></MessageModal>
@@ -76,22 +76,25 @@
 
 import MessageModal from './MessageModal';
 import Train from './Train';
-import DominoList from './DominoList';
+import TrainDominoes from './TrainDominoes';
 import GameSummary from './Summary';
 import Players from './Players';
+import PlayerHand from './PlayerHand';
+import { debounce } from 'lodash-es';
 
 export default {
   components: {
+    PlayerHand,
     MessageModal,
     Train,
-    DominoList,
+    TrainDominoes,
     MessageModal,
     GameSummary,
     Players
   },
   data() {
     return {
-      version: 'v1.0.4',
+      version: 'v1.1.0',
       game: {},
       selected: {
         domino: undefined,
@@ -112,19 +115,22 @@ export default {
         this.game = game;
       })
     }, 2000);
+
+    // prevent drag and click from firing this handler twice
+    this.onDominoSelectedFromHand = debounce(this.onDominoSelectedFromHand, 200);
   },
   methods: {
     resetSelection() {
       this.onDominoSelectedFromHand({domino: undefined, index: undefined});
     },
-    onDominoSelectedFromHand ({domino, index}) {
+    onDominoSelectedFromHand({domino, index}) {
       if (domino === null) {
         this.requestToTakeDomino();
       } else {
         this.selected.domino = domino;
       }
     },
-    onTrainSelected (trainId) {
+    onTrainSelected(trainId) {
       if (this.selected.domino !== undefined) {
         this.requestToConnectTrain(this.selected.domino, trainId)
         .then(() => this.resetSelection());
@@ -136,7 +142,7 @@ export default {
       this.requestToEndTurn();
     },
     requestToConnectTrain(domino, trainId) {
-      return fetch(`/my/game/extend-train`, { 
+      return fetch(`/my/game/extend-train`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -157,7 +163,7 @@ export default {
       });
     },
     requestToEndTurn() {
-      return fetch(`/my/game/end-turn`, { 
+      return fetch(`/my/game/end-turn`, {
         method: 'POST'
       })
       .then((response) => {
@@ -174,7 +180,7 @@ export default {
       });
     },
     requestToTakeDomino() {
-      return fetch(`/my/game/take-domino`, { 
+      return fetch(`/my/game/take-domino`, {
         method: 'POST'
       })
       .then((response) => {
@@ -191,7 +197,7 @@ export default {
       });
     },
     requestToStartGame() {
-      return fetch(`/my/game/start`, { 
+      return fetch(`/my/game/start`, {
         method: 'POST'
       })
       .then((response) => {
@@ -233,19 +239,9 @@ export default {
 
 <style lang="scss">
 .player-hand-region {
-  .domino-list {
-    padding: 0;
-    margin: 0;
-    li{
-      display: inline-block;
-      vertical-align: bottom;
-    }
-    .domino{
-      padding: 0px 3px;
-      margin: 20px 5px;
-      &.selected {
-        transform: translateY(-30px);
-      }
+  .domino {
+    &.selected {
+      transform: translateY(-30px);
     }
   }
 }
@@ -265,6 +261,7 @@ export default {
   padding: 10px 50px;
   font-size: 16px;
   margin-top: 5px;
+  animation: pulse 2s 20s infinite;
 }
 
 .boneyard-count {
@@ -291,9 +288,27 @@ export default {
   text-align: center;
   padding: 10px;
   z-index: 1;
+  border:2px solid transparent;
+
+  &.active {
+    border:2px solid #4dc600;
+  }
 
   .your-turn-text {
     color: #fff;
+    background-color: #4dc600;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #ff9818;
+  }
+  50% {
+    background-color: #dd6153;
+  }
+  100% {
+    background-color: #ff9818;
   }
 }
 </style>
