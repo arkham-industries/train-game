@@ -244,6 +244,13 @@ export default {
   text-align: center;
   padding: 10px;
   z-index: 1;
+
+  .domino {
+    &.selected {
+      transform: translateY(-30px);
+    }
+  }
+
   .your-turn-text {
     color: #fff;
     background-color: #ef7c50;
@@ -280,20 +287,5 @@ export default {
   right: 0;
   color: #494949;
   z-index: 2;
-}
-
-.player-hand-region {
-  position: fixed;
-  bottom: 0;
-  background-color: #00000085;
-  left: 0;
-  right: 0;
-  text-align: center;
-  padding: 10px;
-  z-index: 1;
-
-  .your-turn-text {
-    color: #fff;
-  }
 }
 </style>
