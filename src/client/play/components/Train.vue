@@ -11,7 +11,7 @@
   </div>
   <TrainDominoes
     v-bind:dominoes="train.dominoes"
-    v-bind:extendable="myTurn"
+    v-bind:extendable="myTurn && train.public"
     v-on:train-extended="$emit('train-selected', train.id)">
   </TrainDominoes>
 </div>
