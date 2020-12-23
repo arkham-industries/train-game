@@ -55,6 +55,7 @@ export default {
     border-radius: 5px;
     box-shadow: 2px 2px #e78884;
     display: table;
+    cursor: pointer;
 
     &.playable {
       background-color: #ffd890eb;
