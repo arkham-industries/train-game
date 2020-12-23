@@ -1,7 +1,8 @@
 <template>
 <div
   class="train"
-  v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }">
+  v-bind:class="{ playable: trainPlayable, 'mexican-train': !train.owner  }"
+  v-on:click="$emit('train-selected', train.id)">
   <div class="train-info">
     <div v-if="train.public" class="train-icon">🚂</div>
     <div class="train-owner">
