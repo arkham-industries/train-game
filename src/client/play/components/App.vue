@@ -239,29 +239,10 @@ export default {
 
 <style lang="scss">
 .player-hand-region {
-  position: fixed;
-  bottom: 0;
-  background-color: #00000085;
-  left: 0;
-  right: 0;
-  text-align: center;
-  padding: 10px;
-  z-index: 1;
-  border:2px solid transparent;
-
-  &.active {
-    border:2px solid #4dc600;
-  }
-
   .domino {
     &.selected {
       transform: translateY(-30px);
     }
-  }
-
-  .your-turn-text {
-    color: #fff;
-    background-color: #4dc600;
   }
 }
 </style>
@@ -280,6 +261,7 @@ export default {
   padding: 10px 50px;
   font-size: 16px;
   margin-top: 5px;
+  animation: pulse 2s 20s infinite;
 }
 
 .boneyard-count {
@@ -295,5 +277,38 @@ export default {
   right: 0;
   color: #494949;
   z-index: 2;
+}
+
+.player-hand-region {
+  position: fixed;
+  bottom: 0;
+  background-color: #00000085;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+  z-index: 1;
+  border:2px solid transparent;
+
+  &.active {
+    border:2px solid #4dc600;
+  }
+
+  .your-turn-text {
+    color: #fff;
+    background-color: #4dc600;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #ffa535;
+  }
+  50% {
+    background-color: #dd6153;
+  }
+  100% {
+    background-color: #ffa535;
+  }
 }
 </style>
